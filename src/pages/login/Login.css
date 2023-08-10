@@ -1,0 +1,7 @@
+.loginBackgroundImg {
+  background-image: url("../../assets/Asset 1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 330px;
+  height: 440px;
+}
