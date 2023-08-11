@@ -6,6 +6,9 @@ import { HiUserGroup } from "react-icons/hi";
 import { AiOutlineStar } from "react-icons/ai";
 import DashBoardStatisticks from "../../utils/DashBoardStatisticks";
 import user from "../../assets/user.jpg";
+import StatementChart from "../../components/charts/StatementChart";
+import HotProductChart from "../../components/charts/HotProductChart";
+import RevenueChart from "../../components/charts/RevenueChart";
 
 const Home = () => {
   const datas = [
@@ -29,7 +32,7 @@ const Home = () => {
     },
     {
       icon: <HiUserGroup />,
-      title: "Total Supplyer",
+      title: "Total Supplier",
       amount: "5723",
       graph: <MdShowChart />,
     },
@@ -74,6 +77,10 @@ const Home = () => {
             <p className=" text-[16px] font-[600]">Ledger Sheet</p>
           </button>
         </div>
+      </div>
+
+      <div className="rounded-md shadow-md mt-[40px]">
+        <StatementChart />
       </div>
 
       {/* Statistics */}
@@ -184,6 +191,21 @@ const Home = () => {
         <h1 className=" text-[16px] font-[600] font-worksans text-textColorBlack">
           Hot Product
         </h1>
+
+        <div className="mt-[28px] shadow-md rounded-md">
+          <HotProductChart />
+        </div>
+      </div>
+
+      {/* Revenue */}
+      <div className="my-[38px]">
+        <h1 className=" text-[16px] font-[600] font-worksans text-textColorBlack">
+          Revenue
+        </h1>
+
+        <div className="mt-[28px] shadow-md rounded-md">
+          <RevenueChart />
+        </div>
       </div>
     </div>
   );

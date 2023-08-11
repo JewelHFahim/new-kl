@@ -30,7 +30,7 @@ const MobileMenu = () => {
               <nav>
                 <a
                   className="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-md dark:bg-gray-800 dark:text-gray-200"
-                  href="#"
+                  href="/"
                 >
                   <MdOutlineDashboard className="text-xl" />
                   <span className="mx-4 font-medium">Dashboard</span>
@@ -38,7 +38,7 @@ const MobileMenu = () => {
 
                 <a
                   className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                  href="#"
+                  href="/allbuyer"
                 >
                   <BiUser className="text-xl" />
 
@@ -47,7 +47,7 @@ const MobileMenu = () => {
 
                 <a
                   className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                  href="#"
+                  href="/ledger"
                 >
                   <BsGraphUp className="text-lg" />
 
@@ -56,7 +56,7 @@ const MobileMenu = () => {
 
                 <a
                   className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                  href="#"
+                  href="/invoice"
                 >
                   <BiBook className="text-xl" />
 
@@ -65,7 +65,7 @@ const MobileMenu = () => {
 
                 <a
                   className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                  href="#"
+                  href="/warehouse"
                 >
                   <RiCalendar2Line className="text-xl" />
 
@@ -74,7 +74,7 @@ const MobileMenu = () => {
 
                 <a
                   className="flex items-center px-4 py-2 mt-5 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
-                  href="#"
+                  href="/buyer"
                 >
                   <svg
                     className="w-5 h-5"

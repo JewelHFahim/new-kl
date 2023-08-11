@@ -5,6 +5,7 @@ import MobileMenu from "../../../components/Menu/MobileMenu/MobileMenu";
 import { RiMessage3Line } from "react-icons/ri";
 import { GrNotification } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 
@@ -34,7 +35,7 @@ const Navbar = () => {
             </div>
           </button>
 
-          <button><FaRegUser className="text-xl"/></button>
+          <Link to="/profile"><button><FaRegUser className="text-xl"/></button></Link>
 
           
         </div>
