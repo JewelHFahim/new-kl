@@ -7,7 +7,9 @@ import img2 from "../../assets/grapg.svg";
 
 const Profile = () => {
   return (
-    <div className="p-[24px]">
+    <div className="px-[24px]">
+
+      
       <HTitle>Profile</HTitle>
 
       <div className="h-[267px] rounded-[14px] my-5 p-3 relative flex flex-col items-center shadow-md">

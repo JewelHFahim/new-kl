@@ -3,21 +3,19 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { ThemeContext } from "../../../context/AppContext";
 import MobileMenu from "../../../components/Menu/MobileMenu/MobileMenu";
 import { RiMessage3Line } from "react-icons/ri";
-import { GrNotification } from "react-icons/gr";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Notification from "../../../components/notification/Notification";
 
 const Navbar = () => {
-
   const { toggleDrawer } = useContext(ThemeContext);
 
   return (
     <>
       <div className="navbar bg-base-100 px-[27px] py-[25px] border-b">
-
         <div className="navbar-start">
           <HiMenuAlt1 onClick={toggleDrawer} className="text-2xl" />
-          <MobileMenu/>
+          <MobileMenu />
         </div>
 
         {/* <div className="navbar-center">
@@ -25,19 +23,21 @@ const Navbar = () => {
         </div> */}
 
         <div className="navbar-end flex gap-4">
+          <button className="">
 
-        <button><RiMessage3Line className="text-2xl"/></button>
-
-          <button className="btn btn-ghost btn-circle">
-            <div className="indicator">
-              <GrNotification className="text-xl"/>
-              <span className="badge badge-xs badge-primary indicator-item"></span>
-            </div>
+            <RiMessage3Line className="text-2xl" />
+            
           </button>
 
-          <Link to="/profile"><button><FaRegUser className="text-xl"/></button></Link>
+          <button>
+            <Notification />
+          </button>
 
-          
+          <Link to="/profile">
+            <button className="">
+              <FaRegUser className="text-xl" />
+            </button>
+          </Link>
         </div>
       </div>
     </>

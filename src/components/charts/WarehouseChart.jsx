@@ -1,13 +1,13 @@
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-const HotProductChart = () => {
+const WarehouseChart = () => {
 
   const [state] = useState({
 
     series: [
       {
-        data: [3551 , 2951, 2125],
+        data: [3551 , 2951, 2125, 3551 , 2951, 2125],
       },
     ],
 
@@ -33,18 +33,18 @@ const HotProductChart = () => {
           shade: 'dark',
           type: "horizontal",
           shadeIntensity: 0.5,
-          gradientToColors: ["#fff","#BBC3EA"],
+          gradientToColors: ["#fff", "#C2BBEA"],
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,
-          stops: [0, 50, 100],
+          stops: [0, 80, 100],
         }
       },
 
       plotOptions: {
         bar: {
           borderRadius: 4,
-          barHeight: '40%',
+          barHeight: '60%',
           horizontal: true,
           dataLabels:{
             position: 'bottom'
@@ -76,7 +76,7 @@ const HotProductChart = () => {
       },
 
       xaxis: { 
-        categories: [ "Tomatto", "Onion", "Chicken"],
+        categories: [ "Tomatto", "Onion", "Chicken", "Tomatto", "Onion", "Chicken"],
         labels: { show: false },
         axisBorder: {
           show: false,
@@ -104,4 +104,4 @@ const HotProductChart = () => {
   );
 };
 
-export default HotProductChart;
+export default WarehouseChart;
