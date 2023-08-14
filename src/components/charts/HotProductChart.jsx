@@ -58,7 +58,7 @@ const HotProductChart = () => {
         textAnchor: 'start',
 
         style: {
-          colors: ['#3F3F44'],
+          colors: ['#000'],
           fontSize:  '14px',
           fontWeight: '400',
           fontFamily: "Work Sans",
@@ -67,8 +67,6 @@ const HotProductChart = () => {
         formatter: function (val, opt) {
           return opt.w.globals.labels[opt.dataPointIndex] + " $" + val
         },
-
-        // offsetX: 0,
 
         dropShadow: {
           enabled: true

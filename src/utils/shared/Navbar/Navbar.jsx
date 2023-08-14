@@ -1,25 +1,30 @@
-import { useContext } from "react";
 import { HiMenuAlt1 } from "react-icons/hi";
-import { ThemeContext } from "../../../context/AppContext";
 import MobileMenu from "../../../components/Menu/MobileMenu/MobileMenu";
 import { RiMessage3Line } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Notification from "../../../components/notification/Notification";
+import { useDispatch } from "react-redux";
+import { toggleDrawer } from "../../../redux/feature/menuSlice";
 
 const Navbar = () => {
-  const { toggleDrawer } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+
+
+  const handleToggleDrawer = () => {
+    dispatch(toggleDrawer());
+  };
 
   return (
     <>
       <div className="navbar bg-base-100 px-[27px] py-[25px] border-b">
         <div className="navbar-start">
-          <HiMenuAlt1 onClick={toggleDrawer} className="text-2xl" />
+          <HiMenuAlt1 onClick={handleToggleDrawer} className="text-2xl" />
           <MobileMenu />
         </div>
 
         {/* <div className="navbar-center">
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <a className="btn btn-ghost normal-case text-xl">KeyLagbe</a>
         </div> */}
 
         <div className="navbar-end flex gap-4">

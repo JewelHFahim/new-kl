@@ -49,6 +49,7 @@ function StatementChart() {
       text: "Statement",
       align: "left",
       offsetX: 10,
+      offsetY: -6,
       style: {
         fontSize:  '14px',
         fontWeight:  'bold',

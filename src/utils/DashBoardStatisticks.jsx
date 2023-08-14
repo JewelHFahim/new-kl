@@ -1,6 +1,4 @@
-import { MdShowChart } from "react-icons/md";
-import { PiCurrencyCircleDollarBold } from "react-icons/pi";
-
+/* eslint-disable react/prop-types */
 const DashBoardStatisticks = ({ data }) => {
 
   return (

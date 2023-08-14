@@ -5,6 +5,8 @@ import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import WarehouseChart from "../../components/charts/WarehouseChart";
 import CButton from "../../utils/CButton";
 import AddNewProduct from "./AddNewProduct";
+import { FiEdit } from 'react-icons/fi';
+
 
 const WareHouse = () => {
   const tableItems = [
@@ -107,6 +109,7 @@ const WareHouse = () => {
                 <td className={tableStyle}>{item.debit}</td>
                 <td className={tableStyle}>{item.credit}</td>
                 <td className={tableStyle}>{item.balance}</td>
+                <td><FiEdit className="text-lg "/></td>
               </tr>
             ))}
           </tbody>

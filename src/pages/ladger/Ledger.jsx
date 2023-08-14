@@ -66,8 +66,8 @@ const Ledger = () => {
         <HTitle>Ledger</HTitle>
       </div>
 
-      <div className="mt-4 flex items-center gap-4">
-        <div className="w-[160px] h-[20px] bg-[#BEBDEB] rounded-[12px] px-2 flex items-center gap-2">
+      <div className="mt-4 flex items-center gap-2">
+        <div className="w-[110px] h-[20px] bg-[#BEBDEB] rounded-[12px] px-2 flex items-center gap-2">
           <BiSearchAlt className="text-[12px]" />
           <input
             type="text"

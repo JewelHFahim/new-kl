@@ -9,11 +9,16 @@ import Invoice from "../pages/invoice/Invoice";
 import Ledger from "../pages/ladger/Ledger";
 import WareHouse from "../pages/warehouse/WareHouse";
 import Profile from "../pages/profile/Profile";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainPage />,
+    element: (
+      // <PrivateRoute>
+        <MainPage />
+      // </PrivateRoute>
+    ),
     children: [
       {
         path: "/",
@@ -43,7 +48,6 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
-
     ],
   },
   {

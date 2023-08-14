@@ -1,22 +1,29 @@
-import { useContext } from "react";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { ThemeContext } from "../../../context/AppContext";
 import logo from "../../../assets/Asset 2.png";
 import { MdOutlineDashboard } from "react-icons/md";
 import { BiUser, BiBook } from "react-icons/bi";
 import { BsGraphUp } from "react-icons/bs";
 import { RiCalendar2Line } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleDrawer } from "../../../redux/feature/menuSlice";
+import { addLogout } from "../../../redux/feature/userSlice";
 
 const MobileMenu = () => {
-  const { toggleDrawer, isOpen } = useContext(ThemeContext);
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.menu.isOpen);
+
+  const handleToggleDrawer = () => {
+    dispatch(toggleDrawer());
+  };
 
   return (
     <>
       <Drawer
         open={isOpen}
-        onClose={toggleDrawer}
+        onClose={handleToggleDrawer}
         direction="left"
+        E
         className=""
       >
         <div>
@@ -109,12 +116,18 @@ const MobileMenu = () => {
                   </div>
                 </div>
 
-                <h1 className="text-[25px] font-[900] font-roboto uppercase">Keylagbe</h1>
+                <h1 className="text-[25px] font-[900] font-roboto uppercase">
+                  Keylagbe
+                </h1>
 
                 <div className="w-[160px] h-[40px] rounded-[8px] bg-[#BBD3EA] flex justify-center items-center mt-[30px]">
-                    <button className="text-[14px] font-[700]">Log Out</button>
+                  <button
+                    onClick={()=>dispatch(addLogout())}
+                    className="text-[14px] font-[700]"
+                  >
+                    Log Out
+                  </button>
                 </div>
-
               </div>
             </div>
           </aside>

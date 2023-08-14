@@ -9,8 +9,11 @@ import user from "../../assets/user.jpg";
 import StatementChart from "../../components/charts/StatementChart";
 import HotProductChart from "../../components/charts/HotProductChart";
 import RevenueChart from "../../components/charts/RevenueChart";
+import TopBuyer from "./TopBuyer";
+import TopSeller from "./TopSeller";
 
 const Home = () => {
+
   const datas = [
     {
       icon: <PiCurrencyCircleDollarBold />,
@@ -46,16 +49,20 @@ const Home = () => {
 
   const sellerData = [
     {
+      name: "Hart Hagerty",
       img: "",
       sale: "10",
       transaction: "150",
+
     },
     {
+      name: "Hart Hagerty",
       img: "",
       sale: "12",
       transaction: "186",
     },
     {
+      name: "Hart Hagerty",
       img: "",
       sale: "16",
       transaction: "285",
@@ -65,7 +72,8 @@ const Home = () => {
   return (
     <div className="px-6">
       <div className="flex flex-col items-center">
-        <HTitle>Dashboard</HTitle>
+        <HTitle>Dashboard </HTitle>
+
 
         <h2 className="text-20px font-[300] text-[#000] font-worksans mt-[30px] text-center">
           Good Morning, <span className="font-[600]">Jhon Kerry</span>
@@ -91,102 +99,12 @@ const Home = () => {
       </div>
 
       {/* Top Buyer */}
-      <div className="mt-12">
-        <h1 className="text-textColorBlack font-worksans font-[600] mb-6">
-          Top Buyer
-        </h1>
-
-        <div className="overflow-x-auto font-worksans ">
-          <table className="table font-worksans">
-            {/* head */}
-
-            <thead className=" bg-[#BAD1E8] rounded-[8px]">
-              <tr>
-                <th>Buyer</th>
-                <th>Sale</th>
-                <th>Transaction</th>
-              </tr>
-            </thead>
-
-            {sellerData.map((data, i) => (
-              <tbody key={i}>
-                <tr>
-                  <td className="flex items-center gap-2">
-                    <img
-                      src={user}
-                      alt=""
-                      className="w-12 h-12 rounded-[8px]"
-                    />
-                    <p className="text-[12px] font-[500] font-worksans text-textColorBlack">
-                      Hart Hagerty
-                    </p>
-                  </td>
-
-                  <td>
-                    <p className="text-[12px]">{data.sale}</p>
-                  </td>
-
-                  <td>
-                    <p className="bg-[#EEF2FA] w-[53px] h-[24px] text-[#5348D1] text-[12px] font-[500] rounded-[8px] flex justify-center items-center">
-                      ${data.transaction}
-                    </p>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
-      </div>
+      <TopBuyer sellerData={sellerData} user={user} ></TopBuyer>
 
       {/* Top Seller */}
-      <div className="mt-12">
-        <h1 className="text-textColorBlack font-worksans font-[600] mb-6">
-          Top Seller
-        </h1>
+      <TopSeller sellerData={sellerData} user={user}></TopSeller>
 
-        <div className="overflow-x-auto font-worksans ">
-          <table className="table font-worksans">
-            {/* head */}
-
-            <thead className=" bg-[#BAD1E8] rounded-[8px]">
-              <tr>
-                <th>Buyer</th>
-                <th>Sale</th>
-                <th>Transaction</th>
-              </tr>
-            </thead>
-
-            {sellerData.map((data, i) => (
-              <tbody key={i}>
-                <tr>
-                  <td className="flex items-center gap-2">
-                    <img
-                      src={user}
-                      alt=""
-                      className="w-12 h-12 rounded-[8px]"
-                    />
-                    <p className="text-[12px] font-[500] font-worksans text-textColorBlack">
-                      Hart Hagerty
-                    </p>
-                  </td>
-
-                  <td>
-                    <p>{data.sale}</p>
-                  </td>
-
-                  <td>
-                    <p className="bg-[#EEF2FA] w-[53px] h-[24px] text-[#5348D1] text-[12px] font-[500] rounded-[8px] flex justify-center items-center">
-                      ${data.transaction}
-                    </p>
-                  </td>
-                </tr>
-              </tbody>
-            ))}
-          </table>
-        </div>
-      </div>
-
-      {/* Hot Product */}
+      {/* Hot Product Chart*/}
       <div className="mt-[38px]">
         <h1 className=" text-[16px] font-[600] font-worksans text-textColorBlack">
           Hot Product
@@ -197,7 +115,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Revenue */}
+      {/* Revenue Chart*/}
       <div className="my-[38px]">
         <h1 className=" text-[16px] font-[600] font-worksans text-textColorBlack">
           Revenue
