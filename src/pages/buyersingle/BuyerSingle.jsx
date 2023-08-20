@@ -5,11 +5,14 @@ import { BiSearchAlt } from "react-icons/bi";
 import img1 from "../../assets/user.jpg";
 import img2 from "../../assets/grapg.svg";
 import img3 from "../../assets/box.jpeg";
+import { useGetProductsQuery } from "../../redux/feature/products/productApi";
 
 const BuyerSingle = () => {
+  const { data } = useGetProductsQuery();
+  console.log(data?.results);
+
   return (
     <div className="p-[24px]">
-
       <HTitle>Buyer</HTitle>
 
       <div className="h-[267px] rounded-[14px] my-5 p-3 relative flex flex-col items-center shadow-md">
@@ -45,6 +48,7 @@ const BuyerSingle = () => {
         </div>
       </div>
 
+      {/* Contact Person */}
       <div className="mt-7 w-full h-[162px] rounded-[14px] shadow-md font-poppins p-3">
         <p className="text-[12px]">Contact Person:</p>
 
@@ -57,6 +61,7 @@ const BuyerSingle = () => {
         </div>
       </div>
 
+      {/* Balance */}
       <div className="mt-7 h-[140px] rounded-[24px] flex flex-col overflow-hidden shadow-md">
         <div className="h-[50%] flex flex-row justify-between p-[24px] bg-[#F6F6F6]">
           <h3 className="text-textColorBlack text-[16px] font-[600] font-worksans ">
@@ -85,6 +90,7 @@ const BuyerSingle = () => {
         </div>
       </div>
 
+      {/* Products */}
       <div className=" mt-[75px]">
         <h2 className="text-[20px] font-[600] text-textColorBlack">Products</h2>
 
@@ -98,7 +104,7 @@ const BuyerSingle = () => {
         </div>
 
         <div className="mt-4 grid grid-cols-1 gap-y-6">
-          {[1, 2, 3].map((item, i) => (
+          {data?.results?.map((item, i) => (
             <div key={i} className="flex  items-center gap-3">
               <img
                 src={img3}
@@ -106,12 +112,11 @@ const BuyerSingle = () => {
                 className="w-[48px] h-[48px] rounded-[8px] shadow-md"
               />
               <p className="text-[12px] font-worksans text-textColorBlack font-[500]">
-                Products Name
+                {item.product_name}
               </p>
             </div>
           ))}
         </div>
-        
       </div>
     </div>
   );

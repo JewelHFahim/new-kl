@@ -3,8 +3,13 @@ import { AiOutlinePlus } from "react-icons/ai";
 import img1 from "../../assets/user.jpg";
 import img2 from "../../assets/grapg.svg";
 import CButton from "../../utils/CButton";
+import { useGetSuppliersQuery } from "../../redux/feature/supplier/supplierApi";
+import AddBuyer from "./AddBuyer";
 
 const BuyerList = () => {
+  const { data } = useGetSuppliersQuery();
+  console.log(data?.results);
+
   return (
     <div className="p-[24px]">
       <HTitle>Buyer List</HTitle>
@@ -14,6 +19,13 @@ const BuyerList = () => {
           <AiOutlinePlus /> Add Supplier
         </button>
       </div>
+
+      <button className="btn" onClick={() => window.my_modal_3.showModal()}>
+        open modal
+      </button>
+      
+
+      <AddBuyer />
 
       <div className="grid grid-cols-1 gap-[27px]">
         {[1, 2, 3, 4, 5].map((item, i) => (

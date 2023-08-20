@@ -4,12 +4,10 @@ import { LuEdit } from "react-icons/lu";
 import img1 from "../../assets/user.jpg";
 import img2 from "../../assets/grapg.svg";
 
-
 const Profile = () => {
+
   return (
     <div className="px-[24px]">
-
-      
       <HTitle>Profile</HTitle>
 
       <div className="h-[267px] rounded-[14px] my-5 p-3 relative flex flex-col items-center shadow-md">
@@ -72,7 +70,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
