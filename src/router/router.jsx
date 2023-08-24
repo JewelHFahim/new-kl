@@ -3,13 +3,13 @@ import Home from "../pages/home/Home";
 import MainPage from "../layout/MainPage";
 import ErrorPage from "../utils/ErrorPage";
 import Login from "../pages/login/Login";
-import BuyerList from "../pages/buyerlist/BuyerList";
-import BuyerSingle from "../pages/buyersingle/BuyerSingle";
+import BuyerSingle from "../pages/suppliers/SingleSupplier";
 import Invoice from "../pages/invoice/Invoice";
 import Ledger from "../pages/ladger/Ledger";
 import WareHouse from "../pages/warehouse/WareHouse";
 import Profile from "../pages/profile/Profile";
-import PrivateRoute from "./PrivateRoute";
+// import PrivateRoute from "./PrivateRoute";
+import BuyerList from "../pages/suppliers/SupplierList";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <BuyerList />,
       },
       {
-        path: "/buyer",
+        path: "/supplier/:id",
         element: <BuyerSingle />,
       },
       {

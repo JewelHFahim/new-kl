@@ -6,19 +6,38 @@ import img1 from "../../assets/user.jpg";
 import img2 from "../../assets/grapg.svg";
 import img3 from "../../assets/box.jpeg";
 import { useGetProductsQuery } from "../../redux/feature/products/productApi";
+import { useGetSingleSupplierQuery } from "../../redux/feature/supplier/supplierApi";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import EditSupplier from "./EditSupplier";
 
-const BuyerSingle = () => {
+const SupplierSingle = () => {
+
+  const {id} = useParams();
   const { data } = useGetProductsQuery();
-  console.log(data?.results);
+  
+  const {data: singleSupplier } = useGetSingleSupplierQuery(id);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="p-[24px]">
-      <HTitle>Buyer</HTitle>
+      <HTitle>Supplier</HTitle>
 
       <div className="h-[267px] rounded-[14px] my-5 p-3 relative flex flex-col items-center shadow-md">
-        <div className="absolute right-3 top-3">
+        <button onClick={openModal} className="absolute right-3 top-3">
           <LuEdit className="text-[22px]" />
-        </div>
+        </button>
+        <EditSupplier isModalOpen={isModalOpen} closeModal={closeModal} />
 
         <div className="flex flex-col items-center gap-y-3">
           <div className=" relative w-[68px] h-[68px]">
@@ -31,19 +50,19 @@ const BuyerSingle = () => {
 
           <div className="font-poppins text-center">
             <h2 className="text-[16px] font-[600] text-textColorBlack ">
-              Buyer Shop name
+              {singleSupplier?.supplier_name}
             </h2>
-            <p className="text-[#838B88] text-[12px]">Buyer</p>
+            <p className="text-[#838B88] text-[12px]">Supplier</p>
           </div>
         </div>
 
         <div className="h-[98px] w-full bg-[#F5F7F6] rounded-[14px] mt-4 p-3 font-poppins text-[#000] text-[12px]">
           <p className="flex justify-between border-b border-[#D9E9E3]">
-            <span>Code:</span> <span>BSD015</span>{" "}
+            <span>Code:</span> <span>BSD015-{singleSupplier?.id}</span>
           </p>
 
           <p className="flex justify-between  mt-3">
-            <span>Address:</span> <span>H-11, R-15, BLock-G, Banasree</span>{" "}
+            <span>Address:</span> <span>H-11, R-15, BLock-G, Banasree ({singleSupplier?.supplier_address})</span>
           </p>
         </div>
       </div>
@@ -54,10 +73,10 @@ const BuyerSingle = () => {
 
         <div className="h-[98px] w-full bg-[#F5F7F6] rounded-[14px] mt-4 p-3 font-poppins text-[#000] text-[12px]">
           <p className="flex justify-between border-b border-[#D9E9E3]">
-            Name: Contact Person Name{" "}
+            Name: Contact Person Name ({singleSupplier?.contact_person_name})
           </p>
 
-          <p className="flex justify-between  mt-3">Phone: 017-000 00000 </p>
+          <p className="flex justify-between  mt-3">Phone: 017-000 00000 ({singleSupplier?.contact_person_phone})</p>
         </div>
       </div>
 
@@ -118,8 +137,9 @@ const BuyerSingle = () => {
           ))}
         </div>
       </div>
+
     </div>
   );
 };
 
-export default BuyerSingle;
+export default SupplierSingle;

@@ -4,31 +4,37 @@ import img1 from "../../assets/user.jpg";
 import img2 from "../../assets/grapg.svg";
 import CButton from "../../utils/CButton";
 import { useGetSuppliersQuery } from "../../redux/feature/supplier/supplierApi";
-import AddBuyer from "./AddBuyer";
+import { useState } from "react";
+import AddBuyer from "./AddSupplier";
+import { Link } from "react-router-dom";
 
-const BuyerList = () => {
-  const { data } = useGetSuppliersQuery();
-  console.log(data?.results);
+const SupplierList = () => {
+  const { data: suppliers } = useGetSuppliersQuery();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className="p-[24px]">
-      <HTitle>Buyer List</HTitle>
+      <HTitle>Supplier List</HTitle>
 
       <div className="flex justify-end items-center">
-        <button className="w-[136px] h-[26px] bg-primary rounded-[13px] flex gap-2 justify-center items-center text-textColorBlack shadow-md">
+        <button onClick={openModal} className="w-[136px] h-[26px] bg-primary rounded-[13px] flex gap-2 justify-center items-center text-textColorBlack shadow-md ">
           <AiOutlinePlus /> Add Supplier
         </button>
       </div>
 
-      <button className="btn" onClick={() => window.my_modal_3.showModal()}>
-        open modal
-      </button>
-      
-
-      <AddBuyer />
+      <AddBuyer isModalOpen={isModalOpen} closeModal={closeModal} />
 
       <div className="grid grid-cols-1 gap-[27px]">
-        {[1, 2, 3, 4, 5].map((item, i) => (
+        {suppliers?.results?.map((item, i) => (
           <div
             key={i}
             className="mt-4 h-[167px] rounded-[24px] flex flex-col overflow-hidden shadow-lg"
@@ -43,13 +49,13 @@ const BuyerList = () => {
               </div>
               <div>
                 <h3 className="text-[#0D120E] text-[14px] font-[700] font-poppins ">
-                  Supplier Store Name
+                  {item?.supplier_name}
                 </h3>
                 <p className="text-[12px] text-[#7F909F] py-2">
                   Type: <span className="font-[600]">Supplier</span>
                 </p>
                 <p className="text-[12px] text-[#7F909F]">
-                  Phone: <span className="font-[600]">017-00000000</span>
+                  Phone: <span className="font-[600]">{item.contact_person_phone}</span>
                 </p>
               </div>
               <div className="w-[45px] h-[30px]">
@@ -65,7 +71,9 @@ const BuyerList = () => {
                 <p className="text-[24px] text-[#00FFC2] font-[500] ">$167</p>
               </div>
 
+              <Link to={`/supplier/${item?.id}`}>
               <CButton>View Details</CButton>
+              </Link>
             </div>
           </div>
         ))}
@@ -74,4 +82,4 @@ const BuyerList = () => {
   );
 };
 
-export default BuyerList;
+export default SupplierList;
