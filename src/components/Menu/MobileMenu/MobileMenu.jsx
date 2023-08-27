@@ -10,6 +10,7 @@ import { toggleDrawer } from "../../../redux/feature/menuSlice";
 import { addLogout } from "../../../redux/feature/userSlice";
 import { AiOutlineSetting } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import "./MobileMenu.css";
 
 const MobileMenu = () => {
   const dispatch = useDispatch();
@@ -19,38 +20,6 @@ const MobileMenu = () => {
     dispatch(toggleDrawer());
   };
 
-  const menus = [
-    {
-      title: "Dashboard",
-      icon: <MdOutlineDashboard />,
-      url: "/",
-    },
-    {
-      title: "Company Profile",
-      icon: <BiUser />,
-      url: "/allbuyer",
-    },
-    {
-      title: "Ledger",
-      icon: <BsGraphUp />,
-      url: "/ledger",
-    },
-    {
-      title: "Add Invoice",
-      icon: <BiBook />,
-      url: "/invoice",
-    },
-    {
-      title: "Warehouse",
-      icon: <RiCalendar2Line />,
-      url: "/warehouse",
-    },
-    {
-      title: "My Account",
-      icon: <AiOutlineSetting />,
-      url: "/profile",
-    },
-  ];
 
   return (
     <>
@@ -69,17 +38,153 @@ const MobileMenu = () => {
 
             <div className="flex flex-col justify-between flex-1 mt-6">
               {/* Menus */}
-              <nav>
+
+              {/* <nav>
                 {menus.map((menu, i) => (
-                  <Link
-                    key={i}
-                    to={menu.url}
-                    className="flex items-center px-4 py-2 my-5 text-gray-700 hover:bg-gray-100 rounded-md dark:bg-gray-800 dark:text-gray-200"
-                  >
-                    <div className="text-xl">{menu.icon}</div>
-                    <span className="mx-4 font-medium">{menu.title}</span>
-                  </Link>
+                  <ul key={i}>
+                    <Link
+                      to={menu.url}
+                      className="flex items-center px-4 py-2 my-4 text-gray-700 hover:bg-gray-100 rounded-md dark:bg-gray-800 dark:text-gray-200"
+                    >
+                      <div className="text-xl">{menu.icon}</div>
+                      <span className="mx-4 font-medium">{menu.title}</span>
+                    </Link>
+
+                    {menu.submenu && (
+                      <li className="flex flex-col justify-center items-start pl-8 -mt-3 gap-y-1">
+                        {menu?.submenu?.map((sbm, i) => (
+                          <Link
+                            key={i}
+                            to={sbm.url}
+                            className="hover:bg-gray-100 px-7 py-1 rounded-lg"
+                          >
+                            {sbm.subttitle}
+
+                            { menu?.submenu?.subchild && 
+                            <li>
+                              {
+                                menu?.submenu?.subchild.map((sm, i)=>(
+                                  <a key={i}>{sm.subchild}</a>
+                                ))
+                              }
+                            </li>
+
+                            }
+                          </Link>
+                        ))}
+                      </li>
+                    )}
+                  </ul>
                 ))}
+              </nav> */}
+
+              <nav>
+                <ul className="menu menu-md rounded-lg max-w-xs w-full">
+                  <li>
+                    <a href="/">
+                      <MdOutlineDashboard />
+                      Dashboard
+                    </a>
+                  </li>
+
+                  {/* Company */}
+                  <li>
+                    <details open>
+                      <summary>
+                        <BiUser />
+                        Company Profile
+                      </summary>
+
+                      <ul>
+                        <li>
+                          <a href="/buyers">
+                            <BiUser />
+                            Buyer
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="suppliers">
+                            <BiUser />
+                            Supplier
+                          </a>
+                        </li>
+                      </ul>
+                    </details>
+                  </li>
+
+                  {/* Invoice */}
+                  <li>
+                    <details open>
+                      <summary>
+                        <BiBook />
+                        Invoice
+                      </summary>
+                      <ul>
+                        <li>
+                          <details open>
+                            <summary>
+                              <BiBook />
+                              Buyer Invoice
+                            </summary>
+                            <ul>
+                              <li>
+                                <a>
+                                  <BiBook />
+                                  Total Invoice
+                                </a>
+                              </li>
+                              <li>
+                                <a href="/invoice">
+                                  <BiBook />
+                                  Invoice
+                                </a>
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+
+                        <li>
+                          <details open>
+                            <summary>
+                              <BiBook />
+                              Supplier Invoice
+                            </summary>
+                            <ul>
+                              <li>
+                                <a>
+                                  <BiBook />
+                                  Total Invoice
+                                </a>
+                              </li>
+                              <li>
+                                <a href="/invoice">
+                                  <BiBook />
+                                  Invoice
+                                </a>
+                              </li>
+                            </ul>
+                          </details>
+                        </li>
+                      </ul>
+                    </details>
+                  </li>
+
+                  <li>
+                    <a href="/warehouse">
+                      <RiCalendar2Line />
+                      Warehouse
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="/profile">
+                      <AiOutlineSetting />
+                      My Account
+                    </a>
+                  </li>
+
+                </ul>
               </nav>
 
               <div className="h-[160px] bg-[#F6F6F6] rounded-[24px] flex flex-col items-center text-[#3F3F44]">

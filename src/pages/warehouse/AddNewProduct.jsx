@@ -1,47 +1,161 @@
-import CButton from "../../utils/CButton";
-import box from "../../assets/box2.jpg"
-import { BsPlus } from "react-icons/bs";
+/* eslint-disable react/prop-types */
+import { useForm } from "react-hook-form";
+import { CgCloseO } from "react-icons/cg";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { usePostProductMutation } from "../../redux/feature/products/productApi";
+import SelectMenu from "./SelectMenu";
+import { useState } from "react";
+import { input_filed_style } from "../../utils/someClasses";
+const AddProduct = ({ isModalOpen, closeModal }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-const AddNewProduct = () => {
+  const [postProduct] = usePostProductMutation();
+
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const navigate = useNavigate();
+
+  const onSubmit = (data, event) => {
+    event.preventDefault();
+    const clearForm = event.target;
+    const productData = {
+      ...data,
+      is_available: true,
+      supplier: selectedItem.id,
+    };
+    postProduct(productData);
+    console.log(productData);
+    clearForm.reset();
+    toast.success("Added Buyer");
+    navigate("/warehouse");
+  };
+
   return (
     <div>
-      <dialog id="my_modal_4" className="modal">
-        <form method="dialog" className="modal-box bg-[#8792F3]">
-          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-white">
-            ✕
-          </button>
-
-          <div className="flex justify-around gap-4 items-center w-full ">
-
-            <div className="w-[64px] h-[64px] rounded-[8px]  shadow-xl relative">
-              <img src={box} alt="" className="w-full h-full rounded-[8px]"/>
-              <div className="absolute right-[-5px] bottom-[-8px] z-50 bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center shadow-md">
-              <BsPlus className="text-[20px]" />
-            </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-[30%] transform duration-300">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="bg-white p-8 rounded max-w-4xl mx-auto dark:bg-gray-800 border drop-shadow-lg relative"
+          >
+            <div
+              onClick={closeModal}
+              className="text-2xl text-slate-500 hover:text-red-600 absolute right-4 top-4"
+            >
+              <CgCloseO />
             </div>
 
-            <div className="flex flex-col gap-2 w-[70%]">
-              <input
-                type="text"
-                className="h-[27px] rounded-[24px] text-[10px] font-poppins px-[20px] focus:outline-none"
-                placeholder="Product Name"
-              />
-              <input
-                type="text"
-                className="h-[27px] rounded-[24px] text-[10px] font-poppins px-[20px] focus:outline-none"
-                placeholder="Supplier Name/Code"
-              />
+            <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white text-center">
+              Add Product
+            </h2>
+
+            <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+              <div>
+                <label className="text-gray-700 dark:text-gray-200">
+                  Product Name
+                </label>
+                <input
+                  {...register("product_name", { required: true })}
+                  type="text"
+                  className={input_filed_style}
+                />
+                {errors.product_name && (
+                  <span className="text-sm text-red-300">
+                    This field is required !
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="text-gray-700 dark:text-gray-200">
+                  Description
+                </label>
+                <input
+                  {...register("product_description", { required: true })}
+                  type="text"
+                  className={input_filed_style}
+                />
+                {errors.product_description && (
+                  <span className="text-sm text-red-300">
+                    This field is required !
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="text-gray-700 dark:text-gray-200">
+                  Buying Price
+                </label>
+                <input
+                  {...register("buying_price", { required: true })}
+                  type="number"
+                  className={input_filed_style}
+                />
+                {errors.buying_price && (
+                  <span className="text-sm text-red-300">
+                    This field is required !
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="text-gray-700 dark:text-gray-200">
+                  Selling Price
+                </label>
+                <input
+                  {...register("selling_price", { required: true })}
+                  type="number"
+                  className={input_filed_style}
+                />
+                {errors.selling_price && (
+                  <span className="text-sm text-red-300">
+                    This field is required !
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <label className="text-gray-700 dark:text-gray-200">
+                  Quantity
+                </label>
+                <input
+                  {...register("stock", { required: true })}
+                  type="number"
+                  className={input_filed_style}
+                />
+                {errors.stock && (
+                  <span className="text-sm text-red-300">
+                    This field is required !
+                  </span>
+                )}
+              </div>
+
+              <div className="z-10 mt-6">
+                <SelectMenu
+                  selectedItem={selectedItem}
+                  setSelectedItem={setSelectedItem}
+                />
+              </div>
             </div>
 
-          </div>
-
-          <div className="flex justify-center mt-6">
-            <CButton className={`rounded-[73px]`}>Add Product</CButton>
-          </div>
-        </form>
-      </dialog>
+            <div className="flex justify-end mt-6 z-0">
+              <button
+                type="submit"
+                className="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 };
 
-export default AddNewProduct;
+export default AddProduct;

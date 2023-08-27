@@ -3,12 +3,17 @@ import { BiSearchAlt } from "react-icons/bi";
 import Dropdown from "../../utils/dropdown/Dropdown";
 import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import WarehouseChart from "../../components/charts/WarehouseChart";
-import CButton from "../../utils/CButton";
-import AddNewProduct from "./AddNewProduct";
-import { FiEdit } from 'react-icons/fi';
-
+import { FiEdit } from "react-icons/fi";
+import ProductsTable from "./ProductsTable";
+import {
+  useGetProductsQuery,
+} from "../../redux/feature/products/productApi";
 
 const WareHouse = () => {
+  const { data: products } = useGetProductsQuery();
+
+
+
   const tableItems = [
     {
       date: "01/07/2023",
@@ -64,6 +69,8 @@ const WareHouse = () => {
 
   const tableStyle = "px-6 py-4 whitespace-nowrap";
 
+ 
+
   return (
     <div className="p-[24px] relative">
       <div className="mt-4">
@@ -109,7 +116,9 @@ const WareHouse = () => {
                 <td className={tableStyle}>{item.debit}</td>
                 <td className={tableStyle}>{item.credit}</td>
                 <td className={tableStyle}>{item.balance}</td>
-                <td><FiEdit className="text-lg "/></td>
+                <td>
+                  <FiEdit className="text-lg " />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -120,13 +129,7 @@ const WareHouse = () => {
         <WarehouseChart />
       </div>
 
-      <div
-        className="mt-6 flex justify-center"
-        onClick={() => window.my_modal_4.showModal()}
-      >
-        <CButton>Add New Product</CButton>
-      </div>
-      <AddNewProduct />
+      <ProductsTable />
     </div>
   );
 };

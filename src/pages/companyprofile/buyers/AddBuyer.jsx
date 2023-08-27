@@ -1,30 +1,30 @@
 /* eslint-disable react/prop-types */
 import { useForm } from "react-hook-form";
 import { CgCloseO } from "react-icons/cg";
-import { usePostSupplierMutation } from "../../redux/feature/supplier/supplierApi";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { usePostBuyerMutation } from "../../../redux/feature/buyers/buyerApi";
 
-const AddSupplier = ({ isModalOpen, closeModal }) => {
+const AddBuyer = ({ isModalOpen, closeModal }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [postSupplier] =
-    usePostSupplierMutation();
+  const [postBuyer] = usePostBuyerMutation();
+
+
   const navigate = useNavigate();
 
   const onSubmit = (data, event) => {
     event.preventDefault();
     const clearForm = event.target;
 
-    const res = postSupplier(data);
-    console.log(res.requestId);
-
+    postBuyer(data);
+    
     clearForm.reset();
     toast.success("Added Buyer");
-    navigate("/allbuyer")
+    navigate("/buyers")
   };
 
   return (
@@ -55,11 +55,11 @@ const AddSupplier = ({ isModalOpen, closeModal }) => {
                   Shop Name
                 </label>
                 <input
-                  {...register("supplier_name", { required: true })}
+                  {...register("customer_shop_name", { required: true })}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                 />
-                {errors.supplier_name && <span className="text-sm text-red-300">This field is required !</span>}
+                {errors.customer_shop_name && <span className="text-sm text-red-300">This field is required !</span>}
               </div>
 
               <div>
@@ -67,14 +67,14 @@ const AddSupplier = ({ isModalOpen, closeModal }) => {
                   className="text-gray-700 dark:text-gray-200"
                   htmlFor="emailAddress"
                 >
-                  Supplier Address
+                  Buyer Address
                 </label>
                 <input
-                  {...register("supplier_address", { required: true })}
+                  {...register("customer_shop_address", { required: true })}
                   type="text"
                   className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
                 />
-                {errors.supplier_address && <span className="text-sm text-red-300">This field is required !</span>}
+                {errors.customer_shop_address && <span className="text-sm text-red-300">This field is required !</span>}
               </div>
 
               <div>
@@ -127,4 +127,4 @@ const AddSupplier = ({ isModalOpen, closeModal }) => {
   );
 };
 
-export default AddSupplier;
+export default AddBuyer;

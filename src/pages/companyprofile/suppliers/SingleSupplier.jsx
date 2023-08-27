@@ -1,17 +1,17 @@
-import HTitle from "../../utils/HTitle";
+import HTitle from "../../../utils/HTitle";
 import { LuEdit } from "react-icons/lu";
 import { BsPlus } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
-import img1 from "../../assets/user.jpg";
-import img2 from "../../assets/grapg.svg";
-import img3 from "../../assets/box.jpeg";
-import { useGetProductsQuery } from "../../redux/feature/products/productApi";
-import { useGetSingleSupplierQuery } from "../../redux/feature/supplier/supplierApi";
+import img1 from "../../../assets/user.jpg";
+import img2 from "../../../assets/grapg.svg";
+import img3 from "../../../assets/box.jpeg";
+import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
+import { useGetSingleSupplierQuery } from "../../../redux/feature/supplier/supplierApi";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import EditSupplier from "./EditSupplier";
 
-const SupplierSingle = () => {
+const SingleSupplier = () => {
 
   const {id} = useParams();
   const { data } = useGetProductsQuery();
@@ -142,4 +142,4 @@ const SupplierSingle = () => {
   );
 };
 
-export default SupplierSingle;
+export default SingleSupplier;

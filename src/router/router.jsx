@@ -3,20 +3,25 @@ import Home from "../pages/home/Home";
 import MainPage from "../layout/MainPage";
 import ErrorPage from "../utils/ErrorPage";
 import Login from "../pages/login/Login";
-import BuyerSingle from "../pages/suppliers/SingleSupplier";
 import Invoice from "../pages/invoice/Invoice";
 import Ledger from "../pages/ladger/Ledger";
 import WareHouse from "../pages/warehouse/WareHouse";
 import Profile from "../pages/profile/Profile";
+import SupplierList from "../pages/companyprofile/suppliers/SupplierList";
+import SingleSupplier from "../pages/companyprofile/suppliers/SingleSupplier";
+import BuyerList from "../pages/companyprofile/buyers/BuyerList";
+import SingleBuyer from "../pages/companyprofile/buyers/SingleBuyer";
+import EditProduct from "../pages/warehouse/EditProduct";
+
 // import PrivateRoute from "./PrivateRoute";
-import BuyerList from "../pages/suppliers/SupplierList";
+// import SupplierList from "../pages/suppliers/SupplierList";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       // <PrivateRoute>
-        <MainPage />
+      <MainPage />
       // </PrivateRoute>
     ),
     children: [
@@ -24,14 +29,32 @@ const router = createBrowserRouter([
         path: "/",
         element: <Home />,
       },
+
+      // Suppliers
       {
-        path: "/allbuyer",
-        element: <BuyerList />,
+        path: "/suppliers",
+        element: <SupplierList />,
       },
       {
         path: "/supplier/:id",
-        element: <BuyerSingle />,
+        element: <SingleSupplier />,
       },
+
+      // Buyers
+      {
+        path: "/buyers",
+        element: <BuyerList />,
+      },
+      {
+        path: "/buyer/:id",
+        element: <SingleBuyer />,
+      },
+
+      {
+        path: "/warehouse/:id",
+        element: <EditProduct />,
+      },
+
       {
         path: "/invoice",
         element: <Invoice />,
