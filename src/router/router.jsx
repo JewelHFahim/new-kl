@@ -12,6 +12,7 @@ import SingleSupplier from "../pages/companyprofile/suppliers/SingleSupplier";
 import BuyerList from "../pages/companyprofile/buyers/BuyerList";
 import SingleBuyer from "../pages/companyprofile/buyers/SingleBuyer";
 import EditProduct from "../pages/warehouse/EditProduct";
+import Test from "../pages/test/Test";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <ErrorPage />,
+  },
+  {
+    path: "/test",
+    element: <Test />,
   },
 ]);
 
