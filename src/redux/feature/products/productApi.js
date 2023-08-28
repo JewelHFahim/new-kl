@@ -22,13 +22,13 @@ const productApi = apiSlice.injectEndpoints({
       invalidatesTags: ["keylagbe"],
     }),
 
-    // deleteProduct: builder.mutation({
-    //   query: (id) => ({
-    //     method: "DELETE",
-    //     url: `/product/product-delete/${id}/`,
-    //   }),
-    //   invalidatesTags: ["keylagbe"],
-    // }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/product/product-delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
 
     updateProduct: builder.mutation({
       query: ({data,id}) => ({
@@ -42,5 +42,5 @@ const productApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, usePostProductMutation, useSingleProductQuery, useUpdateProductMutation } = productApi;
+export const { useGetProductsQuery, usePostProductMutation, useSingleProductQuery, useUpdateProductMutation, useDeleteProductMutation } = productApi;
 export default productApi;

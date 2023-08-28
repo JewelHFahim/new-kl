@@ -1,7 +1,7 @@
 import { BiPlus } from "react-icons/bi";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import {
-  // useDeleteProductMutation,
+  useDeleteProductMutation,
   useGetProductsQuery,
 } from "../../redux/feature/products/productApi";
 import AddProduct from "./AddNewProduct";
@@ -13,7 +13,7 @@ const ProductsTable = () => {
   const { id } = useParams();
   const { data: products } = useGetProductsQuery();
 
-  // const [deleteProduct] = useDeleteProductMutation(id);
+  const [deleteProduct] = useDeleteProductMutation(id);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,11 +25,11 @@ const ProductsTable = () => {
     setIsModalOpen(false);
   };
 
-  // const handleDelete = (id) => {
-  //   deleteProduct(id);
-  //   console.log(id);
-  //   toast.error("Deleted");
-  // };
+  const handleDelete = (id) => {
+    deleteProduct(id);
+    console.log(id);
+    toast.error("Deleted");
+  };
 
 
 
@@ -89,7 +89,7 @@ const ProductsTable = () => {
                     <th scope="col" className="px-6 py-3 text-left">
                       <div className="flex items-center gap-x-2">
                         <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                          Quantity
+                          Stock
                         </span>
                       </div>
                     </th>
@@ -162,14 +162,14 @@ const ProductsTable = () => {
                             </button>
                           </Link>
 
-                          {/* <button
+                          <button
                             onClick={() => handleDelete(product.id)}
                             className="inline-flex items-center gap-x-1.5 text-sm text-red-400 decoration-2 
                             hover:text-red-500 font-medium"
                             href="#"
                           >
                             Delete
-                          </button> */}
+                          </button>
 
                         </div>
                       </td>
@@ -185,9 +185,7 @@ const ProductsTable = () => {
                 <div>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     <span className="font-semibold text-gray-800 dark:text-gray-200">
-                      {products?.results?.length}
-                    </span>
-                    Results
+                      {products?.results?.length } </span>Results
                   </p>
                 </div>
 

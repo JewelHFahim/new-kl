@@ -6,7 +6,7 @@ import {
   useSingleProductQuery,
   useUpdateProductMutation,
 } from "../../redux/feature/products/productApi";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const EditProduct = () => {
   const { register, handleSubmit } = useForm();
@@ -35,9 +35,9 @@ const EditProduct = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white p-8 rounded max-w-4xl mx-auto dark:bg-gray-800 border drop-shadow-lg relative"
         >
-          <div className="text-2xl text-slate-500 hover:text-red-600 absolute right-4 top-4">
+          <Link to="/warehouse" className="text-2xl text-slate-500 hover:text-red-600 absolute right-4 top-4">
             <CgCloseO />
-          </div>
+          </Link>
 
           <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white text-center">
             Edit Product
@@ -94,7 +94,7 @@ const EditProduct = () => {
 
             <div>
               <label className="text-gray-700 dark:text-gray-200">
-                Quantity
+                Stock
               </label>
               <input
                 defaultValue={singleProduct?.stock}

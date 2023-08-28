@@ -36,6 +36,7 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
   };
 
   return (
+    
     <div>
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-[30%] transform duration-300">
@@ -71,7 +72,7 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label className="text-gray-700 dark:text-gray-200">
                   Description
                 </label>
@@ -85,9 +86,9 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                     This field is required !
                   </span>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="text-gray-700 dark:text-gray-200">
                   Buying Price
                 </label>
@@ -101,9 +102,9 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                     This field is required !
                   </span>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="text-gray-700 dark:text-gray-200">
                   Selling Price
                 </label>
@@ -117,11 +118,11 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                     This field is required !
                   </span>
                 )}
-              </div>
+              </div> */}
 
-              <div>
+              {/* <div>
                 <label className="text-gray-700 dark:text-gray-200">
-                  Quantity
+                  Stock
                 </label>
                 <input
                   {...register("stock", { required: true })}
@@ -133,7 +134,7 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                     This field is required !
                   </span>
                 )}
-              </div>
+              </div> */}
 
               <div className="z-10 mt-6">
                 <SelectMenu
