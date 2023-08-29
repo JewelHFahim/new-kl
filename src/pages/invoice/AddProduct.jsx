@@ -26,7 +26,7 @@ const AddProduct = () => {
   const onSubmit = (data, event) => {
     event.preventDefault();
     const clearForm = event.target;
-    // dispatch(addToInvoice(data));
+    dispatch(addToInvoice({...data, product: selectedItem?.id}));
     console.log(data);
     clearForm.reset();
     toast.success("Added");
@@ -73,7 +73,7 @@ const AddProduct = () => {
               <input
                 defaultValue={selectedItem?.product_price}
                 {...register("product_price", { required: true })}
-                type="text"
+                type="number"
                 className={input_filed_style}
               />
               {errors.product_price && (
@@ -90,7 +90,7 @@ const AddProduct = () => {
               <input
                 defaultValue={selectedItem?.stock}
                 {...register("stock", { required: true })}
-                type="text"
+                type="number"
                 className={input_filed_style}
               />
               {errors.stock && (
