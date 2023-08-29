@@ -13,6 +13,7 @@ import BuyerList from "../pages/companyprofile/buyers/BuyerList";
 import SingleBuyer from "../pages/companyprofile/buyers/SingleBuyer";
 import EditProduct from "../pages/warehouse/EditProduct";
 import Test from "../pages/test/Test";
+import AddProduct from "../pages/invoice/AddProduct";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/addproductinvoice",
+        element: <AddProduct />,
       },
     ],
   },

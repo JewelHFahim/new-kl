@@ -5,35 +5,39 @@ const ProductForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const userData = {
-    supplier: "2",
-    product_name: "Manogo",
-    product_description: "from rajshahi",
-    selling_price: 120,
-    buying_price: 100,
-    stock: 10,
-    is_available: true,
+    phone: 123,
+    email: null,
+    order_note: "",
+    status: "New",
+    payment_due: true,
+    order_total: 10.0,
+    supplier: 51,
   };
 
   const cart = [
     {
-      name: "apple",
-      quantity: 5,
-      buying_price: 50,
+      quantity: 50,
+      product_price: 50,
+      order: 9,
+      product: 7,
     },
     {
-      name: "orange",
-      quantity: 6,
-      buying_price: 60,
+      quantity: 10,
+      product_price: 70,
+      order: 9,
+      product: 8,
     },
   ];
-
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/users", userData);
-      console.log(response)
+      const response = await axios.post(
+        "http://192.168.3.16:8000/supplier/supplier-order/create/",
+        userData
+      );
+      console.log(response);
 
       const generatedId = response.data.insertedId;
       const updatedCart = cart.map((item) => {
@@ -43,9 +47,12 @@ const ProductForm = () => {
         };
       });
 
-        for (const item of updatedCart) {
-          await axios.post("http://localhost:5000/orders", item);
-        }
+      for (const item of updatedCart) {
+        await axios.post(
+          "http://192.168.3.16:8000/supplier/supplier-order-product/create/",
+          item
+        );
+      }
 
       setIsSubmitting(false);
     } catch (error) {

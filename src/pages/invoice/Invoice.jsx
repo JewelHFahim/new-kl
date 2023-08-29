@@ -2,23 +2,17 @@ import { useForm } from "react-hook-form";
 import CButton from "../../utils/CButton";
 import HTitle from "../../utils/HTitle";
 import AddProduct from "./AddProduct";
-import SelectMenu from "../warehouse/SelectMenu";
 import DropdownSupplier from "./DropdownSupplier";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addToInvoice,
-  removeFromList,
-} from "../../redux/feature/invoice/invoiceSlice";
-import { usePostSupplierOrderMutation } from "../../redux/feature/orders/orderApi";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Invoice = () => {
   const current = new Date();
   const date = `${current.getDate()}/${
     current.getMonth() + 1
   }/${current.getFullYear()}`;
-
-  const [postOrder] = usePostSupplierOrderMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -33,30 +27,78 @@ const Invoice = () => {
   const dispatch = useDispatch();
 
   const { addedProducts, total } = useSelector((state) => state.invoice);
-  console.log(addedProducts);
 
   const { register, handleSubmit } = useForm();
+
   const [selectedItem, setSelectedItem] = useState(null);
-  console.log(selectedItem);
 
-  const onSubmit = (data, event) => {
-    event.preventDefault();
 
-    const orderData = {
-      name: selectedItem?.supplier_name,
-      phone: selectedItem?.contact_person_phone,
-      supplier: selectedItem?.id,
-      order_number: "01"
-    };
-    postOrder(orderData);
-    console.log(orderData);
+  // Test Start
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const invoiceData = {
+    phone: selectedItem?.phone,
+    email: null,
+    order_note: "",
+    status: "New",
+    payment_due: true,
+    order_total: 10.0,
+    supplier: (selectedItem?.id)
   };
 
+  // const cart = [
+  //   {
+  //     quantity: 50,
+  //     product_price: 50,
+  //     order: 9,
+  //     product: 7,
+  //   },
+  //   {
+  //     quantity: 10,
+  //     product_price: 70,
+  //     order: 9,
+  //     product: 8,
+  //   },
+  // ];
+
+  const onSubmit = async () => {
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        "http://192.168.3.16:8000/supplier/supplier-order/create/",
+        invoiceData
+      );
+      console.log(response);
+
+      const generatedId = response.data.insertedId;
+      const updatedCart = addedProducts.map((item) => {
+        return {
+          ...item,
+          order: generatedId,
+        };
+      });
+
+      for (const item of updatedCart) {
+        await axios.post(
+          "http://192.168.3.16:8000/supplier/supplier-order-product/create/",
+          item
+        );
+      }
+
+      setIsSubmitting(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+
   return (
-    <div className="px-6 pb-5">
+    <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
       <HTitle>Invoice</HTitle>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3">
+      <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3">
         <div className="flex justify-between items-center">
           <p className="text-[10px] text-[#000] font-poppins">
             <span className="font-[600]">Invoice#</span> <span>30542</span>
@@ -94,21 +136,17 @@ const Invoice = () => {
           </p>
         </div>
 
-        <button type="submit" className="mt-4"><CButton>Save Invoice</CButton></button>
-      </form>
+      </section>
 
       <div className="mt-[35px] flex justify-end">
-        <button
-          onClick={openModal}
-          className="text-[12px] text-[#0500FF] font-poppins font-[500]"
-        >
-          Add Product
-        </button>
-
-        <AddProduct isModalOpen={isModalOpen} closeModal={closeModal} />
+        <Link to="/addproductinvoice"><button className="text-[12px] text-[#0500FF] font-poppins font-[500]">Add Product</button></Link>
       </div>
 
+
+
       <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] ">
+
+
         <div className="overflow-x-auto">
           <table className="table font-poppins text-[#000]">
             <thead>
@@ -123,8 +161,9 @@ const Invoice = () => {
             </thead>
             <tbody className="bg-[#F5F7F6]">
               {addedProducts?.map((item, i) => (
+
                 <tr key={i} className="text-[9px] font-[300]">
-                  <th className="text-[10px] font-[500]">{i + 1}</th>
+                  <th className="text-[10px] font-[500]">  {i + 1}  </th>
                   <td>{item?.product_name}</td>
                   <td>{item?.buying_price}</td>
                   <td>{item?.stock}</td>
@@ -161,13 +200,21 @@ const Invoice = () => {
             </p>
           </div>
         </div>
+
+
       </div>
+
 
       <div className="mt-6 flex  justify-center gap-4">
         <CButton>Print Invoice</CButton>
-        <CButton>Save Invoice</CButton>
+
+        <button onClick={onSubmit} disabled={isSubmitting}>
+          <CButton> {isSubmitting ? "Saving..." : "Save"}</CButton>
+        </button>
       </div>
-    </div>
+
+
+    </section>
   );
 };
 

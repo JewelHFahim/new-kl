@@ -137,7 +137,7 @@ const ProductsTable = () => {
                       <td className="h-px w-72 whitespace-nowrap">
                         <div className="px-6 py-3">
                           <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">
-                            Supplier ID: {product.supplier}
+                            Supplier ID: {product.supplier} - {product.supplier_name}
                           </span>
                         </div>
                       </td>
