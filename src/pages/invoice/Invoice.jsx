@@ -66,7 +66,7 @@ const Invoice = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.3.16:8000/supplier/supplier-order/create/",
+        "http://localhost:5000/users",
         invoiceData
       );
       console.log(response);
@@ -81,7 +81,7 @@ const Invoice = () => {
 
       for (const item of updatedCart) {
         await axios.post(
-          "http://192.168.3.16:8000/supplier/supplier-order-product/create/",
+          "http://localhost:5000/orders/",
           item
         );
       }
@@ -98,7 +98,7 @@ const Invoice = () => {
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
       <HTitle>Invoice</HTitle>
 
-      <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3">
+      <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">
           <p className="text-[10px] text-[#000] font-poppins">
             <span className="font-[600]">Invoice#</span> <span>30542</span>
