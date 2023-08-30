@@ -3,8 +3,6 @@ import Home from "../pages/home/Home";
 import MainPage from "../layout/MainPage";
 import ErrorPage from "../utils/ErrorPage";
 import Login from "../pages/login/Login";
-import Invoice from "../pages/invoice/Invoice";
-import Ledger from "../pages/ladger/Ledger";
 import WareHouse from "../pages/warehouse/WareHouse";
 import Profile from "../pages/profile/Profile";
 import SupplierList from "../pages/companyprofile/suppliers/SupplierList";
@@ -13,7 +11,11 @@ import BuyerList from "../pages/companyprofile/buyers/BuyerList";
 import SingleBuyer from "../pages/companyprofile/buyers/SingleBuyer";
 import EditProduct from "../pages/warehouse/EditProduct";
 import Test from "../pages/test/Test";
-import AddProduct from "../pages/invoice/AddProduct";
+import Ledger from "../pages/ladger/Ledger";
+import Invoice from "../pages/invoice/Supplier/Invoice";
+import AddProduct from "../pages/invoice/Supplier/AddProduct";
+import AllInvoiceSupplier from "../pages/invoice/Supplier/AllInvoice";
+import DetailsInvoice from "../pages/invoice/Supplier/DetailsInvoice";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -56,10 +58,17 @@ const router = createBrowserRouter([
         path: "/warehouse/:id",
         element: <EditProduct />,
       },
-
       {
         path: "/invoice",
         element: <Invoice />,
+      },
+      {
+        path: "/invoicedetails/:id",
+        element: <DetailsInvoice />,
+      },
+      {
+        path: "/supplierallinvoice",
+        element: <AllInvoiceSupplier />,
       },
       {
         path: "/ledger",

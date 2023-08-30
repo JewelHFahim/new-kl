@@ -97,7 +97,7 @@ const MobileMenu = () => {
                               <li>
                                 <a>
                                   <BiBook />
-                                  Total Invoice
+                                  All Invoice
                                 </a>
                               </li>
                               <li>
@@ -118,9 +118,9 @@ const MobileMenu = () => {
                             </summary>
                             <ul>
                               <li>
-                                <a>
+                              <a href="/supplierallinvoice">
                                   <BiBook />
-                                  Total Invoice
+                                  All Invoice
                                 </a>
                               </li>
                               <li>

@@ -10,6 +10,11 @@ const invoiceApi = apiSlice.injectEndpoints({
       providesTags: ['keylagbe'],
     }),
 
+    getAllInvoiceSupplier: builder.query({
+      query: () => "/supplier/supplier-order/list/",
+      providesTags: ['keylagbe'],
+    }),
+
 
     getSingleBuyer: builder.query({
       query: (id) => `/customer/customer-detail/${id}/`,
@@ -38,5 +43,5 @@ const invoiceApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const {  usePostInvoiceMutation, } = invoiceApi;
+export const {  usePostInvoiceMutation, useGetAllInvoiceSupplierQuery } = invoiceApi;
 export default invoiceApi;

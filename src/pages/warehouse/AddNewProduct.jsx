@@ -88,7 +88,7 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                 )}
               </div> */}
 
-              {/* <div>
+              <div>
                 <label className="text-gray-700 dark:text-gray-200">
                   Buying Price
                 </label>
@@ -102,9 +102,9 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                     This field is required !
                   </span>
                 )}
-              </div> */}
+              </div>
 
-              {/* <div>
+              <div>
                 <label className="text-gray-700 dark:text-gray-200">
                   Selling Price
                 </label>
@@ -118,7 +118,7 @@ const AddProduct = ({ isModalOpen, closeModal }) => {
                     This field is required !
                   </span>
                 )}
-              </div> */}
+              </div>
 
               {/* <div>
                 <label className="text-gray-700 dark:text-gray-200">

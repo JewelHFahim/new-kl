@@ -8,7 +8,7 @@ function App() {
       <RouterProvider router={router}></RouterProvider>
       <Toaster />
     </div>
-  );
+  )
 }
 
 export default App;

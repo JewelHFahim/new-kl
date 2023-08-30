@@ -1,42 +1,51 @@
 import apiSlice from "../../api/apiSlice";
 
 const supplierApi = apiSlice.injectEndpoints({
-  
-    endpoints: (builder) => ({
+
+  endpoints: (builder) => ({
 
 
     getSuppliers: builder.query({
       query: () => "/supplier/supplier-list/",
-      providesTags: ['keylagbe'],
+      providesTags: ["keylagbe"],
+    }),
+
+    getSuppliersOrdersDetails: builder.query({
+      query: (id) => `/supplier/supplier-order/detail/${id}/`,
+      providesTags: ["keylagbe"],
     }),
 
 
     getSingleSupplier: builder.query({
       query: (id) => `/supplier/supplier-detail/${id}/`,
-      providesTags: ['keylagbe'],
+      providesTags: ["keylagbe"],
     }),
 
     postSupplier: builder.mutation({
       query: (data) => ({
         method: "POST",
-        url:"/supplier/supplier-create/",
-        body: data
+        url: "/supplier/supplier-create/",
+        body: data,
       }),
-      invalidatesTags: ['keylagbe'],
+      invalidatesTags: ["keylagbe"],
     }),
 
     updateSupplier: builder.mutation({
-      query: ({data, id}) => ({
+      query: ({ data, id }) => ({
         method: "POST",
-        url:`/supplier/supplier-update/${id}/`,
-        body: data
+        url: `/supplier/supplier-update/${id}/`,
+        body: data,
       }),
-      invalidatesTags: ['keylagbe'],
+      invalidatesTags: ["keylagbe"],
     }),
-
-    
   }),
 });
 
-export const { useGetSuppliersQuery, usePostSupplierMutation, useGetSingleSupplierQuery, useUpdateSupplierMutation } = supplierApi;
+export const {
+  useGetSuppliersQuery,
+  usePostSupplierMutation,
+  useGetSingleSupplierQuery,
+  useUpdateSupplierMutation,
+  useGetSuppliersOrdersDetailsQuery
+} = supplierApi;
 export default supplierApi;

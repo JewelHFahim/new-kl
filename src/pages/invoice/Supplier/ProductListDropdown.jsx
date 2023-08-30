@@ -1,9 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { useGetProductsQuery } from "../../redux/feature/products/productApi";
+import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 
 const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
-
   const { data: products } = useGetProductsQuery();
   const listboxRef = useRef();
 
@@ -14,7 +14,7 @@ const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
   };
 
   const filteredItems =
-  products?.results?.filter(
+    products?.results?.filter(
       (item) =>
         !searchVal ||
         (item.supplier_name &&
@@ -34,7 +34,7 @@ const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
           type="button"
           className={`flex items-center justify-around text-[12px]`}
         >
-         Select Products
+          Select Products
           <MdKeyboardArrowDown />
         </button>
 
@@ -49,7 +49,6 @@ const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
 
 
               `}
-
               onChange={handleSearch}
               value={searchVal}
             />

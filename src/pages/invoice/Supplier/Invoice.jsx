@@ -1,98 +1,72 @@
 import { useForm } from "react-hook-form";
-import CButton from "../../utils/CButton";
-import HTitle from "../../utils/HTitle";
-import AddProduct from "./AddProduct";
+import CButton from "../../../utils/CButton";
+import HTitle from "../../../utils/HTitle";
 import DropdownSupplier from "./DropdownSupplier";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const Invoice = () => {
-  const current = new Date();
-  const date = `${current.getDate()}/${
-    current.getMonth() + 1
-  }/${current.getFullYear()}`;
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const dispatch = useDispatch();
+  const [startDate, setStartDate] = useState(new Date());
+  const formattedDate = startDate.toISOString().slice(0, 16);
 
   const { addedProducts, total } = useSelector((state) => state.invoice);
 
-  const { register, handleSubmit } = useForm();
+  const { handleSubmit } = useForm();
 
   const [selectedItem, setSelectedItem] = useState(null);
 
-
-  // Test Start
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const invoiceData = {
-    phone: selectedItem?.phone,
+    phone: selectedItem?.contact_person_phone,
     email: null,
     order_note: "",
     status: "New",
+    invoice_date: formattedDate,
     payment_due: true,
-    order_total: 10.0,
-    supplier: (selectedItem?.id)
+    supplier: selectedItem?.id,
   };
 
-  // const cart = [
-  //   {
-  //     quantity: 50,
-  //     product_price: 50,
-  //     order: 9,
-  //     product: 7,
-  //   },
-  //   {
-  //     quantity: 10,
-  //     product_price: 70,
-  //     order: 9,
-  //     product: 8,
-  //   },
-  // ];
+  console.log(invoiceData);
 
   const onSubmit = async () => {
+
     setIsSubmitting(true);
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/users",
+        "http://192.168.3.16:8000/supplier/supplier-order/create/",
         invoiceData
       );
-      console.log(response);
 
-      const generatedId = response.data.insertedId;
-      const updatedCart = addedProducts.map((item) => {
-        return {
-          ...item,
-          order: generatedId,
-        };
-      });
+      const generatedId = response.data.id;
 
-      for (const item of updatedCart) {
-        await axios.post(
-          "http://localhost:5000/orders/",
+      const updatedCart = addedProducts.map((item) => ({
+        ...item,
+        order: generatedId,
+      }));
+
+      const postRequests = updatedCart.map((item) =>
+        axios.post(
+          "http://192.168.3.16:8000/supplier/supplier-order-product/create/",
           item
-        );
-      }
+        )
+      );
 
+      await Promise.all(postRequests);
+      toast.success("Invoice Created");
       setIsSubmitting(false);
     } catch (error) {
       console.log(error);
+      setIsSubmitting(false);
     }
   };
-
-
 
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
@@ -104,8 +78,12 @@ const Invoice = () => {
             <span className="font-[600]">Invoice#</span> <span>30542</span>
           </p>
 
-          <p className="text-[10px] text-[#000] font-poppins">
-            <span className="font-[600]">Date:</span> <span> {date} </span>
+          <p className="text-[10px] text-[#000] font-poppins flex gap-2">
+            <span className="font-[600]">Date:</span>
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+            />
           </p>
         </div>
 
@@ -135,18 +113,17 @@ const Invoice = () => {
             <span>{selectedItem?.supplier_address}</span>
           </p>
         </div>
-
       </section>
 
       <div className="mt-[35px] flex justify-end">
-        <Link to="/addproductinvoice"><button className="text-[12px] text-[#0500FF] font-poppins font-[500]">Add Product</button></Link>
+        <Link to="/addproductinvoice">
+          <button className="text-[12px] text-[#0500FF] font-poppins font-[500]">
+            Add Product
+          </button>
+        </Link>
       </div>
 
-
-
       <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] ">
-
-
         <div className="overflow-x-auto">
           <table className="table font-poppins text-[#000]">
             <thead>
@@ -156,23 +133,18 @@ const Invoice = () => {
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
-                {/* <th></th> */}
               </tr>
             </thead>
             <tbody className="bg-[#F5F7F6]">
               {addedProducts?.map((item, i) => (
-
                 <tr key={i} className="text-[9px] font-[300]">
-                  <th className="text-[10px] font-[500]">  {i + 1}  </th>
-                  <td>{item?.product_name}</td>
-                  <td>{item?.buying_price}</td>
-                  <td>{item?.stock}</td>
+                  <th className="text-[10px] font-[500]"> {i + 1} </th>
+                  <td>{item?.id}</td>
+                  <td>{item?.product_price}</td>
+                  <td>{item?.quantity}</td>
                   <td>
-                    {(Number(item?.buying_price) * Number(item?.stock)).toFixed(
-                      2
-                    )}
+                    {Number(item?.product_price) * Number(item?.quantity)}
                   </td>
-                  {/* <td><button onClick={()=>dispatch(removeFromList(item?.id))} >Remove</button></td> */}
                 </tr>
               ))}
             </tbody>
@@ -200,10 +172,7 @@ const Invoice = () => {
             </p>
           </div>
         </div>
-
-
       </div>
-
 
       <div className="mt-6 flex  justify-center gap-4">
         <CButton>Print Invoice</CButton>
@@ -212,8 +181,6 @@ const Invoice = () => {
           <CButton> {isSubmitting ? "Saving..." : "Save"}</CButton>
         </button>
       </div>
-
-
     </section>
   );
 };

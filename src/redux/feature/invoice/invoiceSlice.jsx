@@ -11,7 +11,7 @@ export const invoiceSlice = createSlice({
   reducers: {
     addToInvoice: (state, actions) => {
       state.addedProducts.push(actions.payload);
-      state.total = Number(state.total) + (Number(actions.payload.buying_price) * Number(actions.payload.stock)) ;
+      state.total = Number(state.total) + (Number(actions.payload.product_price) * Number(actions.payload.quantity)) ;
     },
   },
 });
