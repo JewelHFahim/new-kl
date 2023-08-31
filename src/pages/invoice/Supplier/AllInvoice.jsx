@@ -4,6 +4,7 @@ import { useGetAllInvoiceSupplierQuery } from "../../../redux/feature/invoice/in
 const AllInvoiceSupplier = () => {
   const { data: supplierOrders } = useGetAllInvoiceSupplierQuery();
 
+
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
       <div className="max-w-lg">

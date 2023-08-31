@@ -55,11 +55,11 @@ const AddProduct = () => {
               </label>
               <input
                 defaultValue={selectedItem?.product_name}
-                // {...register("id", { required: true })}
+                {...register(".product_name", { required: true })}
                 type="text"
                 className={input_filed_style}
               />
-              {errors.id && (
+              {errors.product_name && (
                 <span className="text-sm text-red-300">
                   This field is required !
                 </span>

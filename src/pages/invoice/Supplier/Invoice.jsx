@@ -139,7 +139,7 @@ const Invoice = () => {
               {addedProducts?.map((item, i) => (
                 <tr key={i} className="text-[9px] font-[300]">
                   <th className="text-[10px] font-[500]"> {i + 1} </th>
-                  <td>{item?.id}</td>
+                  <td>{item?.product_name}</td>
                   <td>{item?.product_price}</td>
                   <td>{item?.quantity}</td>
                   <td>

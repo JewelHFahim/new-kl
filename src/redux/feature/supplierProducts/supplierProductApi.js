@@ -9,6 +9,12 @@ const invoiceApi = apiSlice.injectEndpoints({
       providesTags: ['keylagbe'],
     }),
 
+
+    getSupplierProducts: builder.query({
+      query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
+      providesTags: ['keylagbe'],
+    }),
+
    
     postSupplierProduct: builder.mutation({
       query: (data) => ({
@@ -24,5 +30,5 @@ const invoiceApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const {  usePostInvoiceMutation, usePostSupplierProductMutation} = invoiceApi;
+export const {  useGetSupplierProductsQuery, usePostSupplierProductMutation} = invoiceApi;
 export default invoiceApi;

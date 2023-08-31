@@ -1,14 +1,43 @@
 import HTitle from "../../../utils/HTitle";
 import CButton from "../../../utils/CButton";
-import { useGetSuppliersOrdersDetailsQuery } from "../../../redux/feature/supplier/supplierApi";
+import {
+  useGetSuppliersOrdersDetailsQuery,
+  useGetSuppliersQuery,
+} from "../../../redux/feature/supplier/supplierApi";
 import { useParams } from "react-router-dom";
+import { useGetSupplierProductsQuery } from "../../../redux/feature/supplierProducts/supplierProductApi";
+import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 
 const DetailsInvoice = () => {
   const { id } = useParams();
 
-  console.log(id)
-
   const { data: orderDetails } = useGetSuppliersOrdersDetailsQuery(id);
+
+  const { data: allsuppliers } = useGetSuppliersQuery();
+
+  const mappedSuppliers = allsuppliers?.results?.map((item) => {
+    return item;
+  });
+
+  const supplier = mappedSuppliers?.find(
+    (supplier) => supplier?.id === orderDetails?.supplier
+  );
+
+  const { data: orderedProducts } = useGetSupplierProductsQuery(
+    orderDetails?.id
+  );
+
+  console.log(orderedProducts, " name");
+
+  const { data: allProducts } = useGetProductsQuery();
+
+  const orderedProductName = allProducts?.results?.map((product) => {
+    return product;
+  });
+
+  console.log(orderedProductName);
+
+  console.log(orderedProductName?.product_name, "hello");
 
   return (
     <section className="px-6 pb-5">
@@ -17,12 +46,13 @@ const DetailsInvoice = () => {
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">
           <p className="text-[10px] text-[#000] font-poppins">
-            <span className="font-[600]">Invoice#</span> <span>30542</span>
+            <span className="font-[600]">Invoice#</span>
+            <span>{orderDetails?.order_number}</span>
           </p>
 
           <p className="text-[10px] text-[#000] font-poppins flex gap-2">
             <span className="font-[600]">Date:</span>
-           {orderDetails?.invoice_date}
+            {orderDetails?.invoice_date}
           </p>
         </div>
 
@@ -33,7 +63,7 @@ const DetailsInvoice = () => {
 
           <div className="mt-3 text-[10px] text-[#000] flex items-center gap-2">
             <p className="font-[600]">Name: </p>
-            <span>{orderDetails?.supplier}</span>
+            <span>{supplier?.supplier_name}</span>
           </div>
 
           <p className="py-1 text-[10px] text-[#000] flex gap-2">
@@ -43,7 +73,7 @@ const DetailsInvoice = () => {
 
           <p className="text-[10px] text-[#000] flex gap-2">
             <span className="font-[600]">Address :</span>
-            <span>supplier_address</span>
+            <span>{supplier?.supplier_address}</span>
           </p>
         </div>
       </section>
@@ -61,13 +91,18 @@ const DetailsInvoice = () => {
               </tr>
             </thead>
             <tbody className="bg-[#F5F7F6]">
-              {[1, 2, 3].map((item, i) => (
+              {orderedProducts?.map((item, i) => (
                 <tr key={i} className="text-[9px] font-[300]">
                   <th className="text-[10px] font-[500]"> {i + 1} </th>
-                  <td>1</td>
-                  <td>product_price</td>
-                  <td>quantity</td>
-                  <td>Total</td>
+
+                  <td>
+                    {item?.product === orderedProductName?.id &&
+                      orderedProductName.product_name}
+                  </td>
+
+                  <td>{item?.product_price}</td>
+                  <td>{item?.quantity}</td>
+                  <td>{Number(item.product_price) * Number(item?.quantity)}</td>
                 </tr>
               ))}
             </tbody>
