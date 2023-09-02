@@ -66,23 +66,6 @@ const AddProduct = () => {
               )}
             </div>
 
-            {/* <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Buying Price
-              </label>
-              <input
-                defaultValue={selectedItem?.buying_price}
-                {...register("product_price", { required: true })}
-                type="number"
-                className={input_filed_style}
-              />
-              {errors.product_price && (
-                <span className="text-sm text-red-300">
-                  This field is required !
-                </span>
-              )}
-            </div> */}
-
             <div>
               <label className="text-gray-700 dark:text-gray-200">
                 Selling Price

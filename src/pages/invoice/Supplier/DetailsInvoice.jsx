@@ -27,17 +27,15 @@ const DetailsInvoice = () => {
     orderDetails?.id
   );
 
-  console.log(orderedProducts, " name");
+  console.log(orderedProducts)
 
   const { data: allProducts } = useGetProductsQuery();
-
-  const orderedProductName = allProducts?.results?.map((product) => {
-    return product;
+  const mappedProducts = allProducts?.results?.map((item) => {
+    return item;
   });
-
-  console.log(orderedProductName);
-
-  console.log(orderedProductName?.product_name, "hello");
+  const findProductById = (productId) => {
+    return mappedProducts?.find((product) => product?.id === productId);
+  };
 
   return (
     <section className="px-6 pb-5">
@@ -91,20 +89,20 @@ const DetailsInvoice = () => {
               </tr>
             </thead>
             <tbody className="bg-[#F5F7F6]">
-              {orderedProducts?.map((item, i) => (
-                <tr key={i} className="text-[9px] font-[300]">
-                  <th className="text-[10px] font-[500]"> {i + 1} </th>
-
-                  <td>
-                    {item?.product === orderedProductName?.id &&
-                      orderedProductName.product_name}
-                  </td>
-
-                  <td>{item?.product_price}</td>
-                  <td>{item?.quantity}</td>
-                  <td>{Number(item.product_price) * Number(item?.quantity)}</td>
-                </tr>
-              ))}
+              {orderedProducts?.map((item, i) => {
+                const product = findProductById(item.product);
+                return (
+                  <tr key={i} className="text-[9px] font-[300]">
+                    <th className="text-[10px] font-[500]"> {i + 1} </th>
+                    <td>{product.product_name}</td>
+                    <td>{item?.product_price}</td>
+                    <td>{item?.quantity}</td>
+                    <td>
+                      {Number(item.product_price) * Number(item?.quantity)}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
