@@ -1,12 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
+import { useSelector } from "react-redux";
 
-const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
-  const { data: products } = useGetProductsQuery();
+const ProductListDropdown = ({ selectedItem, setSelectedItem}) => {
+
+  // const { data: products } = useGetProductsQuery();
+  const { supplierUnderProducts: products } = useSelector(state=> state.invoice)
+  
+console.log(products[0]);
+
+
+
   const listboxRef = useRef();
-
   const [searchVal, setSearchVal] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const handleSearch = (e) => {
@@ -14,15 +20,16 @@ const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
   };
 
   const filteredItems =
-    products?.results?.filter(
+    products?.[0]?.filter(
       (item) =>
         !searchVal ||
-        (item.supplier_name &&
-          item.supplier_name.toLowerCase().includes(searchVal))
+        (item?.product_name &&
+          item?.product_name.toLowerCase().includes(searchVal))
     ) || [];
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
+    console.log(item)
     setIsOpen(false);
   };
 
@@ -57,7 +64,7 @@ const ProductListDropdown = ({ selectedItem, setSelectedItem }) => {
               className="max-h-48 overflow-y-auto"
               role="listbox"
             >
-              {filteredItems.map((item, idx) => (
+              {filteredItems?.map((item, idx) => (
                 <li
                   key={idx}
                   onClick={() => handleItemClick(item)}

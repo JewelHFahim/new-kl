@@ -13,9 +13,9 @@ import EditProduct from "../pages/warehouse/EditProduct";
 import Test from "../pages/test/Test";
 import Ledger from "../pages/ladger/Ledger";
 import Invoice from "../pages/invoice/Supplier/Invoice";
-import AddProduct from "../pages/invoice/Supplier/AddProduct";
 import AllInvoiceSupplier from "../pages/invoice/Supplier/AllInvoice";
 import DetailsInvoice from "../pages/invoice/Supplier/DetailsInvoice";
+import AddProduct from "../pages/invoice/Supplier/AddProduct";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
