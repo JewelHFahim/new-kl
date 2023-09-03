@@ -18,6 +18,8 @@ import DetailsInvoice from "../pages/invoice/Supplier/DetailsInvoice";
 import AddProduct from "../pages/invoice/Supplier/AddProduct";
 import InvoiceBuyer from "../pages/invoice/Buyer/InvoiceBuyer";
 import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
+import AllInvoiceByer from "../pages/invoice/Buyer/AllInvoice";
+import DetailsBuyerInvoice from "../pages/invoice/Buyer/DetailsBuyerInvoice";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -73,8 +75,16 @@ const router = createBrowserRouter([
         element: <DetailsInvoice />,
       },
       {
+        path: "/invoicedetails-buyer/:id",
+        element: <DetailsBuyerInvoice />,
+      },
+      {
         path: "/supplierallinvoice",
         element: <AllInvoiceSupplier />,
+      },
+      {
+        path: "/buyerallinvoice",
+        element: <AllInvoiceByer />,
       },
       {
         path: "/ledger",

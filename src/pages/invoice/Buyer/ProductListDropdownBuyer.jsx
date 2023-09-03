@@ -2,13 +2,11 @@
 import { useRef, useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
-import { addOrderedProducts } from "../../../redux/feature/buyers/buyerSlice";
 
 const ProductListDropdownBuyer = ({ selectedItem, setSelectedItem}) => {
 
   
 const {data: products} = useGetProductsQuery();
-
 
   const listboxRef = useRef();
   const [searchVal, setSearchVal] = useState("");
@@ -27,7 +25,6 @@ const {data: products} = useGetProductsQuery();
 
   const handleItemClick = (item) => {
     setSelectedItem(item);
-    // dispatchEvent(addOrderedProducts(item))
     console.log(item)
     setIsOpen(false);
   };

@@ -1,15 +1,30 @@
 import { Link } from "react-router-dom";
-import { useGetAllInvoiceSupplierQuery } from "../../../redux/feature/invoice/invoiceApi";
+import {
+  useGetAllInvoiceBuyerQuery,
+  useGetBuyersQuery,
+} from "../../../redux/feature/buyers/buyerApi";
 
-const AllInvoiceSupplier = () => {
-  const { data: supplierOrders } = useGetAllInvoiceSupplierQuery();
+const AllInvoiceByer = () => {
+  const { data: buyerOrders } = useGetAllInvoiceBuyerQuery();
 
+  // Start
+  const { data: allBuyers } = useGetBuyersQuery();
+  const mappedProducts = allBuyers?.results?.map((item) => {
+    return item;
+  });
+
+  const findProductById = (buyerId) => {
+    return mappedProducts?.find((buyer) => buyer?.id === buyerId);
+  };
+
+  console.log(findProductById);
+  // End
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8">
       <div className="max-w-lg">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
-          Supplier All Invoice
+          Buyer All Invoice
         </h3>
         <p className="text-gray-600 mt-2">
           Lorem Ipsum is simply dummy text of the
@@ -20,7 +35,7 @@ const AllInvoiceSupplier = () => {
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
               <th className="py-3 px-6">Order</th>
-              <th className="py-3 px-6">Supplier</th>
+              <th className="py-3 px-6">Buyer</th>
               <th className="py-3 px-6">Phone</th>
               <th className="py-3 px-6">Date</th>
               <th className="py-3 px-6">Status</th>
@@ -28,22 +43,30 @@ const AllInvoiceSupplier = () => {
             </tr>
           </thead>
           <tbody className="text-gray-600 divide-y">
-            {supplierOrders?.results?.map((item, idx) => (
-              <tr key={idx}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.order_number}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.supplier}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.invoice_date}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
-                <td>
-                  <Link to={`/invoicedetails/${item.id}`}><button>View</button></Link>
-                </td>
-              </tr>
-            ))}
+            {buyerOrders?.results?.map((item, idx) => {
+              const buyer = findProductById(item.customer);
+              console.log(buyer);
+              return (
+                <tr key={idx}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.order_number}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {buyer?.customer_shop_name}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.invoice_date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
+                  <td>
+                    <Link to={`/invoicedetails-buyer/${item.id}`}>
+                      <button>View</button>
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -51,4 +74,4 @@ const AllInvoiceSupplier = () => {
   );
 };
 
-export default AllInvoiceSupplier;
+export default AllInvoiceByer;

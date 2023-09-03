@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import ProductListDropdownBuyer from "./ProductListDropdownBuyer";
-// import { addBuyerProducts } from "../../../redux/feature/buyers/buyerSlice";
+import { addToInvoice } from "../../../redux/feature/buyers/buyerSlice";
 
 const AddBuyerProduct = () => {
   const navigate = useNavigate();
@@ -22,17 +22,16 @@ const AddBuyerProduct = () => {
 
   const dispatch = useDispatch();
 
+
+
   const onSubmit = (data, event) => {
     event.preventDefault();
     const clearForm = event.target;
-
-    // dispatch(addBuyerProducts({ ...data, product: selectedItem?.id }));
-
+    dispatch(addToInvoice({...data, product: selectedItem?.id  }));
     console.log({ ...data, product: selectedItem?.id });
-
     clearForm.reset();
     toast.success("Added");
-    // navigate("/invoice");
+    navigate("/invoice");
   };
 
   return (

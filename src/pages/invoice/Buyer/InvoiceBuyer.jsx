@@ -8,7 +8,10 @@ import CButton from "../../../utils/CButton";
 import { toast } from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useGetBuyersQuery, useGetSingleBuyerQuery } from "../../../redux/feature/buyers/buyerApi";
+import {
+  useGetBuyersQuery,
+  useGetSingleBuyerQuery,
+} from "../../../redux/feature/buyers/buyerApi";
 import { addBuyer } from "../../../redux/feature/buyers/buyerSlice";
 
 const InvoiceBuyer = () => {
@@ -20,10 +23,10 @@ const InvoiceBuyer = () => {
 
   const [selectedBuyer, setSelectedBuyer] = useState("");
 
-
   const { data: allBuyers } = useGetBuyersQuery();
 
-  const { buyerProducts, addedBuyer, total } = useSelector((state) => state.buyer
+  const { addedProducts, addedBuyer, total } = useSelector(
+    (state) => state.buyer
   );
 
   const { data: singleBuyer } = useGetSingleBuyerQuery(addedBuyer);
@@ -35,35 +38,39 @@ const InvoiceBuyer = () => {
     dispatch(addBuyer(selected));
   };
 
-
-
   const invoiceData = {
     phone: singleBuyer?.contact_person_phone,
     email: null,
     order_note: "",
     payment_due: true,
-    order_total: "",
+    order_total: total,
+    invoice_date: formattedDate,
     customer: singleBuyer?.id,
-    // invoice_date: formattedDate,
   };
-console.log(invoiceData);
-
+  console.log(invoiceData);
 
   const onSubmit = async (event) => {
     const clearForm = event.target;
     setIsSubmitting(true);
+
     try {
-      const response = await axios.post(
-        // "http://192.168.3.16:8000/product/order/create/", invoiceData
-        );
+      const response = await axios.post("https://jabed.pythonanywhere.com/product/order/create/", invoiceData);
 
       const generatedId = response.data.id;
 
-      const updatedCart = buyerProducts.map((item) => ({ ...item, order: generatedId }));
+      console.log(generatedId);
 
-      const postRequests = updatedCart.map(
-        // (item) => axios.post( "http://192.168.3.16:8000/product/order-product/create/", item)
-      );
+      const updatedCart = addedProducts.map((item) => ({
+        order: generatedId,
+        product: item.product,
+        quantity: item.quantity, 
+        product_price: item.product_price, 
+      }));
+
+      console.log(updatedCart, "updatedCart");
+
+      const postRequests = updatedCart.map(item => 
+        axios.post("https://jabed.pythonanywhere.com/product/order-product/create/", item));
 
       await Promise.all(postRequests);
       toast.success("Invoice Created");
@@ -149,7 +156,7 @@ console.log(invoiceData);
               </tr>
             </thead>
             <tbody className="bg-[#F5F7F6]">
-              {buyerProducts?.map((item, i) => (
+              {addedProducts?.map((item, i) => (
                 <tr key={i} className="text-[9px] font-[300]">
                   <th className="text-[10px] font-[500]"> {i + 1} </th>
                   <td>{item?.product_name}</td>

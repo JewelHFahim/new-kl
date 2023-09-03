@@ -94,7 +94,7 @@ const MobileMenu = () => {
                             </summary>
                             <ul>
                               <li>
-                                <a>
+                                <a href="/buyerallinvoice">
                                   <BiBook />
                                   All Invoice
                                 </a>
