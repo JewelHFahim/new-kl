@@ -16,6 +16,8 @@ import Invoice from "../pages/invoice/Supplier/Invoice";
 import AllInvoiceSupplier from "../pages/invoice/Supplier/AllInvoice";
 import DetailsInvoice from "../pages/invoice/Supplier/DetailsInvoice";
 import AddProduct from "../pages/invoice/Supplier/AddProduct";
+import InvoiceBuyer from "../pages/invoice/Buyer/InvoiceBuyer";
+import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -63,6 +65,10 @@ const router = createBrowserRouter([
         element: <Invoice />,
       },
       {
+        path: "/invoice-buyer",
+        element: <InvoiceBuyer />,
+      },
+      {
         path: "/invoicedetails/:id",
         element: <DetailsInvoice />,
       },
@@ -85,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "/addproductinvoice",
         element: <AddProduct />,
+      },
+      {
+        path: "/addbuyerproduct",
+        element: <AddBuyerProduct />,
       },
     ],
   },

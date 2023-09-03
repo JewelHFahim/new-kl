@@ -7,6 +7,7 @@ import invoiceSlice from "./feature/invoice/invoiceSlice";
 import testSlice from "./feature/test/testSlice";
 import orderSlice from "./feature/test/orderSlice";
 import thunk from "redux-thunk";
+import buyerSlice from "./feature/buyers/buyerSlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     invoice: invoiceSlice,
     test: testSlice,
     order: orderSlice,
+    buyer: buyerSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

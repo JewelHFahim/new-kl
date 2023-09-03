@@ -25,7 +25,6 @@ const MobileMenu = () => {
         open={isOpen}
         onClose={handleToggleDrawer}
         direction="left"
-        E
         className=""
       >
         <div>
@@ -101,7 +100,7 @@ const MobileMenu = () => {
                                 </a>
                               </li>
                               <li>
-                                <a href="/invoice">
+                                <a href="/invoice-buyer">
                                   <BiBook />
                                   Invoice
                                 </a>
