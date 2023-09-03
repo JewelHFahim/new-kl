@@ -5,71 +5,14 @@ import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import WarehouseChart from "../../components/charts/WarehouseChart";
 import { FiEdit } from "react-icons/fi";
 import ProductsTable from "./ProductsTable";
-import {
-  useGetProductsQuery,
-} from "../../redux/feature/products/productApi";
+import { useGetProductsQuery } from "../../redux/feature/products/productApi";
+import { Link } from "react-router-dom";
 
 const WareHouse = () => {
+
   const { data: products } = useGetProductsQuery();
 
-
-
-  const tableItems = [
-    {
-      date: "01/07/2023",
-      invoice: " #30542",
-      details:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting ind",
-      id: "DSD058",
-      debit: "12,000",
-      credit: "0,000",
-      balance: "12, 000",
-    },
-    {
-      date: "01/07/2023",
-      invoice: " #30542",
-      details:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting ind",
-      id: "DSD058",
-      debit: "12,000",
-      credit: "0,000",
-      balance: "12, 000",
-    },
-    {
-      date: "01/07/2023",
-      invoice: " #30542",
-      details:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting ind",
-      id: "DSD058",
-      debit: "12,000",
-      credit: "0,000",
-      balance: "12, 000",
-    },
-    {
-      date: "01/07/2023",
-      invoice: " #30542",
-      details:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting ind",
-      id: "DSD058",
-      debit: "12,000",
-      credit: "0,000",
-      balance: "12, 000",
-    },
-    {
-      date: "01/07/2023",
-      invoice: " #30542",
-      details:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting ind",
-      id: "DSD058",
-      debit: "12,000",
-      credit: "0,000",
-      balance: "12, 000",
-    },
-  ];
-
   const tableStyle = "px-6 py-4 whitespace-nowrap";
-
- 
 
   return (
     <div className="p-[24px] relative">
@@ -95,29 +38,37 @@ const WareHouse = () => {
           <thead className="border-b ">
             <tr className="divide-x">
               <th className="py-3 px-6">Date</th>
-              <th className="py-3 px-3">Invoice No.</th>
-              <th className="py-3 px-6">Details</th>
-              <th className="py-3 px-6">ID</th>
-              <th className="py-3 px-6">Debit</th>
-              <th className="py-3 px-6">Credit</th>
-              <th className="py-3 px-6">Balance</th>
+              <th className="py-3 px-3">ID</th>
+              <th className="py-3 px-6">Product</th>
+              <th className="py-3 px-6">IN/OUT</th>
+              <th className="py-3 px-6">Quantity</th>
+              <th className="py-3 px-6">Price</th>
+              <th className="py-3 px-6">Total</th>
             </tr>
           </thead>
 
           <tbody className="divide-y font-[500]">
-            {tableItems.map((item, idx) => (
+            {products?.results?.map((item, idx) => (
               <tr key={idx} className="divide-x">
-                <td className={tableStyle}> {item.date}</td>
-                <td className={tableStyle}>{item.invoice}</td>
+                <td className={tableStyle}> 03/09/23 </td>
+
+                <td className={tableStyle}> {item.id} </td>
+
                 <td className="px-2 py-4 min-w-[200px] max-w-[300px] font-[300]">
-                  {item.details}
+                  {item.product_name}
                 </td>
-                <td className={tableStyle}>{item.id}</td>
-                <td className={tableStyle}>{item.debit}</td>
-                <td className={tableStyle}>{item.credit}</td>
-                <td className={tableStyle}>{item.balance}</td>
+                <td className={tableStyle}> In </td>
+
+                <td className={tableStyle}>{item.stock}</td>
+
+                <td className={tableStyle}>{item.selling_price}</td>
+
+                <td className={tableStyle}>
+                  {item.stock * item.selling_price}
+                </td>
+
                 <td>
-                  <FiEdit className="text-lg " />
+                   <Link to={`/warehouse/${item.id}`}> <FiEdit className="text-lg " /></Link>
                 </td>
               </tr>
             ))}

@@ -2,17 +2,15 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { input_filed_style } from "../../utils/someClasses";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addToInvoice } from "../../redux/feature/invoice/invoiceSlice";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import ProductListDropdown from "../invoice/Supplier/ProductListDropdown";
-import ProductFilter from "./Test";
 
 const AddProduct = () => {
   const navigate = useNavigate();
-const {data: orderPro } = useSelector(state => state.invoice)
   const [selectedItem, setSelectedItem] = useState(null);
 
   const {
@@ -119,7 +117,6 @@ const {data: orderPro } = useSelector(state => state.invoice)
           </Link>
         </form>
       </div>
-      {/* )} */}
     </div>
   );
 };

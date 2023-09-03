@@ -154,6 +154,7 @@ const ProductsTable = () => {
 
                       <td className="h-px w-px whitespace-nowrap">
                         <div className="px-4 py-1.5">
+                          
                           <Link to={`/warehouse/${product.id}`}>
                             <button className="inline-flex items-center gap-x-1.5 text-sm text-blue-600 decoration-2 hover:underline font-medium px-2"
                             >

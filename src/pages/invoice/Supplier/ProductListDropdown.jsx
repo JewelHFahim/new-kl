@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const ProductListDropdown = ({ selectedItem, setSelectedItem}) => {
 
-  // const { data: products } = useGetProductsQuery();
   const { supplierUnderProducts: products } = useSelector(state=> state.invoice)
   
 console.log(products[0]);

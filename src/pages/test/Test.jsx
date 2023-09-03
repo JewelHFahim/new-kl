@@ -1,71 +1,23 @@
-/* eslint-disable react/prop-types */
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useGetSuppliersQuery } from "../../redux/feature/supplier/supplierApi";
-import { useDispatch, useSelector } from "react-redux";
-import { addOrderedProducts } from "../../redux/feature/invoice/invoiceSlice";
+import { createRef } from "react";
+import Pdf from "react-to-pdf";
 
-const ProductFilter = ({ selectedItem, setSelectedItem }) => {
-const dispatch = useDispatch();
+const ref = createRef();
 
-  const { orderedProducts } = useSelector(state=> state.invoice)
-
-  const [suppliers, setSuppliers] = useState([]);
-  const [searchUrl, setSearchUrl] = useState("");
-
-  const { data: supplierList } = useGetSuppliersQuery();
-
-
-  const [supplierUnderProducts, setSupplierUnderProducts] = useState([]);
-  console.log(supplierUnderProducts, "supplierUnderProducts");
-
-
-  useEffect( () => {
-    setSuppliers(supplierList?.results);
-  }, [supplierList?.results]);
-
-  const handleSupplierChange = (e) => {
-    const selected = e.target.value;
-    setSelectedItem(selected);
-    
-    const url = `http://192.168.3.16:8000/product/search-supplier/?supplier=${selected}`;
-    setSearchUrl(url);
-  };
-
-  useEffect(() => {
-    if (searchUrl) {
-      axios
-        .get(searchUrl)
-        .then((response) => {
-          // Handle the response data as needed
-          console.log(response.data);
-          setSupplierUnderProducts(response.data);
-          dispatch(addOrderedProducts(response.data))
-        })
-        .catch((error) => {
-          // Handle errors
-          console.error(error);
-        });
-    }
-  }, [searchUrl, dispatch]);
+const Test = () =>  {
 
   return (
     <div>
-      <label htmlFor="supplierDropdown">Select Supplier: </label>
-      <select
-        id="supplierDropdown"
-        onChange={handleSupplierChange}
-        value={selectedItem}
-      >
-        <option value="">All Suppliers</option>
-        {suppliers?.map((supplier) => (
-          <option key={supplier.id} value={supplier.id}>
-            {supplier.supplier_name}
-          </option>
-        ))}
-      </select>
+
+      <Pdf targetRef={ref} filename="code-example.pdf"> {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>} </Pdf>
+
+      <div ref={ref}>
+
+        <h1>Hello CodeSandbox</h1>
+        <h2>Start editing to see some magic happen!</h2>
+
+      </div>
     </div>
   );
-};
+}
 
-export default ProductFilter;
+export default Test;
