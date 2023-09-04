@@ -54,7 +54,10 @@ const InvoiceBuyer = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post("https://jabed.pythonanywhere.com/product/order/create/", invoiceData);
+      const response = await axios.post(
+        "http://192.168.3.16:8000/product/order/create/",
+        invoiceData
+      );
 
       const generatedId = response.data.id;
 
@@ -63,14 +66,18 @@ const InvoiceBuyer = () => {
       const updatedCart = addedProducts.map((item) => ({
         order: generatedId,
         product: item.product,
-        quantity: item.quantity, 
-        product_price: item.product_price, 
+        quantity: item.quantity,
+        product_price: item.product_price,
       }));
 
       console.log(updatedCart, "updatedCart");
 
-      const postRequests = updatedCart.map(item => 
-        axios.post("https://jabed.pythonanywhere.com/product/order-product/create/", item));
+      const postRequests = updatedCart.map((item) =>
+        axios.post(
+          "http://192.168.3.16:8000/product/order-product/create/",
+          item
+        )
+      );
 
       await Promise.all(postRequests);
       toast.success("Invoice Created");
@@ -84,7 +91,7 @@ const InvoiceBuyer = () => {
 
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
-      <HTitle>Invoice</HTitle>
+      <HTitle>Buyer Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">

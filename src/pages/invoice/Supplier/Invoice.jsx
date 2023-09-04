@@ -107,7 +107,7 @@ const Invoice = () => {
 
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
-      <HTitle>Invoice</HTitle>
+      <HTitle>Supplier Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">

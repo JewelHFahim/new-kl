@@ -31,7 +31,7 @@ const AddBuyerProduct = () => {
     console.log({ ...data, product: selectedItem?.id });
     clearForm.reset();
     toast.success("Added");
-    navigate("/invoice");
+    // navigate("/invoice");
   };
 
   return (

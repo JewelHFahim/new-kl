@@ -4,8 +4,6 @@ import menuReducer from "./feature/menuSlice";
 import userSlice from "./feature/userSlice";
 import apiSlice from "./api/apiSlice";
 import invoiceSlice from "./feature/invoice/invoiceSlice";
-import testSlice from "./feature/test/testSlice";
-import orderSlice from "./feature/test/orderSlice";
 import thunk from "redux-thunk";
 import buyerSlice from "./feature/buyers/buyerSlice";
 
@@ -15,8 +13,6 @@ export const store = configureStore({
     menu: menuReducer,
     user: userSlice,
     invoice: invoiceSlice,
-    test: testSlice,
-    order: orderSlice,
     buyer: buyerSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },

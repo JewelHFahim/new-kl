@@ -12,7 +12,6 @@ const themeSlice = createSlice({
     themeChange: (state) => {
       // localStorage.setItem("status", JSON.stringify(!state.status));
       // const storedStatus = JSON.parse(localStorage.getItem("status")) || false;
-
       state.status = !state.status;
     },
   },

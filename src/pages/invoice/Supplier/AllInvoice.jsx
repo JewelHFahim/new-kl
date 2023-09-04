@@ -6,16 +6,14 @@ const AllInvoiceSupplier = () => {
 
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 md:px-8">
+    <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-6">
       <div className="max-w-lg">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Supplier All Invoice
         </h3>
-        <p className="text-gray-600 mt-2">
-          Lorem Ipsum is simply dummy text of the
-        </p>
+
       </div>
-      <div className="mt-12 shadow-sm border rounded-lg overflow-x-auto">
+      <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 font-medium border-b">
             <tr>
