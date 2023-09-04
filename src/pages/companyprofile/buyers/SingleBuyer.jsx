@@ -58,11 +58,11 @@ const SingleBuyer = () => {
 
         <div className="h-[98px] w-full bg-[#F5F7F6] rounded-[14px] mt-4 p-3 font-poppins text-[#000] text-[12px]">
           <p className="flex justify-between border-b border-[#D9E9E3]">
-            <span>Code:</span> <span>BSD015-{singleBuyer?.id}</span>
+            <span>Code:</span> <span>{singleBuyer?.id}</span>
           </p>
 
           <p className="flex justify-between  mt-3">
-            <span>Address:</span> <span>H-11, R-15, BLock-G, Banasree ({singleBuyer?.customer_shop_address})</span>
+            <span>Address:</span> <span>{singleBuyer?.customer_shop_address}</span>
           </p>
         </div>
       </div>
@@ -73,10 +73,10 @@ const SingleBuyer = () => {
 
         <div className="h-[98px] w-full bg-[#F5F7F6] rounded-[14px] mt-4 p-3 font-poppins text-[#000] text-[12px]">
           <p className="flex justify-between border-b border-[#D9E9E3]">
-            Name: Contact Person Name ({singleBuyer?.contact_person_name})
+            Name: {singleBuyer?.contact_person_name}
           </p>
 
-          <p className="flex justify-between  mt-3">Phone: 017-000 00000 ({singleBuyer?.contact_person_phone})</p>
+          <p className="flex justify-between  mt-3">Phone: {singleBuyer?.contact_person_phone}</p>
         </div>
       </div>
 

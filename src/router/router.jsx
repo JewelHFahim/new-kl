@@ -10,7 +10,6 @@ import SingleSupplier from "../pages/companyprofile/suppliers/SingleSupplier";
 import BuyerList from "../pages/companyprofile/buyers/BuyerList";
 import SingleBuyer from "../pages/companyprofile/buyers/SingleBuyer";
 import EditProduct from "../pages/warehouse/EditProduct";
-import Test from "../pages/test/Test";
 import Ledger from "../pages/ladger/Ledger";
 import Invoice from "../pages/invoice/Supplier/Invoice";
 import AllInvoiceSupplier from "../pages/invoice/Supplier/AllInvoice";
@@ -20,6 +19,7 @@ import InvoiceBuyer from "../pages/invoice/Buyer/InvoiceBuyer";
 import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 import AllInvoiceByer from "../pages/invoice/Buyer/AllInvoice";
 import DetailsBuyerInvoice from "../pages/invoice/Buyer/DetailsBuyerInvoice";
+import PrivateRouter from "./PrivateRoute";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -28,9 +28,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      // <PrivateRoute>
-      <MainPage />
-      // </PrivateRoute>
+      <PrivateRouter>
+        <MainPage />
+      </PrivateRouter>
     ),
     children: [
       {
@@ -115,10 +115,6 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <ErrorPage />,
-  },
-  {
-    path: "/test",
-    element: <Test />,
   },
 ]);
 

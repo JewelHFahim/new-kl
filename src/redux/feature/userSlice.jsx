@@ -25,22 +25,6 @@ const userSlice = createSlice({
   initialState,
 
   reducers: {
-    // addEmail: (state, action) => {
-    //   state.email = localStorage.getItem("email");
-    //   state.email = action.payload;
-    //   console.log(state.email, "email");
-    // },
-    // addUser: (state, action) => {
-    //   state.email = localStorage.getItem("email");
-    //   state.username = action.payload;
-    //   console.log(state.username, "username");
-    // },
-
-    // addToken: (state, action) => {
-    //   state.token = localStorage.getItem("token");
-    //   state.token = action.payload.token;
-    // },
-
     addLogout: (state) => {
       state.token = null;
       localStorage.clear();

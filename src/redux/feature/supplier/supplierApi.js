@@ -21,6 +21,17 @@ const supplierApi = apiSlice.injectEndpoints({
       providesTags: ["keylagbe"],
     }),
 
+
+    getSupplierProducts: builder.query({
+      query: (id) => `/product/search-supplier/?supplier=${id}`,
+      providesTags: ["keylagbe"],
+    }),
+
+    searchProductBySupplier: builder.query({
+      query: (name) => `/product/search-product/?search=${name}`,
+      providesTags: ["keylagbe"],
+    }),
+
     postSupplier: builder.mutation({
       query: (data) => ({
         method: "POST",
@@ -46,6 +57,8 @@ export const {
   usePostSupplierMutation,
   useGetSingleSupplierQuery,
   useUpdateSupplierMutation,
-  useGetSuppliersOrdersDetailsQuery
+  useGetSuppliersOrdersDetailsQuery,
+  useGetSupplierProductsQuery,
+  useSearchProductBySupplierQuery
 } = supplierApi;
 export default supplierApi;

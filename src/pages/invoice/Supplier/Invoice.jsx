@@ -42,12 +42,10 @@ const Invoice = () => {
     setSelectedSupplier(selected);
     dispatch(addSuppliers(selected));
 
-    // Construct the search URL with the selected supplier
     const url = `http://192.168.3.16:8000/product/search-supplier/?supplier=${selected}`;
     setSearchUrl(url);
   };
 
-  // Perform the search when the URL changes
   useEffect(() => {
     if (searchUrl) {
       axios

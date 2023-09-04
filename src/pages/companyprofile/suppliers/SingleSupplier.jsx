@@ -4,22 +4,28 @@ import { BsPlus } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import img1 from "../../../assets/user.jpg";
 import img2 from "../../../assets/grapg.svg";
-import img3 from "../../../assets/box.jpeg";
-import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
-import { useGetSingleSupplierQuery } from "../../../redux/feature/supplier/supplierApi";
+import {
+  useGetSingleSupplierQuery,
+  useGetSupplierProductsQuery,
+  useSearchProductBySupplierQuery,
+} from "../../../redux/feature/supplier/supplierApi";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import EditSupplier from "./EditSupplier";
+import { useForm } from "react-hook-form";
+import ProductView from "../../../utils/ProductView";
 
 const SingleSupplier = () => {
+  const { register, handleSubmit } = useForm();
+  const [name, setName] = useState();
 
-  const {id} = useParams();
-  const { data } = useGetProductsQuery();
-  
-  const {data: singleSupplier } = useGetSingleSupplierQuery(id);
+  const { id } = useParams();
+
+  const { data: singleSupplier } = useGetSingleSupplierQuery(id);
+
+  const { data: products } = useGetSupplierProductsQuery(id);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -29,8 +35,21 @@ const SingleSupplier = () => {
     setIsModalOpen(false);
   };
 
+
+  const { data: filterProducts } = useSearchProductBySupplierQuery(name);
+  const onSubmit = (data) => {
+    const selected = data.pname;
+    setName(selected);
+  };
+
+  const renderProductItems = (items) => {
+    return items?.map((item, i) => <ProductView key={i} item={item} />);
+  };
+
+
   return (
     <div className="p-[24px]">
+      
       <HTitle>Supplier</HTitle>
 
       <div className="h-[267px] rounded-[14px] my-5 p-3 relative flex flex-col items-center shadow-md">
@@ -58,11 +77,12 @@ const SingleSupplier = () => {
 
         <div className="h-[98px] w-full bg-[#F5F7F6] rounded-[14px] mt-4 p-3 font-poppins text-[#000] text-[12px]">
           <p className="flex justify-between border-b border-[#D9E9E3]">
-            <span>Code:</span> <span>BSD015-{singleSupplier?.id}</span>
+            <span>Code:</span> <span>{singleSupplier?.id}</span>
           </p>
 
           <p className="flex justify-between  mt-3">
-            <span>Address:</span> <span>H-11, R-15, BLock-G, Banasree ({singleSupplier?.supplier_address})</span>
+            <span>Address:</span>{" "}
+            <span>{singleSupplier?.supplier_address}</span>
           </p>
         </div>
       </div>
@@ -73,10 +93,12 @@ const SingleSupplier = () => {
 
         <div className="h-[98px] w-full bg-[#F5F7F6] rounded-[14px] mt-4 p-3 font-poppins text-[#000] text-[12px]">
           <p className="flex justify-between border-b border-[#D9E9E3]">
-            Name: Contact Person Name ({singleSupplier?.contact_person_name})
+            Name: {singleSupplier?.contact_person_name}
           </p>
 
-          <p className="flex justify-between  mt-3">Phone: 017-000 00000 ({singleSupplier?.contact_person_phone})</p>
+          <p className="flex justify-between  mt-3">
+            Phone: {singleSupplier?.contact_person_phone}
+          </p>
         </div>
       </div>
 
@@ -113,29 +135,30 @@ const SingleSupplier = () => {
       <div className=" mt-[75px]">
         <h2 className="text-[20px] font-[600] text-textColorBlack">Products</h2>
 
-        <div className="bg-[#BAD1E8] rounded-[8px] h-[32px] mt-4 flex items-center px-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="bg-[#BAD1E8] rounded-[8px] h-[32px] mt-4 flex items-center pl-4"
+        >
           <BiSearchAlt className="text-[20px]" />
+
           <input
+            {...register("pname")}
             type="text"
             placeholder="Product Name"
             className="w-full h-8 bg-transparent px-[14px] focus:outline-none"
           />
+          <button className="px-4 py-1 rounded-lg bg-[#a5bed7] text-white">
+            Search
+          </button>
+        </form>
+
+        {/* Products with filter by name */}
+        <div className="mt-4 grid grid-cols-1 gap-y-6">
+          {filterProducts?.length !== 0
+            ? renderProductItems(filterProducts)
+            : products && renderProductItems(products)}
         </div>
 
-        <div className="mt-4 grid grid-cols-1 gap-y-6">
-          {data?.results?.map((item, i) => (
-            <div key={i} className="flex  items-center gap-3">
-              <img
-                src={img3}
-                alt=""
-                className="w-[48px] h-[48px] rounded-[8px] shadow-md"
-              />
-              <p className="text-[12px] font-worksans text-textColorBlack font-[500]">
-                {item.product_name}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
     </div>

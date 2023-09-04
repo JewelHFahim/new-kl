@@ -1,10 +1,11 @@
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
 import logo from "../../../assets/Asset 2.png";
-import { MdOutlineDashboard } from "react-icons/md";
-import { BiUser, BiBook } from "react-icons/bi";
-import { BsGraphUp } from "react-icons/bs";
-import { RiCalendar2Line } from "react-icons/ri";
+import { BiUser } from "react-icons/bi";
+import { GrOrganization } from "react-icons/gr";
+import { BsGraphUp, BsGrid1X2 } from "react-icons/bs";
+import { LuClipboardList } from "react-icons/lu";
+import { LiaStoreAltSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDrawer } from "../../../redux/feature/menuSlice";
 import { addLogout } from "../../../redux/feature/userSlice";
@@ -40,7 +41,7 @@ const MobileMenu = () => {
                 <ul className="menu menu-md rounded-lg max-w-xs w-full">
                   <li>
                     <a href="/">
-                      <MdOutlineDashboard />
+                      <BsGrid1X2 />
                       Dashboard
                     </a>
                   </li>
@@ -49,7 +50,7 @@ const MobileMenu = () => {
                   <li>
                     <details open>
                       <summary>
-                        <BiUser />
+                        <GrOrganization />
                         Company Profile
                       </summary>
 
@@ -82,26 +83,26 @@ const MobileMenu = () => {
                   <li>
                     <details open>
                       <summary>
-                        <BiBook />
+                        <LuClipboardList />
                         Invoice
                       </summary>
                       <ul>
                         <li>
                           <details open>
                             <summary>
-                              <BiBook />
+                              <LuClipboardList />
                               Buyer Invoice
                             </summary>
                             <ul>
                               <li>
                                 <a href="/buyerallinvoice">
-                                  <BiBook />
+                                  <LuClipboardList />
                                   All Invoice
                                 </a>
                               </li>
                               <li>
                                 <a href="/invoice-buyer">
-                                  <BiBook />
+                                  <LuClipboardList />
                                   Invoice
                                 </a>
                               </li>
@@ -112,19 +113,19 @@ const MobileMenu = () => {
                         <li>
                           <details open>
                             <summary>
-                              <BiBook />
+                              <LuClipboardList />
                               Supplier Invoice
                             </summary>
                             <ul>
                               <li>
                               <a href="/supplierallinvoice">
-                                  <BiBook />
+                                  <LuClipboardList />
                                   All Invoice
                                 </a>
                               </li>
                               <li>
                                 <a href="/invoice">
-                                  <BiBook />
+                                  <LuClipboardList />
                                   Invoice
                                 </a>
                               </li>
@@ -137,7 +138,7 @@ const MobileMenu = () => {
 
                   <li>
                     <a href="/warehouse">
-                      <RiCalendar2Line />
+                      <LiaStoreAltSolid />
                       Warehouse
                     </a>
                   </li>
