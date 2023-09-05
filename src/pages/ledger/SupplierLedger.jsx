@@ -3,7 +3,10 @@ import { BiSearchAlt } from "react-icons/bi";
 import Dropdown from "../../utils/dropdown/Dropdown";
 import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import { useGetAllInvoiceSupplierQuery } from "../../redux/feature/invoice/invoiceApi";
-import { useFilterSupplierByIdQuery, useGetSuppliersQuery } from "../../redux/feature/supplier/supplierApi";
+import {
+  useFilterSupplierByIdQuery,
+  useGetSuppliersQuery,
+} from "../../redux/feature/supplier/supplierApi";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
@@ -15,8 +18,6 @@ const SupplierLedger = () => {
   const { data: suppliers } = useGetSuppliersQuery();
   const { data: filterSuppler } = useFilterSupplierByIdQuery(supplierId);
 
-  console.log(filterSuppler, "filterSupplierById");
-
   const getSupplierName = (supplierId) => {
     const supplier = suppliers?.results?.find((s) => s.id === supplierId);
     return supplier ? supplier.supplier_name : "Unknown Supplier";
@@ -27,12 +28,15 @@ const SupplierLedger = () => {
     setSupplierId(data.suplierId);
   };
 
+  // filter and map
   const renderProductItems = (items) => {
     return items?.map((item, i) => (
       <tr key={i} className="divide-x">
         <td className={tableStyle}> {item.invoice_date} </td>
         <td className={tableStyle}> {item.order_number} </td>
-        <td className="px-2 py-4 min-w-[200px] max-w-[300px] opacity-60"> { item.order_note !== "" ? item.order_note : "order notes..."}</td>
+        <td className="px-2 py-4 min-w-[200px] max-w-[300px] opacity-60">
+          {item.order_note !== "" ? item.order_note : "order notes..."}
+        </td>
         <td className={tableStyle}>{getSupplierName(item.supplier)}</td>
         <td className={tableStyle}>{item.debit} 300</td>
         <td className={tableStyle}>{item.credit} 500</td>
@@ -68,7 +72,6 @@ const SupplierLedger = () => {
 
       <div className="mt-3 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-left bg-[#F5F7F6] text-[10px] font-poppins text-[#000]">
-
           <thead className="border-b bg-[#BEBDEB]">
             <tr className="divide-x">
               <th className="py-3 px-6">Date</th>
@@ -82,11 +85,9 @@ const SupplierLedger = () => {
           </thead>
 
           <tbody className="divide-y font-[500]">
-            {
-            filterSuppler?.length !== 0
+            {filterSuppler?.length !== 0
               ? renderProductItems(filterSuppler)
-              : supplierOrders && renderProductItems(supplierOrders?.results)
-              }
+              : supplierOrders && renderProductItems(supplierOrders)}
           </tbody>
         </table>
       </div>
