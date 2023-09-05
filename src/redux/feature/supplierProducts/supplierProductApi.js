@@ -4,13 +4,7 @@ const invoiceApi = apiSlice.injectEndpoints({
   
     endpoints: (builder) => ({
 
-    getBuyers: builder.query({
-      query: () => "/customer/customer-list/",
-      providesTags: ['keylagbe'],
-    }),
-
-
-    getSupplierProducts: builder.query({
+    getSupplierOrderedProducts: builder.query({
       query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
       providesTags: ['keylagbe'],
     }),
@@ -30,5 +24,5 @@ const invoiceApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const {  useGetSupplierProductsQuery, usePostSupplierProductMutation} = invoiceApi;
+export const {  useGetSupplierOrderedProductsQuery, usePostSupplierProductMutation} = invoiceApi;
 export default invoiceApi;

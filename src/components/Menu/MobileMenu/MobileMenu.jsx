@@ -11,10 +11,16 @@ import { toggleDrawer } from "../../../redux/feature/menuSlice";
 import { addLogout } from "../../../redux/feature/userSlice";
 import { AiOutlineSetting } from "react-icons/ai";
 import "./MobileMenu.css";
+import { useState } from "react";
 
 const MobileMenu = () => {
   const dispatch = useDispatch();
   const isOpen = useSelector((state) => state.menu.isOpen);
+
+    // State to manage submenu open/close
+    const [companySubMenuOpen, setCompanySubMenuOpen] = useState(false);
+    const [ledgerSubMenuOpen, setLedgerSubMenuOpen] = useState(false);
+    const [invoiceSubMenuOpen, setInvoiceSubMenuOpen] = useState(false);
 
   const handleToggleDrawer = () => {
     dispatch(toggleDrawer());
@@ -38,6 +44,7 @@ const MobileMenu = () => {
               {/* Menus */}
 
               <nav>
+
                 <ul className="menu menu-md rounded-lg max-w-xs w-full">
                   <li>
                     <a href="/">
@@ -48,7 +55,7 @@ const MobileMenu = () => {
 
                   {/* Company */}
                   <li>
-                    <details open>
+                    <details  open={companySubMenuOpen} onClick={() => setCompanySubMenuOpen(!companySubMenuOpen)}>
                       <summary>
                         <GrOrganization />
                         Company Profile
@@ -72,16 +79,35 @@ const MobileMenu = () => {
                     </details>
                   </li>
 
+                  {/* Ledger */}
                   <li>
-                    <a href="/ledger">
+                    <details open={ledgerSubMenuOpen} onClick={() => setLedgerSubMenuOpen(!ledgerSubMenuOpen)}>
+                      <summary>
                       <BsGraphUp />
-                      Ledger
-                    </a>
+                        Ledger
+                      </summary>
+                      <ul>
+                        <li>
+                          <a href="/ledger-buyers">
+                          <BsGraphUp />
+                            Buyer
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="/ledger-suppliers">
+                          <BsGraphUp />
+                            Supplier
+                          </a>
+                        </li>
+                      </ul>
+                    </details>
                   </li>
+
 
                   {/* Invoice */}
                   <li>
-                    <details open>
+                    <details  open={invoiceSubMenuOpen} onClick={() => setInvoiceSubMenuOpen(!invoiceSubMenuOpen)}>
                       <summary>
                         <LuClipboardList />
                         Invoice
@@ -150,6 +176,7 @@ const MobileMenu = () => {
                     </a>
                   </li>
                 </ul>
+                
               </nav>
 
               {/* admin profile */}

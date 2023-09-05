@@ -68,6 +68,7 @@ const Invoice = () => {
     invoice_date: formattedDate,
     payment_due: true,
     supplier: singleSupplier?.id,
+    order_total: total,
   };
 
   const onSubmit = async (event) => {
@@ -78,6 +79,7 @@ const Invoice = () => {
         "http://192.168.3.16:8000/supplier/supplier-order/create/",
         invoiceData
       );
+      console.log(invoiceData)
 
       const generatedId = response.data.id;
 

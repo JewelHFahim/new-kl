@@ -26,9 +26,9 @@ const Profile = () => {
 
           <div className="font-poppins text-center">
             <h2 className="text-[16px] font-[600] text-textColorBlack ">
-              Buyer Shop name
+               Shop name
             </h2>
-            <p className="text-[#838B88] text-[12px]">Buyer</p>
+            <p className="text-[#838B88] text-[12px]">Admin</p>
           </div>
         </div>
 

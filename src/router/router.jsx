@@ -10,7 +10,6 @@ import SingleSupplier from "../pages/companyprofile/suppliers/SingleSupplier";
 import BuyerList from "../pages/companyprofile/buyers/BuyerList";
 import SingleBuyer from "../pages/companyprofile/buyers/SingleBuyer";
 import EditProduct from "../pages/warehouse/EditProduct";
-import Ledger from "../pages/ladger/Ledger";
 import Invoice from "../pages/invoice/Supplier/Invoice";
 import AllInvoiceSupplier from "../pages/invoice/Supplier/AllInvoice";
 import DetailsInvoice from "../pages/invoice/Supplier/DetailsInvoice";
@@ -20,6 +19,8 @@ import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 import AllInvoiceByer from "../pages/invoice/Buyer/AllInvoice";
 import DetailsBuyerInvoice from "../pages/invoice/Buyer/DetailsBuyerInvoice";
 import PrivateRouter from "./PrivateRoute";
+import SupplierLedger from "../pages/ledger/SupplierLedger";
+import BuyerLedger from "../pages/ledger/BuyerLedger";
 
 // import PrivateRoute from "./PrivateRoute";
 // import SupplierList from "../pages/suppliers/SupplierList";
@@ -87,8 +88,12 @@ const router = createBrowserRouter([
         element: <AllInvoiceByer />,
       },
       {
-        path: "/ledger",
-        element: <Ledger />,
+        path: "/ledger-suppliers",
+        element: <SupplierLedger />,
+      },
+      {
+        path: "/ledger-buyers",
+        element: <BuyerLedger />,
       },
       {
         path: "/warehouse",

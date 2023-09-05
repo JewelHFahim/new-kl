@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HTitle from "../../../utils/HTitle";
 import { useForm } from "react-hook-form";
 import CButton from "../../../utils/CButton";
@@ -15,21 +15,22 @@ import {
 import { addBuyer } from "../../../redux/feature/buyers/buyerSlice";
 
 const InvoiceBuyer = () => {
+
   const [startDate, setStartDate] = useState(new Date());
   const formattedDate = startDate.toISOString().slice(0, 16);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [selectedBuyer, setSelectedBuyer] = useState("");
-
   const { data: allBuyers } = useGetBuyersQuery();
-
   const { addedProducts, addedBuyer, total } = useSelector(
     (state) => state.buyer
   );
-
   const { data: singleBuyer } = useGetSingleBuyerQuery(addedBuyer);
+
+
+
 
   // Handle supplier selection
   const handleBuyerChange = (e) => {
@@ -83,6 +84,7 @@ const InvoiceBuyer = () => {
       toast.success("Invoice Created");
       setIsSubmitting(false);
       clearForm.reset();
+      navigate("/buyerallinvoice")
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);

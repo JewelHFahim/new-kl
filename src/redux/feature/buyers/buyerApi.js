@@ -19,6 +19,10 @@ const buyerApi = apiSlice.injectEndpoints({
       providesTags: ['keylagbe'],
     }),
 
+    filterBuyerById: builder.query({
+      query: (id) => `/product/search-customer-order-number/?search=${id}`,
+      providesTags: ['keylagbe'],
+    }),
 
     getSingleOrder: builder.query({
       query: (id) => `/product/order/detail/${id}/`,
@@ -52,5 +56,5 @@ const buyerApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery } = buyerApi;
+export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery } = buyerApi;
 export default buyerApi;

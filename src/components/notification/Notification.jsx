@@ -37,16 +37,14 @@ const Notification = () => {
           <div className="py-2">
             <a
               href="#"
-              className="flex items-center px-4 py-3 -mx-2 transition-colors duration-300 transform border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700"
+              className="flex justify-center items-center px-4 py-3 -mx-2 transition-colors duration-300 transform border-b border-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700"
             >
          
               <p className="mx-2 text-sm text-gray-600 dark:text-white">
-                <span className="font-bold">Sara Salah</span> replied on the
-              
-                article . 2m
+                <span className="font-bold">1 New</span> notification
+               . 2m
               </p>
             </a>
-            {/* Rest of the notification items */}
           </div>
           <a
             href="#"

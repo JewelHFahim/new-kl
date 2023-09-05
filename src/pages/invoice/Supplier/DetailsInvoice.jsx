@@ -5,16 +5,15 @@ import {
   useGetSuppliersQuery,
 } from "../../../redux/feature/supplier/supplierApi";
 import { useParams } from "react-router-dom";
-import { useGetSupplierProductsQuery } from "../../../redux/feature/supplierProducts/supplierProductApi";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
-import { createRef } from "react";
+import { useGetSupplierOrderedProductsQuery } from "../../../redux/feature/supplierProducts/supplierProductApi";
 
 const DetailsInvoice = () => {
-  const ref = createRef();
 
   const { id } = useParams();
 
   const { data: orderDetails } = useGetSuppliersOrdersDetailsQuery(id);
+  console.log(orderDetails)
 
   const { data: allsuppliers } = useGetSuppliersQuery();
 
@@ -26,9 +25,9 @@ const DetailsInvoice = () => {
     (supplier) => supplier?.id === orderDetails?.supplier
   );
 
-  const { data: orderedProducts } = useGetSupplierProductsQuery(
-    orderDetails?.id
-  );
+  console.log(id)
+  const { data: orderedProducts } = useGetSupplierOrderedProductsQuery(id);
+  console.log(orderedProducts)
 
   const { data: allProducts } = useGetProductsQuery();
   const mappedProducts = allProducts?.results?.map((item) => {
@@ -51,7 +50,6 @@ const DetailsInvoice = () => {
     <section className="px-6 pb-5">
       <HTitle>Invoice</HTitle>
 
-      <div ref={ref}>
         <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
           <div className="flex justify-between items-center">
             <p className="text-[10px] text-[#000] font-poppins">
@@ -96,7 +94,7 @@ const DetailsInvoice = () => {
                   <th>Item</th>
                   <th>Price</th>
                   <th>Quantity</th>
-                  <th>Total</th>
+                  <th>Total </th>
                 </tr>
               </thead>
               <tbody className="bg-[#F5F7F6]">
@@ -105,11 +103,11 @@ const DetailsInvoice = () => {
                   return (
                     <tr key={i} className="text-[9px] font-[300]">
                       <th className="text-[10px] font-[500]"> {i + 1} </th>
-                      <td>{product.product_name}</td>
-                      <td>{item?.product_price}</td>
+                      <td> {product?.product_name} </td>
+                      <td>{item?.selling_price}</td>
                       <td>{item?.quantity}</td>
                       <td>
-                        {Number(item.product_price) * Number(item?.quantity)}{" "}
+                        {Number(item.product_price) * Number(item?.quantity)}
                       </td>
                     </tr>
                   );
@@ -144,7 +142,6 @@ const DetailsInvoice = () => {
         <div className="mt-6 flex  justify-center gap-4">
           <CButton>Print Invoice</CButton>
         </div>
-      </div>
 
     </section>
   );
