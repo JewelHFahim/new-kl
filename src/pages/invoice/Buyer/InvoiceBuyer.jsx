@@ -15,7 +15,6 @@ import {
 import { addBuyer } from "../../../redux/feature/buyers/buyerSlice";
 
 const InvoiceBuyer = () => {
-
   const [startDate, setStartDate] = useState(new Date());
   const formattedDate = startDate.toISOString().slice(0, 16);
   const navigate = useNavigate();
@@ -28,9 +27,6 @@ const InvoiceBuyer = () => {
     (state) => state.buyer
   );
   const { data: singleBuyer } = useGetSingleBuyerQuery(addedBuyer);
-
-
-
 
   // Handle supplier selection
   const handleBuyerChange = (e) => {
@@ -56,7 +52,7 @@ const InvoiceBuyer = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.3.16:8000/product/order/create/",
+        "https://jabed.pythonanywhere.com/product/order/create/",
         invoiceData
       );
 
@@ -75,7 +71,7 @@ const InvoiceBuyer = () => {
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "http://192.168.3.16:8000/product/order-product/create/",
+          "https://jabed.pythonanywhere.com/product/order-product/create/",
           item
         )
       );
@@ -84,7 +80,7 @@ const InvoiceBuyer = () => {
       toast.success("Invoice Created");
       setIsSubmitting(false);
       clearForm.reset();
-      navigate("/buyerallinvoice")
+      navigate("/buyerallinvoice");
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);

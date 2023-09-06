@@ -1,6 +1,5 @@
 import HTitle from "../../utils/HTitle";
 import { BiSearchAlt } from "react-icons/bi";
-import Dropdown from "../../utils/dropdown/Dropdown";
 import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import WarehouseChart from "../../components/charts/WarehouseChart";
 import { FiEdit } from "react-icons/fi";
@@ -29,7 +28,6 @@ const WareHouse = () => {
             className="w-full h-full bg-transparent focus:outline-none text-[10px] px-"
           />
         </div>
-        <Dropdown />
         <DropdownMonth />
       </div>
 

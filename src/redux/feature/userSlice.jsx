@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const loginUser = createAsyncThunk("loginUser", async (body) => {
-  const res = await fetch("http://192.168.3.16:8000/user/login/", {
+  const res = await fetch("https://jabed.pythonanywhere.com/user/login/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -32,7 +32,6 @@ const userSlice = createSlice({
   },
 
   extraReducers: {
-    
     [loginUser.pending]: (state) => {
       state.isLoading = true;
     },
@@ -51,7 +50,7 @@ const userSlice = createSlice({
         console.log(state.token);
         state.isLoading = false;
         localStorage.setItem("token", JSON.stringify(state.token));
-        const gotToken =  localStorage.getItem("token");
+        const gotToken = localStorage.getItem("token");
         state.token = gotToken;
       }
     },

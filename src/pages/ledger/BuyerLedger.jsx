@@ -1,8 +1,8 @@
 import HTitle from "../../utils/HTitle";
 import { BiSearchAlt } from "react-icons/bi";
-import Dropdown from "../../utils/dropdown/Dropdown";
 import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import {
+  useFilterBuyerByDateQuery,
   useFilterBuyerByIdQuery,
   useGetAllInvoiceBuyerQuery,
   useGetBuyersQuery,
@@ -13,10 +13,19 @@ import { useState } from "react";
 const BuyerLedger = () => {
   const { register, handleSubmit } = useForm();
   const [buyerId, setBuyerId] = useState();
+  const [startDate, setStartDate] = useState(new Date());
+  const formattedStartDate = startDate.toISOString().slice(0, 10);
+  const [endDate, setEndDate] = useState(new Date());
+  const formattedEndDate = endDate.toISOString().slice(0, 10);
 
   const { data: buyerOrders } = useGetAllInvoiceBuyerQuery();
   const { data: buyers } = useGetBuyersQuery();
   const { data: filterBuyer } = useFilterBuyerByIdQuery(buyerId);
+  const { data: filteredByDate } = useFilterBuyerByDateQuery({
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
+  });
+  console.log(filteredByDate)
 
   const getBuyerName = (buyerId) => {
     const buyer = buyers?.results?.find((s) => s.id === buyerId);
@@ -33,7 +42,10 @@ const BuyerLedger = () => {
       <tr key={i} className="divide-x">
         <td className={tableStyle}> {item.invoice_date} </td>
         <td className={tableStyle}> {item.order_number} </td>
-        <td className="px-2 py-4 min-w-[200px] max-w-[300px] opacity-60"> { item.order_note !== "" ? item.order_note : "order notes..."}</td>
+        <td className="px-2 py-4 min-w-[200px] max-w-[300px] opacity-60">
+          {" "}
+          {item.order_note !== "" ? item.order_note : "order notes..."}
+        </td>
         <td className={tableStyle}> {getBuyerName(item.customer)}</td>
         <td className={tableStyle}>{item.debit} 300</td>
         <td className={tableStyle}>{item.credit} 500</td>
@@ -63,8 +75,12 @@ const BuyerLedger = () => {
             className="w-full h-full bg-transparent focus:outline-none text-[10px] px-"
           />
         </form>
-        <Dropdown />
-        <DropdownMonth />
+        <DropdownMonth
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
       </div>
 
       <div className="mt-3 shadow-sm border rounded-lg overflow-x-auto">
@@ -83,6 +99,8 @@ const BuyerLedger = () => {
           <tbody className="divide-y font-[500]">
             {filterBuyer?.length !== 0
               ? renderProductItems(filterBuyer)
+              : filteredByDate?.length !== 0
+              ? renderProductItems(filteredByDate)
               : buyerOrders && renderProductItems(buyerOrders?.results)}
           </tbody>
         </table>

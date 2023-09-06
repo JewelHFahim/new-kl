@@ -42,7 +42,7 @@ const Invoice = () => {
     setSelectedSupplier(selected);
     dispatch(addSuppliers(selected));
 
-    const url = `http://192.168.3.16:8000/product/search-supplier/?supplier=${selected}`;
+    const url = `https://jabed.pythonanywhere.com/product/search-supplier/?supplier=${selected}`;
     setSearchUrl(url);
   };
 
@@ -76,10 +76,10 @@ const Invoice = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://192.168.3.16:8000/supplier/supplier-order/create/",
+        "https://jabed.pythonanywhere.com/supplier/supplier-order/create/",
         invoiceData
       );
-      console.log(invoiceData)
+      console.log(invoiceData);
 
       const generatedId = response.data.id;
 
@@ -90,7 +90,7 @@ const Invoice = () => {
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "http://192.168.3.16:8000/supplier/supplier-order-product/create/",
+          "https://jabed.pythonanywhere.com/supplier/supplier-order-product/create/",
           item
         )
       );

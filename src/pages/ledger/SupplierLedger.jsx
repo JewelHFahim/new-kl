@@ -1,9 +1,9 @@
 import HTitle from "../../utils/HTitle";
 import { BiSearchAlt } from "react-icons/bi";
-import Dropdown from "../../utils/dropdown/Dropdown";
 import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import { useGetAllInvoiceSupplierQuery } from "../../redux/feature/invoice/invoiceApi";
 import {
+  useFilterSupplierByDateQuery,
   useFilterSupplierByIdQuery,
   useGetSuppliersQuery,
 } from "../../redux/feature/supplier/supplierApi";
@@ -12,11 +12,22 @@ import { useState } from "react";
 
 const SupplierLedger = () => {
   const { register, handleSubmit } = useForm();
+
+  const [startDate, setStartDate] = useState(new Date());
+  const formattedStartDate = startDate.toISOString().slice(0, 10);
+  const [endDate, setEndDate] = useState(new Date());
+  const formattedEndDate = endDate.toISOString().slice(0, 10);
   const [supplierId, setSupplierId] = useState();
 
   const { data: supplierOrders } = useGetAllInvoiceSupplierQuery();
   const { data: suppliers } = useGetSuppliersQuery();
   const { data: filterSuppler } = useFilterSupplierByIdQuery(supplierId);
+  const { data: filteredByDate } = useFilterSupplierByDateQuery({
+    startDate: formattedStartDate,
+    endDate: formattedEndDate,
+  });
+
+  console.log(filteredByDate);
 
   const getSupplierName = (supplierId) => {
     const supplier = suppliers?.results?.find((s) => s.id === supplierId);
@@ -66,8 +77,12 @@ const SupplierLedger = () => {
             className="w-full h-full bg-transparent focus:outline-none text-[10px] px-"
           />
         </form>
-        <Dropdown />
-        <DropdownMonth />
+        <DropdownMonth
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+        />
       </div>
 
       <div className="mt-3 shadow-sm border rounded-lg overflow-x-auto">
@@ -85,9 +100,7 @@ const SupplierLedger = () => {
           </thead>
 
           <tbody className="divide-y font-[500]">
-            {filterSuppler?.length !== 0
-              ? renderProductItems(filterSuppler)
-              : supplierOrders && renderProductItems(supplierOrders)}
+            {filterSuppler?.length !== 0 ? renderProductItems(filterSuppler) : filteredByDate?.length !== 0 ? renderProductItems(filteredByDate) : supplierOrders && renderProductItems(supplierOrders?.results)}
           </tbody>
         </table>
       </div>

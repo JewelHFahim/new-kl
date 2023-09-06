@@ -35,6 +35,11 @@ const supplierApi = apiSlice.injectEndpoints({
       providesTags: ["keylagbe"],
     }),
 
+    filterSupplierByDate: builder.query({
+      query: ({startDate, endDate}) => `/supplier/supplier-order/?start_date=${startDate}&end_date=${endDate}`,
+      providesTags: ["keylagbe"],
+    }),
+
     postSupplier: builder.mutation({
       query: (data) => ({
         method: "POST",
@@ -63,6 +68,7 @@ export const {
   useGetSuppliersOrdersDetailsQuery,
   useGetSupplierProductsQuery,
   useSearchProductBySupplierQuery, 
-  useFilterSupplierByIdQuery
+  useFilterSupplierByIdQuery,
+  useFilterSupplierByDateQuery
 } = supplierApi;
 export default supplierApi;
