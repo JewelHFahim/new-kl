@@ -6,16 +6,13 @@ import {
 } from "../../../redux/feature/supplier/supplierApi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  addSupplierUnderProducts,
-  addSuppliers,
-} from "../../../redux/feature/invoice/invoiceSlice";
 import HTitle from "../../../utils/HTitle";
 import { useForm } from "react-hook-form";
 import CButton from "../../../utils/CButton";
 import { toast } from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { addSupplierUnderProducts, addSuppliers } from "../../../redux/feature/supplier/supplierSlice";
 
 const Invoice = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -31,7 +28,7 @@ const Invoice = () => {
   const { data: allSuppliers } = useGetSuppliersQuery();
 
   const { addedProducts, addedSupplier, total } = useSelector(
-    (state) => state.invoice
+    (state) => state.supplier
   );
 
   const { data: singleSupplier } = useGetSingleSupplierQuery(addedSupplier);

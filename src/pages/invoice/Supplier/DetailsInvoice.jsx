@@ -1,12 +1,12 @@
 import HTitle from "../../../utils/HTitle";
 import CButton from "../../../utils/CButton";
 import {
+  useGetSupplierOrderedProductsQuery,
   useGetSuppliersOrdersDetailsQuery,
   useGetSuppliersQuery,
 } from "../../../redux/feature/supplier/supplierApi";
 import { useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
-import { useGetSupplierOrderedProductsQuery } from "../../../redux/feature/supplierProducts/supplierProductApi";
 
 const DetailsInvoice = () => {
 

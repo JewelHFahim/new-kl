@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { useGetAllInvoiceSupplierQuery } from "../../../redux/feature/invoice/invoiceApi";
+import { useGetAllInvoiceSupplierQuery } from "../../../redux/feature/supplier/supplierApi";
+
 
 const AllInvoiceSupplier = () => {
   const { data: supplierOrders } = useGetAllInvoiceSupplierQuery();

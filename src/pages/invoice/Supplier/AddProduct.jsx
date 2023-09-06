@@ -3,11 +3,11 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { input_filed_style } from "../../../utils/someClasses";
 import { useDispatch } from "react-redux";
-import { addToInvoice } from "../../../redux/feature/invoice/invoiceSlice";
 import { useState } from "react";
 import ProductListDropdown from "./ProductListDropdown";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
+import { addToInvoice } from "../../../redux/feature/supplier/supplierSlice";
 
 const AddProduct = () => {
   const navigate = useNavigate();

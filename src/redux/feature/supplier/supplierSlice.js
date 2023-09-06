@@ -8,8 +8,8 @@ const initialState = {
   total: 0,
 };
 
-export const invoiceSlice = createSlice({
-  name: "invoice",
+export const supplierSlice = createSlice({
+  name: "supplier",
   initialState,
   reducers: {
     addToInvoice: (state, actions) => {
@@ -28,5 +28,5 @@ export const invoiceSlice = createSlice({
   },
 });
 
-export const { addToInvoice, addSuppliers, addOrderedProducts, addSupplierUnderProducts } = invoiceSlice.actions;
-export default invoiceSlice.reducer;
+export const { addToInvoice, addSuppliers, addOrderedProducts, addSupplierUnderProducts } = supplierSlice.actions;
+export default supplierSlice.reducer;

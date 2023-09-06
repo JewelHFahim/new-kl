@@ -208,6 +208,7 @@ const ProductsTable = () => {
                     </button>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
