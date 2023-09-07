@@ -4,12 +4,13 @@ import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import {
   useFilterBuyerByDateQuery,
   useFilterBuyerByIdQuery,
-  useGetAllInvoiceBuyerQuery,
+  useGetBuyerOrdereListQuery,
   useGetBuyersQuery,
 } from "../../redux/feature/buyers/buyerApi";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { pagination_btn_style } from "../../utils/someClasses";
 
 const BuyerLedger = () => {
   const { register, handleSubmit } = useForm();
@@ -19,7 +20,6 @@ const BuyerLedger = () => {
   const [endDate, setEndDate] = useState(new Date("2023/01/10"));
   const formattedEndDate = endDate.toISOString().slice(0, 10);
 
-  const { data: buyerOrders } = useGetAllInvoiceBuyerQuery();
   const { data: buyers } = useGetBuyersQuery();
   const { data: filterBuyer } = useFilterBuyerByIdQuery(buyerId);
   const { data: filteredByDate } = useFilterBuyerByDateQuery({
@@ -38,6 +38,16 @@ const BuyerLedger = () => {
     setBuyerId(data.buyerId);
   };
 
+
+
+    // pagination start
+    const PAGE_SIZE = 25;
+    const [currentPage, setCurrentPage] = useState(1);
+    const {data} = useGetBuyerOrdereListQuery(currentPage);
+    //end
+
+
+// filter table data display
   const renderProductItems = (items) => {
     return items?.map((item, i) => (
       <tr key={i} className="divide-x">
@@ -101,30 +111,42 @@ const BuyerLedger = () => {
               ? renderProductItems(filterBuyer)
               : filteredByDate?.length !== 0
               ? renderProductItems(filteredByDate)
-              : buyerOrders && renderProductItems(buyerOrders?.results)}
+              : data && renderProductItems(data?.results)}
           </tbody>
         </table>
       </div>
 
       {/* Pagination */}
       <div>
-        <div className="inline-flex gap-x-2">
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-          >
-            <MdArrowBackIos />
-            Prev
-          </button>
+        {data?.count > 0 && (
+          <div className="flex justify-center items-center gap-4 py-2">
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={!data?.previous}
+              className={`${
+                data?.previous ? "" : "hidden"
+              } ${pagination_btn_style} `}
+            >
+              <MdArrowBackIos />
+              Previous
+            </button>
 
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-          >
-            Next
-            <MdArrowForwardIos />
-          </button>
-        </div>
+            <span>
+              Page {currentPage} of {Math.ceil(data?.count / PAGE_SIZE)}
+            </span>
+
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={!data?.next}
+              className={` ${
+                data?.next ? "" : "hidden"
+              } ${pagination_btn_style}`}
+            >
+              Next
+              <MdArrowForwardIos />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

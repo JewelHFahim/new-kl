@@ -4,12 +4,13 @@ import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import {
   useFilterSupplierByDateQuery,
   useFilterSupplierByIdQuery,
-  useGetAllInvoiceSupplierQuery,
+  useGetSupplierOrdereListQuery,
   useGetSuppliersQuery,
 } from "../../redux/feature/supplier/supplierApi";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { pagination_btn_style } from "../../utils/someClasses";
 
 const SupplierLedger = () => {
   const { register, handleSubmit } = useForm();
@@ -20,8 +21,6 @@ const SupplierLedger = () => {
   const formattedEndDate = endDate.toISOString().slice(0, 10);
   const [supplierId, setSupplierId] = useState();
 
-  const { data: supplierOrders } = useGetAllInvoiceSupplierQuery();
-  console.log(supplierOrders)
   const { data: suppliers } = useGetSuppliersQuery();
   const { data: filterSuppler } = useFilterSupplierByIdQuery(supplierId);
   const { data: filteredByDate } = useFilterSupplierByDateQuery({
@@ -29,7 +28,11 @@ const SupplierLedger = () => {
     endDate: formattedEndDate,
   });
 
-  console.log(filteredByDate);
+  // pagination start
+  const PAGE_SIZE = 25;
+  const [currentPage, setCurrentPage] = useState(1);
+  const {data} = useGetSupplierOrdereListQuery(currentPage);
+  //end
 
   const getSupplierName = (supplierId) => {
     const supplier = suppliers?.results?.find((s) => s.id === supplierId);
@@ -45,7 +48,7 @@ const SupplierLedger = () => {
   const renderProductItems = (items) => {
     return items?.map((item, i) => (
       <tr key={i} className="divide-x">
-        <td className={tableStyle}> {(item.invoice_date)?.slice(0, 10)} </td>
+        <td className={tableStyle}> {item.invoice_date?.slice(0, 10)} </td>
         <td className={tableStyle}> {item.order_number} </td>
         <td className="px-2 py-4 min-w-[200px] max-w-[300px] opacity-60">
           {item.order_note !== "" ? item.order_note : "order notes..."}
@@ -102,32 +105,50 @@ const SupplierLedger = () => {
           </thead>
 
           <tbody className="divide-y font-[500]">
-            {filterSuppler?.length !== 0 ? renderProductItems(filterSuppler) : filteredByDate?.length !== 0 ? renderProductItems(filteredByDate) : supplierOrders && renderProductItems(supplierOrders?.results)}
+            {filterSuppler?.length !== 0
+              ? renderProductItems(filterSuppler)
+              : filteredByDate?.length !== 0
+              ? renderProductItems(filteredByDate)
+              : data && renderProductItems(data?.results)}
           </tbody>
         </table>
       </div>
 
-
       {/* Pagination */}
       <div>
-        <div className="flex justify-center gap-4 py-2">
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-          >
-            <MdArrowBackIos />
-            Prev
-          </button>
+        {data?.count > 0 && (
+          <div className="flex justify-center items-center gap-4 py-2">
 
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-slate-900 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
-          >
-            Next
-            <MdArrowForwardIos />
-          </button>
-        </div>
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={!data?.previous}
+              className={`${data?.previous ? "" : "hidden"} ${pagination_btn_style} `}
+            >
+              <MdArrowBackIos />
+              Previous
+            </button>
+
+            <span>
+              Page {currentPage} of {Math.ceil(data?.count / PAGE_SIZE)}
+            </span>
+
+
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={!data?.next}
+              className={` ${data?.next ? "" : "hidden"} ${pagination_btn_style}`}
+            >
+              Next
+              <MdArrowForwardIos />
+            </button>
+
+
+          </div>
+        )}
       </div>
+
+
+
     </div>
   );
 };

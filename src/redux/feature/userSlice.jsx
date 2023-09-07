@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const loginUser = createAsyncThunk("loginUser", async (body) => {
-  const res = await fetch("https://jabed.pythonanywhere.com/user/login/", {
+  const res = await fetch("http://192.168.3.16:8000/user/login/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

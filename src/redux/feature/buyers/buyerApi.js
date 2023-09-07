@@ -57,9 +57,14 @@ const buyerApi = apiSlice.injectEndpoints({
       invalidatesTags: ['keylagbe'],
     }),
 
+    getBuyerOrdereList: builder.query({
+      query: (currentPage) => `/product/order/list/?page_number=${currentPage}`,
+      providesTags: ['keylagbe'],
+    }),
+
     
   }),
 });
 
-export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery, useFilterBuyerByDateQuery } = buyerApi;
+export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery, useFilterBuyerByDateQuery, useGetBuyerOrdereListQuery } = buyerApi;
 export default buyerApi;

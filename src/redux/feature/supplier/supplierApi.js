@@ -68,6 +68,16 @@ const supplierApi = apiSlice.injectEndpoints({
       query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
       providesTags: ['keylagbe'],
     }),
+
+    getSupplierOrdereList: builder.query({
+      query: (currentPage) => `/supplier/supplier-order/list/?page_number=${currentPage}`,
+      providesTags: ['keylagbe'],
+    }),
+
+    getSupplierBalanceDetail: builder.query({
+      query: (id) => `/customer/customer-balance/detail/${id}/`,
+      providesTags: ['keylagbe'],
+    }),
     
   }),
 });
@@ -83,6 +93,8 @@ export const {
   useSearchProductBySupplierQuery, 
   useFilterSupplierByIdQuery,
   useFilterSupplierByDateQuery,
-  useGetSupplierOrderedProductsQuery
+  useGetSupplierOrderedProductsQuery,
+  useGetSupplierOrdereListQuery,
+  useGetSupplierBalanceDetailQuery
 } = supplierApi;
 export default supplierApi;

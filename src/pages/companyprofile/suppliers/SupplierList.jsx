@@ -62,10 +62,7 @@ const SupplierList = () => {
                     Type: <span className="font-[600]">Supplier</span>
                   </p>
                   <p className="text-[12px] text-[#7F909F]">
-                    Phone:
-                    <span className="font-[600]">
-                      {item.contact_person_phone}
-                    </span>
+                    Phone: <span className="font-[600]"> {item.contact_person_phone}</span>
                   </p>
                 </div>
                 <div className="w-[45px] h-[30px]">
