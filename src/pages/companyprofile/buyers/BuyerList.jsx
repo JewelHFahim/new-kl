@@ -6,11 +6,20 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import HTitle from "../../../utils/HTitle";
 import AddBuyer from "./AddBuyer";
-import { useGetBuyersQuery } from "../../../redux/feature/buyers/buyerApi";
+import {
+  useDeleteBuyerMutation,
+  useGetBuyersQuery,
+} from "../../../redux/feature/buyers/buyerApi";
 
 const BuyerList = () => {
   const { data: buyers } = useGetBuyersQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteBuyer] = useDeleteBuyerMutation();
+
+  const handleDelete = (id) => {
+    deleteBuyer(id);
+    console.log(id);
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -36,7 +45,6 @@ const BuyerList = () => {
       <AddBuyer isModalOpen={isModalOpen} closeModal={closeModal} />
 
       {buyers?.results?.length >= 0 ? (
-
         <div className="grid grid-cols-1 gap-[27px]">
           {buyers?.results?.map((item, i) => (
             <div
@@ -71,24 +79,24 @@ const BuyerList = () => {
               </div>
 
               <div className="h-[40%] bg-[#8875FB] flex justify-between items-center px-[32px] font-worksans">
-                <div className="">
-                  <p className="text-[12px] font-[700] text-white text-opacity-[705]">
-                    Total (Dr./Cr.)
-                  </p>
-                  <p className="text-[24px] text-[#00FFC2] font-[500] ">$167</p>
-                </div>
-
                 <Link to={`/buyer/${item?.id}`}>
                   <CButton>View Details</CButton>
                 </Link>
+
+                <button
+                  onClick={() => handleDelete(item.id)}
+                  className="border border-red-300 px-4 rounded-lg text-red-300 hover:text-white hover:bg-red-300 transform duration-200 shadow-md"
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}
         </div>
-
       ) : (
-       <p className="flex justify-center py-16"><span className="loading loading-infinity w-20 loading-l text-primary"></span>
-       </p>
+        <p className="flex justify-center py-16">
+          <span className="loading loading-infinity w-20 loading-l text-primary"></span>
+        </p>
       )}
     </div>
   );

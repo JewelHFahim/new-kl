@@ -15,9 +15,10 @@ import { pagination_btn_style } from "../../utils/someClasses";
 const SupplierLedger = () => {
   const { register, handleSubmit } = useForm();
 
-  const [startDate, setStartDate] = useState(new Date("2023/01/10"));
+  const [startDate, setStartDate] = useState(new Date());
   const formattedStartDate = startDate.toISOString().slice(0, 10);
-  const [endDate, setEndDate] = useState(new Date("2023/01/10"));
+  console.log(formattedStartDate)
+  const [endDate, setEndDate] = useState(new Date());
   const formattedEndDate = endDate.toISOString().slice(0, 10);
   const [supplierId, setSupplierId] = useState();
 
@@ -29,7 +30,7 @@ const SupplierLedger = () => {
   });
 
   // pagination start
-  const PAGE_SIZE = 25;
+  const PAGE_SIZE = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const {data} = useGetSupplierOrdereListQuery(currentPage);
   //end

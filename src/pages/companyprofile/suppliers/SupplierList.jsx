@@ -3,18 +3,23 @@ import { AiOutlinePlus } from "react-icons/ai";
 import img1 from "../../../assets/user.jpg";
 import img2 from "../../../assets/grapg.svg";
 import CButton from "../../../utils/CButton";
-
-import { useGetSuppliersQuery } from "../../../redux/feature/supplier/supplierApi";
-
+import {
+  useDeleteSupplierMutation,
+  useGetSuppliersQuery,
+} from "../../../redux/feature/supplier/supplierApi";
 import { useState } from "react";
 import AddBuyer from "./AddSupplier";
 import { Link } from "react-router-dom";
 
 const SupplierList = () => {
-
   const { data: suppliers } = useGetSuppliersQuery();
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteSupplier] = useDeleteSupplierMutation();
+
+  const handleDelete = (id) => {
+    deleteSupplier(id);
+    console.log(id)
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -62,7 +67,10 @@ const SupplierList = () => {
                     Type: <span className="font-[600]">Supplier</span>
                   </p>
                   <p className="text-[12px] text-[#7F909F]">
-                    Phone: <span className="font-[600]"> {item.contact_person_phone}</span>
+                    Phone:
+                    <span className="font-[600]">
+                      {item.contact_person_phone}
+                    </span>
                   </p>
                 </div>
                 <div className="w-[45px] h-[30px]">
@@ -71,16 +79,13 @@ const SupplierList = () => {
               </div>
 
               <div className="h-[40%] bg-[#8875FB] flex justify-between items-center px-[32px] font-worksans">
-                <div className="">
-                  <p className="text-[12px] font-[700] text-white text-opacity-[705]">
-                    Total (Dr./Cr.)
-                  </p>
-                  <p className="text-[24px] text-[#00FFC2] font-[500] ">$167</p>
-                </div>
-
                 <Link to={`/supplier/${item?.id}`}>
                   <CButton>View Details</CButton>
                 </Link>
+
+                <button onClick={()=>handleDelete(item.id)} className="border border-red-300 px-4 rounded-lg text-red-300 hover:text-white hover:bg-red-300 transform duration-200 shadow-md">
+                  Delete
+                </button>
               </div>
             </div>
           ))}

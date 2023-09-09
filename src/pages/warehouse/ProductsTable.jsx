@@ -141,7 +141,7 @@ const ProductsTable = () => {
                         </div>
                       </td>
                       <td className="h-px w-px whitespace-nowrap">
-                        <div className="px-6 py-3">{product.stock}</div>
+                        <div className={`px-6 py-3 ${product.stock <= 3 ? "text-red-700 font-bold" : ""}`}>{product.stock}</div>
                       </td>
 
                       <td className="h-px w-px whitespace-nowrap">

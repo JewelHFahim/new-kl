@@ -62,9 +62,20 @@ const buyerApi = apiSlice.injectEndpoints({
       providesTags: ['keylagbe'],
     }),
 
-    
+    getBuyerBalanceDetail: builder.query({
+      query: (id) => `/customer/search-customer-balance/?customer=${id}`,
+      providesTags: ['keylagbe'],
+    }),
+
+    deleteBuyer: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/customer/customer-delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
   }),
 });
 
-export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery, useFilterBuyerByDateQuery, useGetBuyerOrdereListQuery } = buyerApi;
+export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery, useFilterBuyerByDateQuery, useGetBuyerOrdereListQuery, useGetBuyerBalanceDetailQuery, useDeleteBuyerMutation } = buyerApi;
 export default buyerApi;

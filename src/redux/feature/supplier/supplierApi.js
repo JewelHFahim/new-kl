@@ -1,10 +1,7 @@
 import apiSlice from "../../api/apiSlice";
 
 const supplierApi = apiSlice.injectEndpoints({
-
   endpoints: (builder) => ({
-
-
     getSuppliers: builder.query({
       query: () => "/supplier/supplier-list/",
       providesTags: ["keylagbe"],
@@ -12,7 +9,7 @@ const supplierApi = apiSlice.injectEndpoints({
 
     getAllInvoiceSupplier: builder.query({
       query: () => "/supplier/supplier-order/list/",
-      providesTags: ['keylagbe'],
+      providesTags: ["keylagbe"],
     }),
 
     getSuppliersOrdersDetails: builder.query({
@@ -20,10 +17,17 @@ const supplierApi = apiSlice.injectEndpoints({
       providesTags: ["keylagbe"],
     }),
 
- 
     getSingleSupplier: builder.query({
       query: (id) => `/supplier/supplier-detail/${id}/`,
       providesTags: ["keylagbe"],
+    }),
+
+    deleteSupplier: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/supplier/supplier-delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
     }),
 
     getSupplierProducts: builder.query({
@@ -42,7 +46,8 @@ const supplierApi = apiSlice.injectEndpoints({
     }),
 
     filterSupplierByDate: builder.query({
-      query: ({startDate, endDate}) => `/supplier/supplier-order/?start_date=${startDate}&end_date=${endDate}`,
+      query: ({ startDate, endDate }) =>
+        `/supplier/supplier-order/?start_date=${startDate}&end_date=${endDate}`,
       providesTags: ["keylagbe"],
     }),
 
@@ -65,20 +70,20 @@ const supplierApi = apiSlice.injectEndpoints({
     }),
 
     getSupplierOrderedProducts: builder.query({
-      query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
-      providesTags: ['keylagbe'],
+      query: (id) => `/supplier/search-supplier-order-product/?order=${id}/`,
+      providesTags: ["keylagbe"],
     }),
 
     getSupplierOrdereList: builder.query({
-      query: (currentPage) => `/supplier/supplier-order/list/?page_number=${currentPage}`,
-      providesTags: ['keylagbe'],
+      query: (currentPage) =>
+        `/supplier/supplier-order/list/?page_number=${currentPage}/`,
+      providesTags: ["keylagbe"],
     }),
 
     getSupplierBalanceDetail: builder.query({
-      query: (id) => `/customer/customer-balance/detail/${id}/`,
-      providesTags: ['keylagbe'],
+      query: (id) => `/supplier/search-supplier-balance/?supplier=${id}/`,
+      providesTags: ["keylagbe"],
     }),
-    
   }),
 });
 
@@ -90,11 +95,12 @@ export const {
   useGetAllInvoiceSupplierQuery,
   useGetSuppliersOrdersDetailsQuery,
   useGetSupplierProductsQuery,
-  useSearchProductBySupplierQuery, 
+  useSearchProductBySupplierQuery,
   useFilterSupplierByIdQuery,
   useFilterSupplierByDateQuery,
   useGetSupplierOrderedProductsQuery,
   useGetSupplierOrdereListQuery,
-  useGetSupplierBalanceDetailQuery
+  useGetSupplierBalanceDetailQuery,
+  useDeleteSupplierMutation,
 } = supplierApi;
 export default supplierApi;

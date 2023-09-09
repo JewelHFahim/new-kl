@@ -70,7 +70,7 @@ const MobileMenu = () => {
                         </li>
 
                         <li>
-                          <a href="suppliers">
+                          <a href="/suppliers">
                             <BiUser />
                             Supplier
                           </a>

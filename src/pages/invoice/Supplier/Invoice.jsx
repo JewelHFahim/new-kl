@@ -16,8 +16,10 @@ import {
   addSupplierUnderProducts,
   addSuppliers,
 } from "../../../redux/feature/supplier/supplierSlice";
+import ToggleSupplier from "./ToggleSupplier";
 
 const Invoice = () => {
+  const [isChecked, setIsChecked] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const formattedDate = startDate.toISOString().slice(0, 16);
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ const Invoice = () => {
     setSelectedSupplier(selected);
     dispatch(addSuppliers(selected));
 
-    const url = `http://192.168.3.16:8000/product/search-supplier/?supplier=${selected}`;
+    const url = `http://192.168.3.36:8000/product/search-supplier/?supplier=${selected}`;
     setSearchUrl(url);
   };
 
@@ -66,7 +68,7 @@ const Invoice = () => {
     order_note: "",
     status: "New",
     invoice_date: formattedDate,
-    payment_due: true,
+    payment_due: isChecked,
     supplier: singleSupplier?.id,
     order_total: total,
   };
@@ -76,7 +78,7 @@ const Invoice = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://192.168.3.16:8000/supplier/supplier-order/create/",
+        "http://192.168.3.36:8000/supplier/supplier-order/create/",
         invoiceData
       );
       console.log(invoiceData);
@@ -90,7 +92,7 @@ const Invoice = () => {
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "http://192.168.3.16:8000/supplier/supplier-order-product/create/",
+          "http://192.168.3.36:8000/supplier/supplier-order-product/create/",
           item
         )
       );
@@ -120,6 +122,7 @@ const Invoice = () => {
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
+              dateFormat="dd-MM-yyyy"
             />
           </p>
         </div>
@@ -157,6 +160,10 @@ const Invoice = () => {
           </p>
         </div>
       </section>
+
+      <div className="mt-2 flex justify-end">
+        <ToggleSupplier isChecked={isChecked} setIsChecked={setIsChecked} />
+      </div>
 
       <div className="mt-[35px] flex justify-end">
         <Link to="/addproductinvoice">

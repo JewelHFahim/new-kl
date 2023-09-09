@@ -8,12 +8,20 @@ import ProductListDropdown from "./ProductListDropdown";
 import { Link, useNavigate } from "react-router-dom";
 import { BsArrowLeft } from "react-icons/bs";
 import { addToInvoice } from "../../../redux/feature/supplier/supplierSlice";
+import { useEffect } from "react";
 
 const AddProduct = () => {
   const navigate = useNavigate();
 
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const [clickedProductName, setClickedProductName] = useState(false);
+  const [clickedProductPrice, setClickedProductPrice] = useState(false);
+  const [clickedQuantity, setClickedQuantity] = useState(false);
+
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
   const {
     register,
     handleSubmit,
@@ -32,6 +40,19 @@ const AddProduct = () => {
     toast.success("Added");
     navigate("/invoice");
   };
+
+  useEffect(() => {
+    if (selectedItem) {
+      setClickedProductName(false);
+      setClickedProductPrice(false);
+      setClickedQuantity(false);
+
+      // Set default values when selectedItem changes
+      setProductName(selectedItem.product_name);
+      setProductPrice(selectedItem.selling_price);
+      setQuantity(selectedItem.stock);
+    }
+  }, [selectedItem]);
 
   return (
     <div>
@@ -66,12 +87,33 @@ const AddProduct = () => {
               )}
             </div>
 
-            <div>
+            {/* <div>
               <label className="text-gray-700 dark:text-gray-200">
                 Selling Price
               </label>
               <input
                 defaultValue={selectedItem?.selling_price}
+                {...register("product_price", { required: true })}
+                type="number"
+                className={input_filed_style}
+              />
+              {errors.product_price && (
+                <span className="text-sm text-red-300">
+                  This field is required !
+                </span>
+              )}
+            </div> */}
+
+            <div>
+              <label className="text-gray-700 dark:text-gray-200">
+                Selling Price
+              </label>
+              <input
+                value={productPrice}
+                onChange={(e) => {
+                  setProductPrice(e.target.value);
+                  setClickedProductPrice(true);
+                }}
                 {...register("product_price", { required: true })}
                 type="number"
                 className={input_filed_style}
@@ -118,7 +160,6 @@ const AddProduct = () => {
           </Link>
         </form>
       </div>
-  
     </div>
   );
 };

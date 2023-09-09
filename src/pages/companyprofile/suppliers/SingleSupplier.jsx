@@ -6,6 +6,7 @@ import img1 from "../../../assets/user.jpg";
 import img2 from "../../../assets/grapg.svg";
 import {
   useGetSingleSupplierQuery,
+  useGetSupplierBalanceDetailQuery,
   useGetSupplierProductsQuery,
   useSearchProductBySupplierQuery,
 } from "../../../redux/feature/supplier/supplierApi";
@@ -25,6 +26,8 @@ const SingleSupplier = () => {
 
   const { data: products } = useGetSupplierProductsQuery(id);
 
+  const { data: singleSupplierBalance } = useGetSupplierBalanceDetailQuery(id);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -34,7 +37,6 @@ const SingleSupplier = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
 
   const { data: filterProducts } = useSearchProductBySupplierQuery(name);
   const onSubmit = (data) => {
@@ -46,10 +48,8 @@ const SingleSupplier = () => {
     return items?.map((item, i) => <ProductView key={i} item={item} />);
   };
 
-
   return (
     <div className="p-[24px]">
-      
       <HTitle>Supplier</HTitle>
 
       <div className="h-[267px] rounded-[14px] my-5 p-3 relative flex flex-col items-center shadow-md">
@@ -114,21 +114,33 @@ const SingleSupplier = () => {
           </div>
         </div>
 
-        <div className="h-[50%] bg-textColorBlack flex justify-between items-center px-[70px] font-worksans">
-          <div className="">
-            <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
-              Debit
-            </p>
-            <p className="text-[24px] text-[#CCEABB] font-[500] ">$167</p>
-          </div>
+        <>
+          {singleSupplierBalance && singleSupplierBalance?.results?.map((item, i) => (
+            <div
+              key={i}
+              className="h-[50%] bg-textColorBlack flex justify-between items-center px-[70px] font-worksans"
+            >
+              <div className="">
+                <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
+                  Debit
+                </p>
+                <p className="text-[24px] text-[#CCEABB] font-[500] ">
+                  ৳ {item?.credit_balance}
+                </p>
+              </div>
 
-          <div className="">
-            <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
-              Credit
-            </p>
-            <p className="text-[24px] text-[#CCEABB] font-[500] ">$167</p>
-          </div>
-        </div>
+              <div className="">
+                <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
+                  Credit
+                </p>
+                <p className="text-[24px] text-[#CCEABB] font-[500] ">
+                  ৳ {item?.total_balance}
+                </p>
+              </div>
+            </div>
+          ))}
+        </>
+
       </div>
 
       {/* Products */}
@@ -158,9 +170,7 @@ const SingleSupplier = () => {
             ? renderProductItems(filterProducts)
             : products && renderProductItems(products)}
         </div>
-
       </div>
-
     </div>
   );
 };

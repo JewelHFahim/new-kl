@@ -3,12 +3,11 @@ import { LuEdit } from "react-icons/lu";
 import { BsPlus } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import img1 from "../../../assets/user.jpg";
-import img2 from "../../../assets/grapg.svg";
 import img3 from "../../../assets/box.jpeg";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { useGetSingleBuyerQuery } from "../../../redux/feature/buyers/buyerApi";
+import { useGetBuyerBalanceDetailQuery, useGetSingleBuyerQuery } from "../../../redux/feature/buyers/buyerApi";
 import EditBuyer from "./EditBuyer";
 
 const SingleBuyer = () => {
@@ -17,6 +16,8 @@ const SingleBuyer = () => {
   const { data } = useGetProductsQuery();
   
   const {data: singleBuyer } = useGetSingleBuyerQuery(id);
+
+  const { data: singleBuyerBalance } = useGetBuyerBalanceDetailQuery(id);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -80,34 +81,32 @@ const SingleBuyer = () => {
         </div>
       </div>
 
-      {/* Balance */}
-      <div className="mt-7 h-[140px] rounded-[24px] flex flex-col overflow-hidden shadow-md">
-        <div className="h-[50%] flex flex-row justify-between p-[24px] bg-[#F6F6F6]">
-          <h3 className="text-textColorBlack text-[16px] font-[600] font-worksans ">
-            Balance
-          </h3>
+      <>
+          {singleBuyerBalance && singleBuyerBalance?.results?.map((item, i) => (
+            <div
+              key={i}
+              className="h-[50%] bg-textColorBlack flex justify-between items-center px-[70px] font-worksans"
+            >
+              <div className="">
+                <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
+                  Debit
+                </p>
+                <p className="text-[24px] text-[#CCEABB] font-[500] ">
+                ৳ {item?.credit_balance}
+                </p>
+              </div>
 
-          <div className="w-[40px] h-[30px]">
-            <img src={img2} alt="img" className="w-full h-full" />
-          </div>
-        </div>
-
-        <div className="h-[50%] bg-textColorBlack flex justify-between items-center px-[70px] font-worksans">
-          <div className="">
-            <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
-              Debit
-            </p>
-            <p className="text-[24px] text-[#CCEABB] font-[500] ">$167</p>
-          </div>
-
-          <div className="">
-            <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
-              Credit
-            </p>
-            <p className="text-[24px] text-[#CCEABB] font-[500] ">$167</p>
-          </div>
-        </div>
-      </div>
+              <div className="">
+                <p className="text-[12px] font-[300] text-white text-opacity-[70%]">
+                  Credit
+                </p>
+                <p className="text-[24px] text-[#CCEABB] font-[500] ">
+                ৳ {item?.total_balance}
+                </p>
+              </div>
+            </div>
+          ))}
+        </>
 
       {/* Products */}
       <div className=" mt-[75px]">

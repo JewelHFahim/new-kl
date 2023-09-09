@@ -13,8 +13,10 @@ import {
   useGetSingleBuyerQuery,
 } from "../../../redux/feature/buyers/buyerApi";
 import { addBuyer } from "../../../redux/feature/buyers/buyerSlice";
+import ToggleBuyer from "./ToggleBuyer";
 
 const InvoiceBuyer = () => {
+  const [isChecked, setIsChecked] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const formattedDate = startDate.toISOString().slice(0, 16);
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const InvoiceBuyer = () => {
     phone: singleBuyer?.contact_person_phone,
     email: null,
     order_note: "",
-    payment_due: true,
+    payment_due: isChecked,
     order_total: total,
     invoice_date: formattedDate,
     customer: singleBuyer?.id,
@@ -52,13 +54,11 @@ const InvoiceBuyer = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.3.16:8000/product/order/create/",
+        "http://192.168.3.36:8000/product/order/create/",
         invoiceData
       );
 
       const generatedId = response.data.id;
-
-      console.log(generatedId);
 
       const updatedCart = addedProducts.map((item) => ({
         order: generatedId,
@@ -67,11 +67,9 @@ const InvoiceBuyer = () => {
         product_price: item.product_price,
       }));
 
-      console.log(updatedCart, "updatedCart");
-
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "http://192.168.3.16:8000/product/order-product/create/",
+          "http://192.168.3.36:8000/product/order-product/create/",
           item
         )
       );
@@ -139,6 +137,10 @@ const InvoiceBuyer = () => {
           </p>
         </div>
       </section>
+
+      <div className="mt-2 flex justify-end">
+        <ToggleBuyer isChecked={isChecked} setIsChecked={setIsChecked} />
+      </div>
 
       <div className="mt-[35px] flex justify-end">
         <Link to="/addbuyerproduct">

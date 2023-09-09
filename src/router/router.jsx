@@ -22,8 +22,6 @@ import PrivateRouter from "./PrivateRoute";
 import SupplierLedger from "../pages/ledger/SupplierLedger";
 import BuyerLedger from "../pages/ledger/BuyerLedger";
 
-// import PrivateRoute from "./PrivateRoute";
-// import SupplierList from "../pages/suppliers/SupplierList";
 
 const router = createBrowserRouter([
   {
