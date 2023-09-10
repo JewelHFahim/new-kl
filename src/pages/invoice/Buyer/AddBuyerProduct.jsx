@@ -1,34 +1,63 @@
-/* eslint-disable react/prop-types */
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { useState, useEffect } from "react";
 import { input_filed_style } from "../../../utils/someClasses";
-import { useDispatch } from "react-redux";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { BsArrowLeft } from "react-icons/bs";
 import ProductListDropdownBuyer from "./ProductListDropdownBuyer";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "react-hot-toast";
+import { BsArrowLeft } from "react-icons/bs";
 import { addToInvoice } from "../../../redux/feature/buyers/buyerSlice";
 
 const AddBuyerProduct = () => {
+
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    if (selectedItem) {
+      setProductName(selectedItem.product_name);
+      setProductPrice(selectedItem.selling_price);
+      setQuantity(selectedItem.stock);
+    }
+  }, [selectedItem]);
 
+  const handleProductNameChange = (e) => {
+    setProductName(e.target.value);
+  };
 
+  const handleProductPriceChange = (e) => {
+    setProductPrice(e.target.value);
+  };
 
-  const onSubmit = (data, event) => {
-    event.preventDefault();
-    const clearForm = event.target;
-    dispatch(addToInvoice({...data, product: selectedItem?.id  }));
-    console.log({ ...data, product: selectedItem?.id });
+  const handleQuantityChange = (e) => {
+    setQuantity(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const clearForm = e.target;
+
+    const product = {
+      product_name: productName,
+      product_price: productPrice,
+      quantity,
+      product: selectedItem?.id,
+    };
+
+    dispatch(addToInvoice(product));
+    console.log({
+      productName,
+      productPrice,
+      quantity,
+      product: selectedItem?.id,
+    });
     clearForm.reset();
     toast.success("Added");
     navigate("/invoice-buyer");
@@ -38,68 +67,45 @@ const AddBuyerProduct = () => {
     <div>
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-[30%] transform duration-300 z-10 ">
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit}
           className="bg-white p-8 rounded max-w-4xl mx-auto dark:bg-gray-800 border drop-shadow-lg relative"
         >
-          <h2 className="text-lg font-semibold text-gray-700 capitalize dark:text-white text-center">
-            Add Product
-          </h2>
-
-          <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-            <div>
-              <label className="text-gray-700 dark:text-gray-200 flex">
-                Product Name:
-                <ProductListDropdownBuyer
-                  selectedItem={selectedItem}
-                  setSelectedItem={setSelectedItem}
-                />
-              </label>
-              <input
-                defaultValue={selectedItem?.product_name}
-                {...register(".product_name", { required: true })}
-                type="text"
-                className={input_filed_style}
+          <div>
+            <label className="text-gray-700 dark:text-gray-200 flex">
+              Product Name:
+              <ProductListDropdownBuyer
+                selectedItem={selectedItem}
+                setSelectedItem={setSelectedItem}
               />
-              {errors.product_name && (
-                <span className="text-sm text-red-300">
-                  This field is required !
-                </span>
-              )}
-            </div>
+            </label>
+            <input
+              value={productName}
+              onChange={handleProductNameChange}
+              type="text"
+              className={input_filed_style}
+            />
+          </div>
 
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Selling Price
-              </label>
-              <input
-                defaultValue={selectedItem?.selling_price}
-                {...register("product_price", { required: true })}
-                type="number"
-                className={input_filed_style}
-              />
-              {errors.product_price && (
-                <span className="text-sm text-red-300">
-                  This field is required !
-                </span>
-              )}
-            </div>
+          <div>
+            <label className="text-gray-700 dark:text-gray-200">
+              Selling Price
+            </label>
+            <input
+              value={productPrice}
+              onChange={handleProductPriceChange}
+              type="number"
+              className={input_filed_style}
+            />
+          </div>
 
-            <div>
-              <label className="text-gray-700 dark:text-gray-200">
-                Quantity
-              </label>
-              <input
-                defaultValue={selectedItem?.stock}
-                {...register("quantity", { required: true })}
-                type="number"
-                className={input_filed_style}
-              />
-              {errors.quantity && (
-                <span className="text-sm text-red-300">
-                  This field is required !
-                </span>
-              )}
-            </div>
+          <div>
+            <label className="text-gray-700 dark:text-gray-200">Quantity</label>
+            <input
+              value={quantity}
+              onChange={handleQuantityChange}
+              type="number"
+              className={input_filed_style}
+            />
           </div>
 
           <div className="flex justify-end mt-6 z-0">
@@ -109,17 +115,16 @@ const AddBuyerProduct = () => {
             >
               Submit
             </button>
-          </div>
 
-          <Link
-            to="/invoice-buyer"
-            className="flex items-center gap-2 text-lg text-primary absolute bottom-0 left-0 m-2"
-          >
-            <BsArrowLeft /> Back To Invoice
-          </Link>
+            <Link
+              to="/invoice-buyer"
+              className="flex items-center gap-2 text-sm text-primary absolute bottom-0 left-0 m-2 mt-4"
+            >
+              <BsArrowLeft /> Back To Invoice
+            </Link>
+          </div>
         </form>
       </div>
-  
     </div>
   );
 };

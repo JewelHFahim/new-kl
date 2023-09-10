@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import AddBuyer from "./AddSupplier";
 import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const SupplierList = () => {
   const { data: suppliers } = useGetSuppliersQuery();
@@ -18,7 +19,7 @@ const SupplierList = () => {
 
   const handleDelete = (id) => {
     deleteSupplier(id);
-    console.log(id)
+    toast.error('Deleted Supplier')
   };
 
   const openModal = () => {

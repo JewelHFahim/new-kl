@@ -13,14 +13,14 @@ import EditProduct from "../pages/warehouse/EditProduct";
 import Invoice from "../pages/invoice/Supplier/Invoice";
 import AllInvoiceSupplier from "../pages/invoice/Supplier/AllInvoice";
 import DetailsInvoice from "../pages/invoice/Supplier/DetailsInvoice";
-import AddProduct from "../pages/invoice/Supplier/AddProduct";
 import InvoiceBuyer from "../pages/invoice/Buyer/InvoiceBuyer";
-import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 import AllInvoiceByer from "../pages/invoice/Buyer/AllInvoice";
 import DetailsBuyerInvoice from "../pages/invoice/Buyer/DetailsBuyerInvoice";
 import PrivateRouter from "./PrivateRoute";
 import SupplierLedger from "../pages/ledger/SupplierLedger";
 import BuyerLedger from "../pages/ledger/BuyerLedger";
+import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
+import AddSupplierProduct from "../pages/invoice/Supplier/AddProduct";
 
 
 const router = createBrowserRouter([
@@ -103,12 +103,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/addproductinvoice",
-        element: <AddProduct />,
+        element: <AddSupplierProduct />,
       },
       {
         path: "/addbuyerproduct",
         element: <AddBuyerProduct />,
       },
+
     ],
   },
   {

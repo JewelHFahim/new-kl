@@ -25,11 +25,8 @@ const Invoice = () => {
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [selectedSupplier, setSelectedSupplier] = useState("");
-
   const [searchUrl, setSearchUrl] = useState("");
-
   const { data: allSuppliers } = useGetSuppliersQuery();
 
   const { addedProducts, addedSupplier, total } = useSelector(

@@ -18,7 +18,7 @@ const ToggleBtn = ({isChecked, setIsChecked}) => {
           onChange={handleCheckboxChange}
           className='sr-only'
         />
-        <span className='hidden label lg:flex items-center text-sm font-medium text-black'>
+        <span className=' label lg:flex items-center text-sm font-medium text-black'>
           Credit
         </span>
 
@@ -34,7 +34,7 @@ const ToggleBtn = ({isChecked, setIsChecked}) => {
           ></span>
         </span>
 
-        <span className='hidden label lg:flex items-center text-sm font-medium text-black'>
+        <span className=' label lg:flex items-center text-sm font-medium text-black'>
           Debit
         </span>
       </label>

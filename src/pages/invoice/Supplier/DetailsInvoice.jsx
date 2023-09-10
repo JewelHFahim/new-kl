@@ -12,8 +12,11 @@ const DetailsInvoice = () => {
 
   const { id } = useParams();
 
+  const { data: orderedProducts } = useGetSupplierOrderedProductsQuery(id);
+  console.log(orderedProducts, "??");
+
   const { data: orderDetails } = useGetSuppliersOrdersDetailsQuery(id);
-  console.log(orderDetails)
+  console.log(orderDetails);
 
   const { data: allsuppliers } = useGetSuppliersQuery();
 
@@ -25,9 +28,8 @@ const DetailsInvoice = () => {
     (supplier) => supplier?.id === orderDetails?.supplier
   );
 
-  console.log(id)
-  const { data: orderedProducts } = useGetSupplierOrderedProductsQuery(id);
-  console.log(orderedProducts)
+
+  
 
   const { data: allProducts } = useGetProductsQuery();
   const mappedProducts = allProducts?.results?.map((item) => {

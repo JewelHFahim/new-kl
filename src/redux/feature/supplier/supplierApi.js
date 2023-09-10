@@ -69,8 +69,9 @@ const supplierApi = apiSlice.injectEndpoints({
       invalidatesTags: ["keylagbe"],
     }),
 
+
     getSupplierOrderedProducts: builder.query({
-      query: (id) => `/supplier/search-supplier-order-product/?order=${id}/`,
+      query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
       providesTags: ["keylagbe"],
     }),
 

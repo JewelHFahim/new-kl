@@ -132,6 +132,9 @@ const DetailsBuyerInvoice = () => {
         <div className="mt-6 flex  justify-center gap-4">
           <CButton>Print Invoice</CButton>
         </div>
+
+        
+
   
 
     </section>

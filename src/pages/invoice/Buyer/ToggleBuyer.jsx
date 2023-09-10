@@ -11,14 +11,14 @@ const ToggleBuyer = ({isChecked, setIsChecked}) => {
   
     return (
       <>
-        <label className='themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center'>
+        <label className='themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center border'>
           <input
             type='checkbox'
             checked={isChecked}
             onChange={handleCheckboxChange}
             className='sr-only'
           />
-          <span className='hidden label lg:flex items-center text-sm font-medium text-black'>
+          <span className=' label flex items-center text-[10px]  font-medium text-black'>
             Credit
           </span>
   
@@ -34,7 +34,7 @@ const ToggleBuyer = ({isChecked, setIsChecked}) => {
             ></span>
           </span>
   
-          <span className='hidden label lg:flex items-center text-sm font-medium text-black'>
+          <span className=' label flex items-center text-[10px] font-medium text-black'>
             Debit
           </span>
         </label>

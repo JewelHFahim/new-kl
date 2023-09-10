@@ -17,7 +17,7 @@ export const loginUser = createAsyncThunk("loginUser", async (body) => {
     },
     body: JSON.stringify(body),
   });
-  console.log(res)
+  console.log(res);
   return await res.json();
 });
 
