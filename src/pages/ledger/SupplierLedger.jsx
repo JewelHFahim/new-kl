@@ -4,6 +4,7 @@ import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import {
   useFilterSupplierByDateQuery,
   useFilterSupplierByIdQuery,
+  useGetSupplierBalanceListQuery,
   useGetSupplierOrdereListQuery,
   useGetSuppliersQuery,
 } from "../../redux/feature/supplier/supplierApi";
@@ -17,7 +18,7 @@ const SupplierLedger = () => {
 
   const [startDate, setStartDate] = useState(new Date());
   const formattedStartDate = startDate.toISOString().slice(0, 10);
-  console.log(formattedStartDate)
+  console.log(formattedStartDate);
   const [endDate, setEndDate] = useState(new Date());
   const formattedEndDate = endDate.toISOString().slice(0, 10);
   const [supplierId, setSupplierId] = useState();
@@ -28,16 +29,27 @@ const SupplierLedger = () => {
     startDate: formattedStartDate,
     endDate: formattedEndDate,
   });
+  console.log(filteredByDate);
+  const { data: supplierBalanceList } = useGetSupplierBalanceListQuery();
 
   // pagination start
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 15;
   const [currentPage, setCurrentPage] = useState(1);
-  const {data} = useGetSupplierOrdereListQuery(currentPage);
+  console.log(currentPage);
+  const { data } = useGetSupplierOrdereListQuery(currentPage);
+  console.log(data);
   //end
 
   const getSupplierName = (supplierId) => {
     const supplier = suppliers?.results?.find((s) => s.id === supplierId);
     return supplier ? supplier.supplier_name : "Unknown Supplier";
+  };
+
+  const getSupplierBalance = (supplierId) => {
+    const supplier = supplierBalanceList?.results?.find(
+      (s) => s.supplier === supplierId
+    );
+    return supplier ? supplier : "Unknown Supplier";
   };
 
   const onSubmit = (data) => {
@@ -55,9 +67,15 @@ const SupplierLedger = () => {
           {item.order_note !== "" ? item.order_note : "order notes..."}
         </td>
         <td className={tableStyle}>{getSupplierName(item.supplier)}</td>
-        <td className={tableStyle}>{item.debit} 300</td>
-        <td className={tableStyle}>{item.credit} 500</td>
-        <td className={tableStyle}>{item.balance} 200</td>
+        <td className={tableStyle}>
+          {getSupplierBalance(item.supplier).debit_balance}{" "}
+        </td>
+        <td className={tableStyle}>
+          {getSupplierBalance(item.supplier).credit_balance}{" "}
+        </td>
+        <td className={tableStyle}>
+          {getSupplierBalance(item.supplier).total_balance}
+        </td>
       </tr>
     ));
   };
@@ -99,16 +117,16 @@ const SupplierLedger = () => {
               <th className="py-3 px-3">Invoice No.</th>
               <th className="py-3 px-6">Details</th>
               <th className="py-3 px-6">Name</th>
-              <th className="py-3 px-6">Debit</th>
-              <th className="py-3 px-6">Credit</th>
-              <th className="py-3 px-6">Balance</th>
+              <th className="py-3 px-6">Debit(tk)</th>
+              <th className="py-3 px-6">Credit(tk)</th>
+              <th className="py-3 px-6">Balance(tk)</th>
             </tr>
           </thead>
 
           <tbody className="divide-y font-[500]">
             {filterSuppler?.length !== 0
               ? renderProductItems(filterSuppler)
-              : filteredByDate?.length !== 0
+              : filteredByDate?.results?.length !== 0
               ? renderProductItems(filteredByDate)
               : data && renderProductItems(data?.results)}
           </tbody>
@@ -119,11 +137,12 @@ const SupplierLedger = () => {
       <div>
         {data?.count > 0 && (
           <div className="flex justify-center items-center gap-4 py-2">
-
             <button
               onClick={() => setCurrentPage(currentPage - 1)}
               disabled={!data?.previous}
-              className={`${data?.previous ? "" : "hidden"} ${pagination_btn_style} `}
+              className={`${
+                data?.previous ? "" : "hidden"
+              } ${pagination_btn_style} `}
             >
               <MdArrowBackIos />
               Previous
@@ -133,22 +152,19 @@ const SupplierLedger = () => {
               Page {currentPage} of {Math.ceil(data?.count / PAGE_SIZE)}
             </span>
 
-
             <button
               onClick={() => setCurrentPage(currentPage + 1)}
               disabled={!data?.next}
-              className={` ${data?.next ? "" : "hidden"} ${pagination_btn_style}`}
+              className={` ${
+                data?.next ? "" : "hidden"
+              } ${pagination_btn_style}`}
             >
               Next
               <MdArrowForwardIos />
             </button>
-
-
           </div>
         )}
       </div>
-
-
 
     </div>
   );

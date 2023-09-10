@@ -1,24 +1,34 @@
 import HTitle from "../../../utils/HTitle";
 import CButton from "../../../utils/CButton";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
-import {  useGetAllOrderedProductsQuery, useGetBuyersQuery, useGetSingleOrderQuery } from "../../../redux/feature/buyers/buyerApi";
+import {
+  useGetAllOrderedProductsQuery,
+  useGetBuyersQuery,
+  useGetSingleOrderQuery,
+} from "../../../redux/feature/buyers/buyerApi";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import Loading from "../../../utils/Loading";
 
 const DetailsBuyerInvoice = () => {
-
   const { id } = useParams();
   const { data: orderDetails } = useGetSingleOrderQuery(id);
-  const { data: allBuyers} = useGetBuyersQuery();
-  const mappedBuyer = allBuyers?.results?.map((item) => { return item });
-  const buyer = mappedBuyer?.find((buyer) => buyer?.id === orderDetails?.customer);
+  const { data: allBuyers } = useGetBuyersQuery();
+  const mappedBuyer = allBuyers?.results?.map((item) => {
+    return item;
+  });
+  const buyer = mappedBuyer?.find(
+    (buyer) => buyer?.id === orderDetails?.customer
+  );
 
-
-
-  
-  const { data: orderedProducts } = useGetAllOrderedProductsQuery( orderDetails?.id );
+  const { data: orderedProducts, isLoading } = useGetAllOrderedProductsQuery(
+    orderDetails?.id
+  );
 
   const { data: allProducts } = useGetProductsQuery();
-  const mappedProducts = allProducts?.results?.map((item) => { return item });
+  const mappedProducts = allProducts?.results?.map((item) => {
+    return item;
+  });
   const findProductById = (productId) => {
     return mappedProducts?.find((product) => product?.id === productId);
   };
@@ -36,42 +46,43 @@ const DetailsBuyerInvoice = () => {
     <section className="px-6 pb-5">
       <HTitle>Buyer Invoice</HTitle>
 
-        <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
+      <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
+        <div className="flex justify-between items-center">
+          <p className="text-[10px] text-[#000] font-poppins">
+            <span className="font-[600]">Invoice#</span>
+            <span>{orderDetails?.order_number}</span>
+          </p>
 
-          <div className="flex justify-between items-center">
-            <p className="text-[10px] text-[#000] font-poppins">
-              <span className="font-[600]">Invoice#</span>
-              <span>{orderDetails?.order_number}</span>
-            </p>
+          <p className="text-[10px] text-[#000] font-poppins flex gap-2">
+            <span className="font-[600]">Date:</span>
+            {orderDetails?.invoice_date}
+          </p>
+        </div>
 
-            <p className="text-[10px] text-[#000] font-poppins flex gap-2">
-              <span className="font-[600]">Date:</span>
-              {orderDetails?.invoice_date}
-            </p>
+        <div className="mt-[10px] font-poppins h-[133px] rounded-[14px] bg-[#F5F7F6] p-3">
+          <p className="text-[12px] font-[700] text-[#000] border-b pb-1 flex items-center">
+            Invoice To:
+          </p>
+
+          <div className="mt-3 text-[10px] text-[#000] flex items-center gap-2">
+            <p className="font-[600]">Name: </p>
+            <span>{buyer?.customer_shop_name}</span>
           </div>
 
-          <div className="mt-[10px] font-poppins h-[133px] rounded-[14px] bg-[#F5F7F6] p-3">
-            <p className="text-[12px] font-[700] text-[#000] border-b pb-1 flex items-center">
-              Invoice To:
-            </p>
+          <p className="py-1 text-[10px] text-[#000] flex gap-2">
+            <span className="font-[600]">Phone : </span>
+            <span>{buyer?.contact_person_phone}</span>
+          </p>
 
-            <div className="mt-3 text-[10px] text-[#000] flex items-center gap-2">
-              <p className="font-[600]">Name: </p>
-              <span>{buyer?.customer_shop_name}</span>
-            </div>
-
-            <p className="py-1 text-[10px] text-[#000] flex gap-2">
-              <span className="font-[600]">Phone : </span>
-              <span>{buyer?.contact_person_phone}</span>
-            </p>
-
-            <p className="text-[10px] text-[#000] flex gap-2">
-              <span className="font-[600]">Address :</span>
-              <span>{buyer?.customer_shop_address}</span>
-            </p>
-          </div>
-        </section>
-
+          <p className="text-[10px] text-[#000] flex gap-2">
+            <span className="font-[600]">Address :</span>
+            <span>{buyer?.customer_shop_address}</span>
+          </p>
+        </div>
+      </section>
+      {isLoading ? (
+        <Loading />
+      ) : (
         <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] mt-6">
           <div className="overflow-x-auto">
             <table className="table font-poppins text-[#000]">
@@ -86,7 +97,6 @@ const DetailsBuyerInvoice = () => {
               </thead>
               <tbody className="bg-[#F5F7F6]">
                 {orderedProducts?.map((item, i) => {
-
                   const product = findProductById(item.product);
                   return (
                     <tr key={i} className="text-[9px] font-[300]">
@@ -99,9 +109,7 @@ const DetailsBuyerInvoice = () => {
                       </td>
                     </tr>
                   );
-                }
-                
-                )}
+                })}
               </tbody>
             </table>
           </div>
@@ -128,15 +136,16 @@ const DetailsBuyerInvoice = () => {
             </div>
           </div>
         </div>
-
-        <div className="mt-6 flex  justify-center gap-4">
-          <CButton>Print Invoice</CButton>
-        </div>
-
-        
-
-  
-
+      )}
+      <div className="mt-6 flex  justify-center gap-4">
+        {/* <CButton>Print Invoice</CButton> */}
+        <Link to="/buyerallinvoice">
+          <button className="text-primary flex items-center gap-2">
+            {" "}
+            <FaArrowLeftLong /> Back All Invoice
+          </button>
+        </Link>
+      </div>
     </section>
   );
 };

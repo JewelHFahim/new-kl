@@ -54,7 +54,7 @@ const InvoiceBuyer = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.3.36:8000/product/order/create/",
+        "http://192.168.3.36:8000product/order/create/",
         invoiceData
       );
 
@@ -69,7 +69,7 @@ const InvoiceBuyer = () => {
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "http://192.168.3.36:8000/product/order-product/create/",
+          "http://192.168.3.36:8000product/order-product/create/",
           item
         )
       );
@@ -148,8 +148,6 @@ const InvoiceBuyer = () => {
             Add Product
           </button>
         </Link>
- 
-
       </div>
 
       <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] ">

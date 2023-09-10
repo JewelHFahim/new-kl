@@ -10,6 +10,7 @@ import {
   useDeleteBuyerMutation,
   useGetBuyersQuery,
 } from "../../../redux/feature/buyers/buyerApi";
+import Loading from "../../../utils/Loading";
 
 const BuyerList = () => {
   const { data: buyers } = useGetBuyersQuery();
@@ -94,9 +95,7 @@ const BuyerList = () => {
           ))}
         </div>
       ) : (
-        <p className="flex justify-center py-16">
-          <span className="loading loading-infinity w-20 loading-l text-primary"></span>
-        </p>
+        <Loading/>
       )}
     </div>
   );

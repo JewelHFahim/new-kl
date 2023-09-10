@@ -76,15 +76,22 @@ const supplierApi = apiSlice.injectEndpoints({
     }),
 
     getSupplierOrdereList: builder.query({
-      query: (currentPage) =>
-        `/supplier/supplier-order/list/?page_number=${currentPage}/`,
+      query: (currentPage) =>`/supplier/supplier-order/list/?page_number=${currentPage}`,
       providesTags: ["keylagbe"],
     }),
+
 
     getSupplierBalanceDetail: builder.query({
       query: (id) => `/supplier/search-supplier-balance/?supplier=${id}/`,
       providesTags: ["keylagbe"],
     }),
+
+    getSupplierBalanceList: builder.query({
+      query: () => `/supplier/search-supplier-balance/`,
+      providesTags: ["keylagbe"],
+    }),
+
+
   }),
 });
 
@@ -103,5 +110,6 @@ export const {
   useGetSupplierOrdereListQuery,
   useGetSupplierBalanceDetailQuery,
   useDeleteSupplierMutation,
+  useGetSupplierBalanceListQuery
 } = supplierApi;
 export default supplierApi;

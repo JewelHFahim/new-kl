@@ -11,6 +11,7 @@ import { useState } from "react";
 import AddBuyer from "./AddSupplier";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import Loading from "../../../utils/Loading";
 
 const SupplierList = () => {
   const { data: suppliers } = useGetSuppliersQuery();
@@ -92,9 +93,7 @@ const SupplierList = () => {
           ))}
         </div>
       ) : (
-        <p className="flex justify-center py-16">
-          <span className="loading loading-infinity w-20 loading-l text-primary"></span>
-        </p>
+        <Loading/>
       )}
     </div>
   );

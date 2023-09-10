@@ -4,6 +4,7 @@ import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import {
   useFilterBuyerByDateQuery,
   useFilterBuyerByIdQuery,
+  useGetAllBuyerBalanceQuery,
   useGetBuyerOrdereListQuery,
   useGetBuyersQuery,
 } from "../../redux/feature/buyers/buyerApi";
@@ -26,11 +27,21 @@ const BuyerLedger = () => {
     startDate: formattedStartDate,
     endDate: formattedEndDate,
   });
+
   console.log(filteredByDate);
+
+  const { data: buyerBalanceList } = useGetAllBuyerBalanceQuery();
 
   const getBuyerName = (buyerId) => {
     const buyer = buyers?.results?.find((s) => s.id === buyerId);
     return buyer ? buyer.customer_shop_name : "Unknown Buyer";
+  };
+
+  const getBalance = (buyerId) => {
+    const buyer = buyerBalanceList?.results?.find(
+      (s) => s.customer === buyerId
+    );
+    return buyer ? buyer : "Unknown Buyer";
   };
 
   const onSubmit = (data) => {
@@ -38,16 +49,15 @@ const BuyerLedger = () => {
     setBuyerId(data.buyerId);
   };
 
+  // pagination start
+  const PAGE_SIZE = 15;
+  const [currentPage, setCurrentPage] = useState(1);
+  console.log(currentPage);
+  const { data } = useGetBuyerOrdereListQuery(currentPage);
+  console.log(data);
+  //end
 
-
-    // pagination start
-    const PAGE_SIZE = 25;
-    const [currentPage, setCurrentPage] = useState(1);
-    const {data} = useGetBuyerOrdereListQuery(currentPage);
-    //end
-
-
-// filter table data display
+  // filter table data display
   const renderProductItems = (items) => {
     return items?.map((item, i) => (
       <tr key={i} className="divide-x">
@@ -57,9 +67,16 @@ const BuyerLedger = () => {
           {item.order_note !== "" ? item.order_note : "order notes..."}
         </td>
         <td className={tableStyle}> {getBuyerName(item.customer)}</td>
-        <td className={tableStyle}>{item.debit} 300</td>
-        <td className={tableStyle}>{item.credit} 500</td>
-        <td className={tableStyle}>{item.balance} 200</td>
+
+        <td className={tableStyle}>
+          {getBalance(item.customer).debit_balance}
+        </td>
+        <td className={tableStyle}>
+          {getBalance(item.customer).credit_balance}
+        </td>
+        <td className={tableStyle}>
+          {getBalance(item.customer).total_balance}
+        </td>
       </tr>
     ));
   };
@@ -101,17 +118,26 @@ const BuyerLedger = () => {
               <th className="py-3 px-3">Invoice No.</th>
               <th className="py-3 px-6">Details</th>
               <th className="py-3 px-6">Name</th>
-              <th className="py-3 px-6">Debit</th>
-              <th className="py-3 px-6">Credit</th>
-              <th className="py-3 px-6">Balance</th>
+              <th className="py-3 px-6">Debit(tk)</th>
+              <th className="py-3 px-6">Credit(tk)</th>
+              <th className="py-3 px-6">Balance(tk)</th>
             </tr>
           </thead>
+
           <tbody className="divide-y font-[500]">
-            {filterBuyer?.length !== 0
-              ? renderProductItems(filterBuyer)
-              : filteredByDate?.length !== 0
-              ? renderProductItems(filteredByDate)
-              : data && renderProductItems(data?.results)}
+            
+            {
+              filterBuyer?.length !== 0
+              ? 
+              renderProductItems(filterBuyer)
+              : 
+              filteredByDate?.results?.length !== 0
+              ? 
+              renderProductItems(filteredByDate)
+              : 
+              data && renderProductItems(data?.results)
+              }
+
           </tbody>
         </table>
       </div>

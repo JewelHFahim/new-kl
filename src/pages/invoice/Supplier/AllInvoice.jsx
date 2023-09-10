@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import { useGetAllInvoiceSupplierQuery } from "../../../redux/feature/supplier/supplierApi";
-
+import Loading from "../../../utils/Loading";
 
 const AllInvoiceSupplier = () => {
-  const { data: supplierOrders } = useGetAllInvoiceSupplierQuery();
-
+  const { data: supplierOrders, isLoading } = useGetAllInvoiceSupplierQuery();
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-6">
@@ -12,7 +11,6 @@ const AllInvoiceSupplier = () => {
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Supplier All Invoice
         </h3>
-
       </div>
       <div className="mt-8 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-sm text-left">
@@ -26,24 +24,33 @@ const AllInvoiceSupplier = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody className="text-gray-600 divide-y">
-            {supplierOrders?.results?.map((item, idx) => (
-              <tr key={idx}>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.order_number}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.supplier}</td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {item.invoice_date}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
-                <td>
-                  <Link to={`/invoicedetails/${item.id}`}><button>View</button></Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+
+          {isLoading ? (
+           <Loading />
+          ) : (
+            <tbody className="text-gray-600 divide-y">
+              {supplierOrders?.results?.map((item, idx) => (
+                <tr key={idx}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.order_number}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.supplier}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    {item.invoice_date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
+                  <td>
+                    <Link to={`/invoicedetails/${item.id}`}>
+                      <button>View</button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
         </table>
       </div>
     </div>

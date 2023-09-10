@@ -3,9 +3,10 @@ import {
   useGetAllInvoiceBuyerQuery,
   useGetBuyersQuery,
 } from "../../../redux/feature/buyers/buyerApi";
+import Loading from "../../../utils/Loading";
 
 const AllInvoiceByer = () => {
-  const { data: buyerOrders } = useGetAllInvoiceBuyerQuery();
+  const { data: buyerOrders, isLoading } = useGetAllInvoiceBuyerQuery();
 
   // Start
   const { data: allBuyers } = useGetBuyersQuery();
@@ -22,7 +23,6 @@ const AllInvoiceByer = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-6">
-
       <div className="max-w-lg">
         <h3 className="text-gray-800 text-xl font-bold sm:text-2xl">
           Buyer All Invoice
@@ -41,32 +41,41 @@ const AllInvoiceByer = () => {
               <th></th>
             </tr>
           </thead>
-          <tbody className="text-gray-600 divide-y">
-            {buyerOrders?.results?.map((item, idx) => {
-              const buyer = findProductById(item.customer);
-              console.log(buyer);
-              return (
-                <tr key={idx}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.order_number}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {buyer?.customer_shop_name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {item.invoice_date}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
-                  <td>
-                    <Link to={`/invoicedetails-buyer/${item.id}`}>
-                      <button>View</button>
-                    </Link>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <tbody className="text-gray-600 divide-y">
+              {buyerOrders?.results?.map((item, idx) => {
+                const buyer = findProductById(item.customer);
+                console.log(buyer);
+                return (
+                  <tr key={idx}>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.order_number}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {buyer?.customer_shop_name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.phone}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.invoice_date}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {item.status}
+                    </td>
+                    <td>
+                      <Link to={`/invoicedetails-buyer/${item.id}`}>
+                        <button>View</button>
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
         </table>
       </div>
     </div>
