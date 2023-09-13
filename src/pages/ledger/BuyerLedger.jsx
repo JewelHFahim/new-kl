@@ -157,6 +157,63 @@ const BuyerLedger = () => {
     sortByCreditBalance(data?.results);
   };
 
+  // Sorting By Debit Balance
+  const [sortDebitBalance, setSortDebitBalance] = useState("asc");
+  const [sortedDebitBalance, setSortedDebitBalance] = useState([]);
+
+  const sortByDebitBalance = (dataToSort) => {
+    if (sortDebitBalance === "asc") {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getBalance(a.customer).debit_balance -
+          getBalance(b.customer).debit_balance
+      );
+      setSortedDebitBalance(sorted);
+      setSortDebitBalance("desc");
+    } else {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getBalance(b.customer).debit_balance -
+          getBalance(a.customer).debit_balance
+      );
+      setSortedDebitBalance(sorted);
+      setSortDebitBalance("asc");
+    }
+  };
+
+  const handleSortByDebitBalance = () => {
+    sortByDebitBalance(data?.results);
+  };
+
+
+  // Sorting By Debit Balance
+  const [sortBalance, setSortBalance] = useState("asc");
+  const [sortedBalance, setSortedBalance] = useState([]);
+
+  const sortByBalance = (dataToSort) => {
+    if (sortBalance === "asc") {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getBalance(a.customer).total_balance -
+          getBalance(b.customer).total_balance
+      );
+      setSortedBalance(sorted);
+      setSortBalance("desc");
+    } else {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getBalance(b.customer).total_balance -
+          getBalance(a.customer).total_balance
+      );
+      setSortedBalance(sorted);
+      setSortBalance("asc");
+    }
+  };
+
+  const handleSortByBalance = () => {
+    sortByBalance(data?.results);
+  };
+
   // end
 
   return (
@@ -191,42 +248,40 @@ const BuyerLedger = () => {
           <thead className="border-b bg-[#BEBDEB]">
             <tr className="divide-x">
               <th className="py-3 px-6">Date</th>
+
               <th className="py-3 px-3 flex items-center" onClick={handleSort}>
-                Invoice No.
-                {sortOrder === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
+                Invoice No. {sortOrder === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
               </th>
+
               <th className="py-3 px-6">Details</th>
-              <th
-                className="py-3 px-6 flex items-center"
-                onClick={handleSortByName}
-              >
-                Name
-                {sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
+
+              <th className="py-3 px-6 flex items-center" onClick={handleSortByName}>
+                Name {sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
               </th>
-              <th className="py-3 px-6">Debit(tk)</th>
-              <th
-                className="py-3 px-6 flex items-center"
-                onClick={handleSortByCreditBalance}
-              >
-                Credit(tk){" "}
-                {sortedCreditBalance === "asc" ? (
-                  <IoIosArrowUp />
-                ) : (
-                  <IoIosArrowDown />
-                )}
+
+              <th className="py-3 px-6" onClick={handleSortByDebitBalance}> 
+               <p className="flex items-center"> Debit(tk) <span>{sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />} </span></p>
               </th>
-              <th className="py-3 px-6">Balance(tk)</th>
+
+              <th className="py-3 px-6 flex items-center" onClick={handleSortByCreditBalance}>
+                Credit(tk) {sortedCreditBalance === "asc" ? ( <IoIosArrowUp />) : ( <IoIosArrowDown />)}
+              </th>
+
+              <th className="py-3 px-6" onClick={handleSortByBalance}>
+                <p className="flex items-center"> Balance(tk) <span>{sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />} </span></p>
+
+                </th>
             </tr>
           </thead>
 
           <tbody className="divide-y font-[500]">
             {(filterBuyer?.length > 0 && renderProductItems(filterBuyer)) ||
-              (filteredByDate?.length > 0 &&
-                renderProductItems(filteredByDate)) ||
-              (sortedData.length !== 0 && renderProductItems(sortedData)) ||
-              (sortedName.length !== 0 && renderProductItems(sortedName)) ||
-              (sortedCreditBalance.length !== 0 &&
-                renderProductItems(sortedCreditBalance)) ||
+              (filteredByDate?.length > 0 && renderProductItems(filteredByDate)) ||
+              (sortedData.length > 0 && renderProductItems(sortedData)) ||
+              (sortedName.length > 0 && renderProductItems(sortedName)) ||
+              (sortedCreditBalance.length > 0 && renderProductItems(sortedCreditBalance)) ||
+              (sortedDebitBalance.length > 0 && renderProductItems(sortedDebitBalance)) ||
+              (sortedBalance.length > 0 && renderProductItems(sortedBalance)) ||
               renderProductItems(data?.results)}
           </tbody>
         </table>
