@@ -185,7 +185,6 @@ const BuyerLedger = () => {
     sortByDebitBalance(data?.results);
   };
 
-
   // Sorting By Debit Balance
   const [sortBalance, setSortBalance] = useState("asc");
   const [sortedBalance, setSortedBalance] = useState([]);
@@ -216,6 +215,48 @@ const BuyerLedger = () => {
 
   // end
 
+
+  const theadsDatas = [
+    {
+      title: "Date",
+      function: "",
+      condition: "",
+    },
+    {
+      title: "Invoice No.",
+      function: handleSort,
+      condition: sortOrder,
+    },
+    {
+      title: "Details",
+      function: "",
+      condition: "",
+    },
+    {
+      title: "Name",
+      function: handleSortByName,
+      condition: sortedName,
+    },
+
+    {
+      title: "Debit(tk)",
+      function: handleSortByDebitBalance,
+      condition: sortedDebitBalance,
+    },
+
+    {
+      title: "Credit(tk)",
+      function: handleSortByCreditBalance,
+      condition: sortedCreditBalance,
+    },
+
+    {
+      title: "Balance(tk)",
+      function: handleSortByBalance,
+      condition: sortedBalance,
+    },
+  ];
+
   return (
     <div className="px-[24px] relative h-screen">
       <div className="mt-4">
@@ -245,34 +286,22 @@ const BuyerLedger = () => {
 
       <div className="mt-3 shadow-sm border rounded-lg overflow-x-auto">
         <table className="w-full table-auto text-left bg-[#F5F7F6] text-[10px] font-poppins text-[#000]">
+          
           <thead className="border-b bg-[#BEBDEB]">
             <tr className="divide-x">
-              <th className="py-3 px-6">Date</th>
-
-              <th className="py-3 px-3 flex items-center" onClick={handleSort}>
-                Invoice No. {sortOrder === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
-              </th>
-
-              <th className="py-3 px-6">Details</th>
-
-              <th className="py-3 px-6 flex items-center" onClick={handleSortByName}>
-                Name {sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
-              </th>
-
-              <th className="py-3 px-6" onClick={handleSortByDebitBalance}> 
-               <p className="flex items-center"> Debit(tk) <span>{sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />} </span></p>
-              </th>
-
-              <th className="py-3 px-6 flex items-center" onClick={handleSortByCreditBalance}>
-                Credit(tk) {sortedCreditBalance === "asc" ? ( <IoIosArrowUp />) : ( <IoIosArrowDown />)}
-              </th>
-
-              <th className="py-3 px-6" onClick={handleSortByBalance}>
-                <p className="flex items-center"> Balance(tk) <span>{sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />} </span></p>
-
+              {
+              theadsDatas.map((item, i) => (
+                <th key={i} className="py-3 px-6" onClick={item.function} >
+                  <p className="flex items-center"> {item.title}
+                  <span> { item.condition !== ""  &&
+                   <>{item.condition === "asc" ? ( <IoIosArrowUp /> ) : ( <IoIosArrowDown />)}</>
+                  }
+                    </span>
+                  </p>
                 </th>
+              ))}
             </tr>
-          </thead>
+            </thead>
 
           <tbody className="divide-y font-[500]">
             {(filterBuyer?.length > 0 && renderProductItems(filterBuyer)) ||
@@ -284,6 +313,7 @@ const BuyerLedger = () => {
               (sortedBalance.length > 0 && renderProductItems(sortedBalance)) ||
               renderProductItems(data?.results)}
           </tbody>
+
         </table>
       </div>
 
