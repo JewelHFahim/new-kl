@@ -123,12 +123,23 @@ const SupplierLedger = () => {
             </tr>
           </thead>
 
-          <tbody className="divide-y font-[500]">
+          {/* <tbody className="divide-y font-[500]">
             {filterSuppler?.length !== 0
               ? renderProductItems(filterSuppler)
               : filteredByDate?.results?.length !== 0
               ? renderProductItems(filteredByDate)
               : data && renderProductItems(data?.results)}
+          </tbody> */}
+
+          <tbody className="divide-y font-[500]">
+            {filterSuppler?.length !== 0
+              ? renderProductItems(filterSuppler)
+              : filteredByDate?.results?.length !== 0
+              ? renderProductItems(filteredByDate)
+              : startDate && endDate // Check if a date range is selected
+              ? renderProductItems(filteredByDate) // Display filteredByDate when a date range is selected
+              : data && renderProductItems(data?.results)}{" "}
+            {/* Display data?.results by default */}
           </tbody>
         </table>
       </div>
@@ -165,7 +176,6 @@ const SupplierLedger = () => {
           </div>
         )}
       </div>
-
     </div>
   );
 };

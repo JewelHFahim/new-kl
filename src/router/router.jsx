@@ -27,9 +27,9 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <PrivateRouter>
+      // <PrivateRouter>
         <MainPage />
-      </PrivateRouter>
+      // </PrivateRouter>
     ),
     children: [
       {
