@@ -1,5 +1,6 @@
 import HTitle from "../../utils/HTitle";
 import { BiSearchAlt } from "react-icons/bi";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import DropdownMonth from "../../utils/dropdown/DropdownMonth";
 import {
   useFilterBuyerByDateQuery,
@@ -28,8 +29,6 @@ const BuyerLedger = () => {
     endDate: formattedEndDate,
   });
 
-  console.log(filteredByDate);
-
   const { data: buyerBalanceList } = useGetAllBuyerBalanceQuery();
 
   const getBuyerName = (buyerId) => {
@@ -52,9 +51,7 @@ const BuyerLedger = () => {
   // pagination start
   const PAGE_SIZE = 15;
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(currentPage);
   const { data } = useGetBuyerOrdereListQuery(currentPage);
-  console.log(data);
   //end
 
   // filter table data display
@@ -83,6 +80,85 @@ const BuyerLedger = () => {
 
   const tableStyle = "px-6 py-4 whitespace-nowrap";
 
+  // Sorting By Order Number
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [sortedData, setSortedData] = useState([]);
+
+  // Sorting By Order Number
+  const sortByOrderNumber = () => {
+    if (sortOrder === "asc") {
+      const sorted = [...data?.results].sort((a, b) =>
+        a.order_number.localeCompare(b.order_number)
+      );
+      setSortedData(sorted);
+      setSortOrder("desc");
+    } else {
+      const sorted = [...data?.results].sort((a, b) =>
+        b.order_number.localeCompare(a.order_number)
+      );
+      setSortedData(sorted);
+      setSortOrder("asc");
+    }
+  };
+
+  const handleSort = () => {
+    sortByOrderNumber();
+  };
+
+  // Sorting By Name
+  const [sortName, setSortName] = useState("asc");
+  const [sortedName, setSortedName] = useState([]);
+
+  const sortByName = (dataToSort) => {
+    if (sortName === "asc") {
+      const sorted = [...dataToSort].sort((a, b) =>
+        getBuyerName(a.customer).localeCompare(getBuyerName(b.customer))
+      );
+      setSortedName(sorted);
+      setSortName("desc");
+    } else {
+      const sorted = [...dataToSort].sort((a, b) =>
+        getBuyerName(b.customer).localeCompare(getBuyerName(a.customer))
+      );
+      setSortedName(sorted);
+      setSortName("asc");
+    }
+  };
+
+  const handleSortByName = () => {
+    sortByName(data?.results);
+  };
+
+  // Sorting By Credit Balance
+  const [sortCreditBalance, setSortCreditBalance] = useState("asc");
+  const [sortedCreditBalance, setSortedCreditBalance] = useState([]);
+
+  const sortByCreditBalance = (dataToSort) => {
+    if (sortCreditBalance === "asc") {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getBalance(a.customer).credit_balance -
+          getBalance(b.customer).credit_balance
+      );
+      setSortedCreditBalance(sorted);
+      setSortCreditBalance("desc");
+    } else {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getBalance(b.customer).credit_balance -
+          getBalance(a.customer).credit_balance
+      );
+      setSortedCreditBalance(sorted);
+      setSortCreditBalance("asc");
+    }
+  };
+
+  const handleSortByCreditBalance = () => {
+    sortByCreditBalance(data?.results);
+  };
+
+  // end
+
   return (
     <div className="px-[24px] relative h-screen">
       <div className="mt-4">
@@ -99,7 +175,7 @@ const BuyerLedger = () => {
             type="text"
             {...register("buyerId")}
             placeholder="Insert Code/ID"
-            className="w-full h-full bg-transparent focus:outline-none text-[10px] px-"
+            className="w-full h-full text-black font-semibold bg-transparent focus:outline-none text-[10px] px-"
           />
         </form>
         <DropdownMonth
@@ -115,29 +191,43 @@ const BuyerLedger = () => {
           <thead className="border-b bg-[#BEBDEB]">
             <tr className="divide-x">
               <th className="py-3 px-6">Date</th>
-              <th className="py-3 px-3">Invoice No.</th>
+              <th className="py-3 px-3 flex items-center" onClick={handleSort}>
+                Invoice No.
+                {sortOrder === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
+              </th>
               <th className="py-3 px-6">Details</th>
-              <th className="py-3 px-6">Name</th>
+              <th
+                className="py-3 px-6 flex items-center"
+                onClick={handleSortByName}
+              >
+                Name
+                {sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}
+              </th>
               <th className="py-3 px-6">Debit(tk)</th>
-              <th className="py-3 px-6">Credit(tk)</th>
+              <th
+                className="py-3 px-6 flex items-center"
+                onClick={handleSortByCreditBalance}
+              >
+                Credit(tk){" "}
+                {sortedCreditBalance === "asc" ? (
+                  <IoIosArrowUp />
+                ) : (
+                  <IoIosArrowDown />
+                )}
+              </th>
               <th className="py-3 px-6">Balance(tk)</th>
             </tr>
           </thead>
 
           <tbody className="divide-y font-[500]">
-            
-            {
-              filterBuyer?.length !== 0
-              ? 
-              renderProductItems(filterBuyer)
-              : 
-              filteredByDate?.results?.length !== 0
-              ? 
-              renderProductItems(filteredByDate)
-              : 
-              data && renderProductItems(data?.results)
-              }
-
+            {(filterBuyer?.length > 0 && renderProductItems(filterBuyer)) ||
+              (filteredByDate?.length > 0 &&
+                renderProductItems(filteredByDate)) ||
+              (sortedData.length !== 0 && renderProductItems(sortedData)) ||
+              (sortedName.length !== 0 && renderProductItems(sortedName)) ||
+              (sortedCreditBalance.length !== 0 &&
+                renderProductItems(sortedCreditBalance)) ||
+              renderProductItems(data?.results)}
           </tbody>
         </table>
       </div>
