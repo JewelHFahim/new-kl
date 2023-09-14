@@ -22,14 +22,13 @@ import BuyerLedger from "../pages/ledger/BuyerLedger";
 import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 import AddSupplierProduct from "../pages/invoice/Supplier/AddProduct";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      // <PrivateRouter>
+      <PrivateRouter>
         <MainPage />
-      // </PrivateRouter>
+      </PrivateRouter>
     ),
     children: [
       {
@@ -109,7 +108,6 @@ const router = createBrowserRouter([
         path: "/addbuyerproduct",
         element: <AddBuyerProduct />,
       },
-
     ],
   },
   {

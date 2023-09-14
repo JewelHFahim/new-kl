@@ -54,7 +54,7 @@ const InvoiceBuyer = () => {
 
     try {
       const response = await axios.post(
-        "https://jabed.pythonanywhere.comproduct/order/create/",
+        "https://jabed.pythonanywhere.com/product/order/create/",
         invoiceData
       );
 
@@ -69,7 +69,7 @@ const InvoiceBuyer = () => {
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "https://jabed.pythonanywhere.comproduct/order-product/create/",
+          "https://jabed.pythonanywhere.com/product/order-product/create/",
           item
         )
       );
