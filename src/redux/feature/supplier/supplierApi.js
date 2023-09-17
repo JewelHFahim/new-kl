@@ -91,6 +91,11 @@ const supplierApi = apiSlice.injectEndpoints({
       providesTags: ["keylagbe"],
     }),
 
+    getSingleSupplierTotalOrder: builder.query({
+      query: (id) => `/supplier/search-supplier-from-supplier-order/?supplier=${id}`,
+      providesTags: ["keylagbe"],
+    })
+
 
   }),
 });
@@ -110,6 +115,7 @@ export const {
   useGetSupplierOrdereListQuery,
   useGetSupplierBalanceDetailQuery,
   useDeleteSupplierMutation,
-  useGetSupplierBalanceListQuery
+  useGetSupplierBalanceListQuery,
+  useGetSingleSupplierTotalOrderQuery
 } = supplierApi;
 export default supplierApi;

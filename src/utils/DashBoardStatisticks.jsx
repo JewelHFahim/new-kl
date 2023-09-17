@@ -1,3 +1,4 @@
+
 /* eslint-disable react/prop-types */
 const DashBoardStatisticks = ({ data }) => {
 
@@ -7,7 +8,7 @@ const DashBoardStatisticks = ({ data }) => {
         <div className="flex justify-between items-center">
           <p className="text-2xl"> {data.icon} </p>
           <p className="text-[24px] font-[500] text-[#3D5797]">
-            ${data.amount}
+            {data.amount}
           </p>
         </div>
 

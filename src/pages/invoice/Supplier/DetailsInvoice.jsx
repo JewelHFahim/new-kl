@@ -9,6 +9,8 @@ import { Link, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Loading from "../../../utils/Loading";
+import { useRef } from "react";
+import ReactToPrint from "react-to-print";
 
 const DetailsInvoice = () => {
   const { id } = useParams();
@@ -46,10 +48,18 @@ const DetailsInvoice = () => {
   }
   const totalPrice = calculateTotalPrice(orderedProducts);
 
+    // PDF
+    const componentRef = useRef();
+
+    const handlePrint = () => {
+      window.print();
+    };
+
   return (
     <section className="px-6 pb-5">
       <HTitle>Invoice</HTitle>
 
+<eection ref={componentRef}>
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">
           <p className="text-[10px] text-[#000] font-poppins">
@@ -142,8 +152,15 @@ const DetailsInvoice = () => {
           </div>
         </div>
       )}
-      <div className="mt-6 flex  justify-center gap-4">
-        {/* <CButton>Print Invoice</CButton> */}
+</eection>
+
+      <div className="mt-6 flex flex-col items-center justify-center gap-4">
+      <CButton>
+          <ReactToPrint
+            trigger={() => <button>Print</button>}
+            content={() => componentRef.current}
+          />
+        </CButton>
         <Link to="/supplierallinvoice">
           <button className="text-primary flex items-center gap-2">
             <FaArrowLeftLong /> Back All Invoice

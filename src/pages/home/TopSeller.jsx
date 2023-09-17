@@ -1,12 +1,6 @@
 /* eslint-disable react/prop-types */
 
-// import { useGetProductQuery } from "../../redux/api/apiSlice";
-
 const TopSeller = ({ sellerData, user }) => {
-
-
-  // const { data } = useGetProductQuery(undefined);
-  // console.log( data?.results, "data");
 
 
   return (
@@ -22,7 +16,7 @@ const TopSeller = ({ sellerData, user }) => {
 
             <thead className=" bg-[#BAD1E8] rounded-[8px]">
               <tr>
-                <th>Buyer</th>
+                <th>Seller</th>
                 <th>Sale</th>
                 <th>Transaction</th>
               </tr>

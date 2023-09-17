@@ -11,38 +11,46 @@ import HotProductChart from "../../components/charts/HotProductChart";
 import RevenueChart from "../../components/charts/RevenueChart";
 import TopBuyer from "./TopBuyer";
 import TopSeller from "./TopSeller";
+import { useGetBuyersQuery } from "../../redux/feature/buyers/buyerApi";
+import { useGetSuppliersQuery } from "../../redux/feature/supplier/supplierApi";
+import { useGetProductsQuery } from "../../redux/feature/products/productApi";
 
 const Home = () => {
+
+  const {data: buyers } = useGetBuyersQuery();
+  const {data: suppliers } = useGetSuppliersQuery();
+  const {data: products } = useGetProductsQuery();
+
 
   const datas = [
     {
       icon: <PiCurrencyCircleDollarBold />,
       title: "Total Debit",
-      amount: "168,2",
+      amount: "$168,2",
       graph: <MdShowChart />,
     },
     {
       icon: <PiCurrencyCircleDollarBold />,
       title: "Avarage Credit",
-      amount: "192",
+      amount: "$192",
       graph: <MdShowChart />,
     },
     {
       icon: <HiUserGroup />,
       title: "Total Buyer",
-      amount: "5,622",
+      amount: buyers?.results?.length,
       graph: <MdShowChart />,
     },
     {
       icon: <HiUserGroup />,
       title: "Total Supplier",
-      amount: "5723",
+      amount: suppliers?.results?.length,
       graph: <MdShowChart />,
     },
     {
       icon: <AiOutlineStar />,
       title: "Total Items",
-      amount: "7219",
+      amount: products?.results?.length,
       graph: <MdShowChart />,
     },
   ];
