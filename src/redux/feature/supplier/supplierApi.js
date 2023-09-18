@@ -92,7 +92,9 @@ const supplierApi = apiSlice.injectEndpoints({
     }),
 
     getSingleSupplierTotalOrder: builder.query({
-      query: (id) => `/supplier/search-supplier-from-supplier-order/?supplier=${id}`,
+
+      query: (ids) =>`/supplier/search-supplier-from-supplier-order/?supplier=${ids.join('&supplier=')}`,
+
       providesTags: ["keylagbe"],
     })
 
