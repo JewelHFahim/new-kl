@@ -22,6 +22,7 @@ import BuyerLedger from "../pages/ledger/BuyerLedger";
 import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 import AddSupplierProduct from "../pages/invoice/Supplier/AddProduct";
 import Test from "../pages/Test/Test";
+import EditInvoice from "../pages/invoice/Supplier/EditInvoice";
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/invoice-buyer",
         element: <InvoiceBuyer />,
+      },
+      {
+        path: "/edit-invoice/:id",
+        element: <EditInvoice />,
       },
       {
         path: "/invoicedetails/:id",

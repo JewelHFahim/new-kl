@@ -69,6 +69,15 @@ const supplierApi = apiSlice.injectEndpoints({
       invalidatesTags: ["keylagbe"],
     }),
 
+    updateInvoice: builder.mutation({
+      query: ({ data, id }) => ({
+        method: "POST",
+        url: `/supplier/supplier-order-product/update/${id}/`,
+        body: data,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
 
     getSupplierOrderedProducts: builder.query({
       query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
@@ -118,6 +127,7 @@ export const {
   useGetSupplierBalanceDetailQuery,
   useDeleteSupplierMutation,
   useGetSupplierBalanceListQuery,
-  useGetSingleSupplierTotalOrderQuery
+  useGetSingleSupplierTotalOrderQuery,
+  useUpdateInvoiceMutation
 } = supplierApi;
 export default supplierApi;

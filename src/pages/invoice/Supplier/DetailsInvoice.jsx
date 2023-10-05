@@ -8,6 +8,7 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Loading from "../../../utils/Loading";
 import { useRef } from "react";
 import ReactToPrint from "react-to-print";
@@ -15,11 +16,11 @@ import ReactToPrint from "react-to-print";
 const DetailsInvoice = () => {
   const { id } = useParams();
 
-  const { data: orderedProducts, isLoading } =
-    useGetSupplierOrderedProductsQuery(id);
+  const { data: orderedProducts, isLoading } = useGetSupplierOrderedProductsQuery(id);
+
+  console.log(orderedProducts);
 
   const { data: orderDetails } = useGetSuppliersOrdersDetailsQuery(id);
-  console.log(orderDetails);
 
   const { data: allsuppliers } = useGetSuppliersQuery();
 
@@ -41,9 +42,7 @@ const DetailsInvoice = () => {
 
   function calculateTotalPrice() {
     let totalPrice = 0;
-    for (const product of orderedProducts || []) {
-      totalPrice += product.quantity * product.product_price;
-    }
+    for (const product of orderedProducts?.results || []) { totalPrice += product.quantity * product.product_price}
     return totalPrice;
   }
   const totalPrice = calculateTotalPrice(orderedProducts);
@@ -51,9 +50,11 @@ const DetailsInvoice = () => {
     // PDF
     const componentRef = useRef();
 
-    const handlePrint = () => {
-      window.print();
-    };
+    // const handlePrint = () => {
+    //   window.print();
+    // };
+
+
 
   return (
     <section className="px-6 pb-5">
@@ -108,10 +109,11 @@ const DetailsInvoice = () => {
                   <th>Price</th>
                   <th>Quantity</th>
                   <th>Total </th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody className="bg-[#F5F7F6]">
-                {orderedProducts?.map((item, i) => {
+                {orderedProducts?.results?.map((item, i) => {
                   const product = findProductById(item.product);
                   return (
                     <tr key={i} className="text-[9px] font-[300]">
@@ -121,6 +123,14 @@ const DetailsInvoice = () => {
                       <td>{item?.quantity}</td>
                       <td>
                         {Number(item.product_price) * Number(item?.quantity)}
+                      </td>
+                      <td className="flex justify-center items-center gap-x-6 border">
+
+                        <Link to={`/edit-invoice/${item.id}`}>
+                        <button onClick="" className="text-[15px] text-green-600"><FiEdit/> </button>
+                        </Link>
+                        
+                        <Link><button onClick="" className="text-[15px] text-red-600"><FiTrash2/> </button></Link>
                       </td>
                     </tr>
                   );
@@ -135,10 +145,12 @@ const DetailsInvoice = () => {
             <div className="text-[#000] text-[8px] w-[50%] px-3">
               <div className="border-b pb-2 mb-1 flex flex-col gap-y-2">
                 <p className="flex justify-between">
-                  Sub Total: <span>{totalPrice}</span>
+                  Sub Total: 
+                  <span>{totalPrice}</span>
                 </p>
                 <p className="flex justify-between">
-                  Tax: <span> {totalPrice * 0.1} </span>
+                  Tax: 
+                  <span> {totalPrice * 0.1} </span>
                 </p>
                 <p className="flex justify-between">
                   Delivery: <span>100</span>
@@ -146,7 +158,8 @@ const DetailsInvoice = () => {
               </div>
 
               <p className="font-[600] flex justify-between">
-                Total: <span> {totalPrice + totalPrice * 0.1 + 100} </span>
+                Total: 
+                <span> {totalPrice + totalPrice * 0.1 + 100} </span>
               </p>
             </div>
           </div>

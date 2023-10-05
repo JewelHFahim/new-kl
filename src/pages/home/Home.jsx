@@ -55,27 +55,6 @@ const Home = () => {
     },
   ];
 
-  const sellerData = [
-    {
-      name: "Hart Hagerty",
-      img: "",
-      sale: "10",
-      transaction: "150",
-
-    },
-    {
-      name: "Hart Hagerty",
-      img: "",
-      sale: "12",
-      transaction: "186",
-    },
-    {
-      name: "Hart Hagerty",
-      img: "",
-      sale: "16",
-      transaction: "285",
-    },
-  ];
 
   return (
     <div className="px-6">
@@ -107,10 +86,10 @@ const Home = () => {
       </div>
 
       {/* Top Buyer */}
-      <TopBuyer sellerData={sellerData} user={user} ></TopBuyer>
+      <TopBuyer user={user} ></TopBuyer>
 
       {/* Top Seller */}
-      <TopSeller sellerData={sellerData} user={user}></TopSeller>
+      <TopSeller user={user}></TopSeller>
 
       {/* Hot Product Chart*/}
       <div className="mt-[38px]">

@@ -7,7 +7,6 @@ import {
 
 const TopBuyer = ({ user }) => {
   const { data: allOrders } = useGetAllInvoiceBuyerQuery();
-  console.log(allOrders);
   const { data: buyers } = useGetBuyersQuery();
 
   if (!allOrders || !buyers) {
@@ -16,7 +15,6 @@ const TopBuyer = ({ user }) => {
 
   const orderDataByBuyer = allOrders?.results?.reduce((acc, order) => {
     const { customer, order_total } = order;
-    console.log(order_total);
     if (!acc[customer]) {
       acc[customer] = {
         orderCount: 1,
@@ -30,30 +28,23 @@ const TopBuyer = ({ user }) => {
     return acc;
   }, {});
 
-  console.log(orderDataByBuyer);
-
   Object.keys(orderDataByBuyer).forEach((buyerId) => {
     const matchingBuyer = buyers?.results?.find(
       (s) => s.id === parseInt(buyerId, 10)
     );
-    0;
-    console.log(matchingBuyer);
+    
     if (matchingBuyer) {
       orderDataByBuyer[buyerId].buyerInfo = matchingBuyer;
-      console.log(orderDataByBuyer[buyerId].buyerInfo);
     }
   });
 
   const buyerOrderCountArray = Object.keys(orderDataByBuyer).map((buyerId) => {
     const { buyerInfo, orderCount, orderTotal } = orderDataByBuyer[buyerId];
-    console.log(buyerInfo);
     const buyerName = buyerInfo
       ? buyerInfo.customer_shop_name
       : "Unknown Supplier";
     return { buyerName, orderCount, orderTotal };
   });
-
-  console.log(buyerOrderCountArray);
 
   return (
     <>

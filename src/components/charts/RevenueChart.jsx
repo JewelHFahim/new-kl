@@ -1,13 +1,24 @@
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { useGetProductsQuery } from "../../redux/feature/products/productApi";
 
 const RevenueChart = () => {
-  
+
+  const {data: products } = useGetProductsQuery();
+
+  const mapedProductsForName = products?.results?.map((product)=>{
+    return product.product_name
+  })
+
+  const mapedProductsForAmount = products?.results?.map((product)=>{
+    return product.selling_price
+  })
+
   const [state] = useState({
     series: [
       {
-        name: "Desktops",
-        data: [10, 20, 15, 28, 10, 40, 30, 50]
+        name: mapedProductsForName,
+        data: mapedProductsForAmount
       },
     ],
     options: {

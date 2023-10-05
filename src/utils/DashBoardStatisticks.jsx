@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 const DashBoardStatisticks = ({ data }) => {
 
+
   return (
     <>
       <div className="w-full h-[112px] rounded-[8px] border border-[#150F33] px-4 py-6 flex flex-col gap-2 shadow-xl">
