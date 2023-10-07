@@ -101,11 +101,26 @@ const supplierApi = apiSlice.injectEndpoints({
     }),
 
     getSingleSupplierTotalOrder: builder.query({
-
       query: (ids) =>`/supplier/search-supplier-from-supplier-order/?supplier=${ids.join('&supplier=')}`,
-
       providesTags: ["keylagbe"],
-    })
+    }),
+
+
+    deleteInvoiceProduct: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/supplier/supplier-order-product/delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
+    deleteSupplierOrder: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/supplier/supplier-order/delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
 
 
   }),
@@ -128,6 +143,8 @@ export const {
   useDeleteSupplierMutation,
   useGetSupplierBalanceListQuery,
   useGetSingleSupplierTotalOrderQuery,
-  useUpdateInvoiceMutation
+  useUpdateInvoiceMutation,
+  useDeleteInvoiceProductMutation,
+  useDeleteSupplierOrderMutation
 } = supplierApi;
 export default supplierApi;
