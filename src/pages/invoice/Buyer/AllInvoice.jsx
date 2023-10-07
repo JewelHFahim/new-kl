@@ -1,15 +1,20 @@
 import { Link } from "react-router-dom";
 import {
+  useDeleteBuyerOrderMutation,
   useGetAllInvoiceBuyerQuery,
   useGetBuyersQuery,
 } from "../../../redux/feature/buyers/buyerApi";
 import Loading from "../../../utils/Loading";
+import toast from "react-hot-toast";
 
 const AllInvoiceByer = () => {
   const { data: buyerOrders, isLoading } = useGetAllInvoiceBuyerQuery();
 
-  // Start
   const { data: allBuyers } = useGetBuyersQuery();
+
+  const [deleteBuyerOrder] = useDeleteBuyerOrderMutation();
+
+
   const mappedProducts = allBuyers?.results?.map((item) => {
     return item;
   });
@@ -18,8 +23,13 @@ const AllInvoiceByer = () => {
     return mappedProducts?.find((buyer) => buyer?.id === buyerId);
   };
 
-  console.log(findProductById);
-  // End
+
+  const handleDeleteOrder = (id) => {
+    deleteBuyerOrder(id);
+    toast.error("Deleted");
+  };
+
+
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-6">
@@ -67,9 +77,18 @@ const AllInvoiceByer = () => {
                       {item.status}
                     </td>
                     <td>
+                    <div className="flex items-center gap-5 font-medium text-green-600">
                       <Link to={`/invoicedetails-buyer/${item.id}`}>
                         <button>View</button>
                       </Link>
+
+                      <button
+                        onClick={() => handleDeleteOrder(item.id)}
+                        className="text-red-500"
+                      >
+                        Delete
+                      </button>
+                      </div>
                     </td>
                   </tr>
                 );

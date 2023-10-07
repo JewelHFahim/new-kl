@@ -189,16 +189,16 @@ const DetailsInvoice = () => {
                   </p>
                   <p className="flex justify-between">
                     Tax:
-                    <span> {totalPrice * 0.1} </span>
+                    <span>  </span>
                   </p>
                   <p className="flex justify-between">
-                    Delivery: <span>100</span>
+                    Delivery: <span></span>
                   </p>
                 </div>
 
                 <p className="font-[600] flex justify-between">
                   Total:
-                  <span> {totalPrice + totalPrice * 0.1 + 100} </span>
+                  <span> {totalPrice + totalPrice * 0.1} </span>
                 </p>
               </div>
             </div>

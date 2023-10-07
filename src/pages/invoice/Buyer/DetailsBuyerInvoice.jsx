@@ -3,6 +3,7 @@ import CButton from "../../../utils/CButton";
 import { Link, useParams } from "react-router-dom";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 import {
+  useDeleteBuyerInvoiceProductMutation,
   useGetAllOrderedProductsQuery,
   useGetBuyersQuery,
   useGetSingleOrderQuery,
@@ -10,12 +11,20 @@ import {
 import { FaArrowLeftLong } from "react-icons/fa6";
 import Loading from "../../../utils/Loading";
 import ReactToPrint from "react-to-print";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
+import EditQuantity from "./EditQuantity";
+import toast from "react-hot-toast";
 
 const DetailsBuyerInvoice = () => {
   const { id } = useParams();
+
   const { data: orderDetails } = useGetSingleOrderQuery(id);
+
   const { data: allBuyers } = useGetBuyersQuery();
+
+  const [deleteBuyerInvoiceProduct] = useDeleteBuyerInvoiceProductMutation()
+
   const mappedBuyer = allBuyers?.results?.map((item) => {
     return item;
   });
@@ -47,9 +56,26 @@ const DetailsBuyerInvoice = () => {
   // PDF
   const componentRef = useRef();
 
-  const handlePrint = () => {
-    window.print();
+  // const handlePrint = () => {
+  //   window.print();
+  // };
+
+   // Delete Product
+   const handleDeleteInvoiceProduct = (id) => {
+    deleteBuyerInvoiceProduct(id);
+    toast.error("Deleted");
   };
+
+   // Edit Product Quantity
+   const [isOpen, setIsOpen] = useState(false);
+
+   const openModal = () => {
+     setIsOpen(true);
+   };
+ 
+   const closeModal = () => {
+     setIsOpen(false);
+   };
 
   return (
     <section className="px-6 pb-5">
@@ -115,7 +141,32 @@ const DetailsBuyerInvoice = () => {
                         <td>{item?.product_price}</td>
                         <td>{item?.quantity}</td>
                         <td>
-                          {Number(item.product_price) * Number(item?.quantity)}{" "}
+                          {Number(item.product_price) * Number(item?.quantity)}
+                        </td>
+                        <td className="flex justify-center items-center gap-x-6">
+                          <button
+                            onClick={openModal}
+                            className="text-[15px] text-green-600"
+                          >
+                            <FiEdit />
+                          </button>
+                          <EditQuantity
+                            openModal={openModal}
+                            isOpen={isOpen}
+                            closeModal={closeModal}
+                            item={item}
+                          />
+
+                          <Link>
+                            <button
+                              onClick={() =>
+                                handleDeleteInvoiceProduct(item.id)
+                              }
+                              className="text-[15px] text-red-600"
+                            >
+                              <FiTrash2 />
+                            </button>
+                          </Link>
                         </td>
                       </tr>
                     );
@@ -133,10 +184,10 @@ const DetailsBuyerInvoice = () => {
                     Sub Total: <span>{totalPrice}</span>
                   </p>
                   <p className="flex justify-between">
-                    Tax: <span> {totalPrice * 0.1} </span>
+                    Tax: <span></span>
                   </p>
                   <p className="flex justify-between">
-                    Delivery: <span>100</span>
+                    Delivery: <span></span>
                   </p>
                 </div>
 
