@@ -200,7 +200,7 @@ const DetailsInvoice = () => {
 
                 <p className="font-[600] flex justify-between">
                   Total:
-                  <span> {totalPrice + totalPrice * 0.1} </span>
+                  <span> {totalPrice} </span>
                 </p>
               </div>
             </div>
