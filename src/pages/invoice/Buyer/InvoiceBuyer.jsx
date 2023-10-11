@@ -54,7 +54,7 @@ const InvoiceBuyer = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.3.36:8000/product/order/create/",
+        "https://jabed.pythonanywhere.com/product/order/create/",
         invoiceData
       );
 
@@ -65,12 +65,12 @@ const InvoiceBuyer = () => {
         product: item.product,
         quantity: item.quantity,
         product_price: item.product_price,
-        discount_price: item.discount_price
+        discount_price: item.discount_price,
       }));
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "http://192.168.3.36:8000/product/order-product/create/",
+          "https://jabed.pythonanywhere.com/product/order-product/create/",
           item
         )
       );
@@ -173,10 +173,8 @@ const InvoiceBuyer = () => {
                   <td>{item?.quantity}</td>
                   <td>{item?.discount_price}</td>
                   <td>
-                    {
-                    (Number(item?.product_price) * Number(item?.quantity)) - 
-                    (Number(item?.quantity) * Number(item?.discount_price))
-                     }
+                    {Number(item?.product_price) * Number(item?.quantity) -
+                      Number(item?.quantity) * Number(item?.discount_price)}
                   </td>
                 </tr>
               ))}

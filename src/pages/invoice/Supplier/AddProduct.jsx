@@ -18,7 +18,6 @@ const AddSupplierProduct = () => {
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [quantity, setQuantity] = useState(""); 
-  const [discount, setDiscount] = useState(""); 
 
   useEffect(() => {
     if (selectedItem) {
@@ -40,9 +39,6 @@ const AddSupplierProduct = () => {
     setQuantity(e.target.value);
   };
 
-  const handleDiscountChange = (e) => {
-    setDiscount(e.target.value);
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +49,6 @@ const AddSupplierProduct = () => {
       product_name: productName,
       product_price: productPrice,
       quantity,
-      discount_price: parseInt(discount),
       product: selectedItem?.id,
     };
 
@@ -106,16 +101,6 @@ const AddSupplierProduct = () => {
             <input
               value={quantity}
               onChange={handleQuantityChange}
-              type="number"
-              className={input_filed_style}
-            />
-          </div>
-
-          <div className="mt-2">
-            <label className="text-gray-700 dark:text-gray-200">Discount</label>
-            <input
-              value={discount}
-              onChange={handleDiscountChange}
               type="number"
               className={input_filed_style}
             />

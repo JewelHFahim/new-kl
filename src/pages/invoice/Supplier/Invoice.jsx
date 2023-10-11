@@ -29,7 +29,9 @@ const Invoice = () => {
   const [searchUrl, setSearchUrl] = useState("");
   const { data: allSuppliers } = useGetSuppliersQuery();
 
-  const { addedProducts, addedSupplier, total } = useSelector( (state) => state.supplier );
+  const { addedProducts, addedSupplier, total } = useSelector(
+    (state) => state.supplier
+  );
 
   const { data: singleSupplier } = useGetSingleSupplierQuery(addedSupplier);
 
@@ -38,7 +40,7 @@ const Invoice = () => {
     const selected = e.target.value;
     setSelectedSupplier(selected);
     dispatch(addSuppliers(selected));
-    const url = `http://192.168.3.36:8000/product/search-supplier/?supplier=${selected}`;
+    const url = `https://jabed.pythonanywhere.com/product/search-supplier/?supplier=${selected}`;
     setSearchUrl(url);
   };
 
@@ -72,15 +74,24 @@ const Invoice = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://192.168.3.36:8000/supplier/supplier-order/create/", invoiceData );
+        "https://jabed.pythonanywhere.com/supplier/supplier-order/create/",
+        invoiceData
+      );
       console.log(invoiceData);
 
       const generatedId = response.data.id;
 
-      const updatedCart = addedProducts.map((item) => ({ ...item, order: generatedId }));
+      const updatedCart = addedProducts.map((item) => ({
+        ...item,
+        order: generatedId,
+      }));
 
       const postRequests = updatedCart.map((item) =>
-        axios.post( "http://192.168.3.36:8000/supplier/supplier-order-product/create/", item));
+        axios.post(
+          "https://jabed.pythonanywhere.com/supplier/supplier-order-product/create/",
+          item
+        )
+      );
 
       await Promise.all(postRequests);
       toast.success("Invoice Created");
@@ -178,7 +189,7 @@ const Invoice = () => {
                   <td>{item?.product_price}</td>
                   <td>{item?.quantity}</td>
                   <td>
-                    {(Number(item?.product_price) * Number(item?.quantity))}
+                    {Number(item?.product_price) * Number(item?.quantity)}
                   </td>
                 </tr>
               ))}
