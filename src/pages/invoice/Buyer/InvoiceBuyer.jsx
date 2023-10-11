@@ -65,6 +65,7 @@ const InvoiceBuyer = () => {
         product: item.product,
         quantity: item.quantity,
         product_price: item.product_price,
+        discount_price: item.discount_price
       }));
 
       const postRequests = updatedCart.map((item) =>
@@ -159,6 +160,7 @@ const InvoiceBuyer = () => {
                 <th>Item</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Discount</th>
                 <th>Total</th>
               </tr>
             </thead>
@@ -169,8 +171,12 @@ const InvoiceBuyer = () => {
                   <td>{item?.product_name}</td>
                   <td>{item?.product_price}</td>
                   <td>{item?.quantity}</td>
+                  <td>{item?.discount_price}</td>
                   <td>
-                    {Number(item?.product_price) * Number(item?.quantity)}
+                    {
+                    (Number(item?.product_price) * Number(item?.quantity)) - 
+                    (Number(item?.quantity) * Number(item?.discount_price))
+                     }
                   </td>
                 </tr>
               ))}
@@ -187,15 +193,15 @@ const InvoiceBuyer = () => {
                 Sub Total: <span> {total} </span>
               </p>
               <p className="flex justify-between">
-                Tax: <span> {total * 0.1} </span>
+                Tax: <span> {total} </span>
               </p>
               <p className="flex justify-between">
-                Delivery: <span>100</span>
+                Delivery: <span></span>
               </p>
             </div>
 
             <p className="font-[600] flex justify-between">
-              Total: <span> {total + total * 0.1 + 100} </span>
+              Total: <span> {total} </span>
             </p>
           </div>
         </div>

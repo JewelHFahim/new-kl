@@ -15,9 +15,8 @@ export const invoiceSlice = createSlice({
     addToInvoice: (state, actions) => {
       state.addedProducts.push(actions.payload);
       state.total =
-        Number(state.total) +
-        Number(actions.payload.product_price) *
-          Number(actions.payload.quantity);
+        Number(state.total) + (Number(actions.payload.product_price) * Number(actions.payload.quantity)) - 
+        (Number(actions.payload.discount_price) * Number(actions.payload.quantity));
     },
 
     addBuyer: (state, actions) => {

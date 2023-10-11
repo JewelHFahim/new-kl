@@ -22,6 +22,7 @@ const DetailsInvoice = () => {
 
   const { data: orderedProducts, isLoading } =
     useGetSupplierOrderedProductsQuery(id);
+    console.log(orderedProducts)
 
   const { data: orderDetails } = useGetSuppliersOrdersDetailsQuery(id);
 
@@ -53,6 +54,7 @@ const DetailsInvoice = () => {
     return totalPrice;
   }
   const totalPrice = calculateTotalPrice(orderedProducts);
+  
 
   // PDF
   const componentRef = useRef();
@@ -141,7 +143,7 @@ const DetailsInvoice = () => {
                       <tr key={i} className="text-[9px] font-[300]">
                         <th className="text-[10px] font-[500]"> {i + 1} </th>
                         <td> {product?.product_name} </td>
-                        <td>{item?.selling_price}</td>
+                        <td>{item?.product_price}</td>
                         <td>{item?.quantity}</td>
                         <td>
                           {Number(item.product_price) * Number(item?.quantity)}

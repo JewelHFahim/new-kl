@@ -17,7 +17,8 @@ const AddSupplierProduct = () => {
 
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(""); 
+  const [discount, setDiscount] = useState(""); 
 
   useEffect(() => {
     if (selectedItem) {
@@ -39,6 +40,10 @@ const AddSupplierProduct = () => {
     setQuantity(e.target.value);
   };
 
+  const handleDiscountChange = (e) => {
+    setDiscount(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -48,16 +53,14 @@ const AddSupplierProduct = () => {
       product_name: productName,
       product_price: productPrice,
       quantity,
+      discount_price: parseInt(discount),
       product: selectedItem?.id,
     };
 
     dispatch(addToInvoice(product));
-    console.log({
-      productName,
-      productPrice,
-      quantity,
-      product: selectedItem?.id,
-    });
+
+    console.log(product);
+
     clearForm.reset();
     toast.success("Added");
     navigate("/invoice");
@@ -68,7 +71,7 @@ const AddSupplierProduct = () => {
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-[30%] transform duration-300 z-10 ">
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-8 rounded max-w-4xl mx-auto dark:bg-gray-800 border drop-shadow-lg relative"
+          className="bg-white p-8 rounded max-w-4xl mx-auto  border drop-shadow-lg relative"
         >
           <div>
           <label className="text-gray-700 dark:text-gray-200 flex">
@@ -86,7 +89,7 @@ const AddSupplierProduct = () => {
             />
           </div>
 
-          <div>
+          <div className="mt-2">
             <label className="text-gray-700 dark:text-gray-200">
               Selling Price
             </label>
@@ -98,11 +101,21 @@ const AddSupplierProduct = () => {
             />
           </div>
 
-          <div>
+          <div className="mt-2">
             <label className="text-gray-700 dark:text-gray-200">Quantity</label>
             <input
               value={quantity}
               onChange={handleQuantityChange}
+              type="number"
+              className={input_filed_style}
+            />
+          </div>
+
+          <div className="mt-2">
+            <label className="text-gray-700 dark:text-gray-200">Discount</label>
+            <input
+              value={discount}
+              onChange={handleDiscountChange}
               type="number"
               className={input_filed_style}
             />

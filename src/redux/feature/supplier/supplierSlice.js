@@ -14,7 +14,7 @@ export const supplierSlice = createSlice({
   reducers: {
     addToInvoice: (state, actions) => {
       state.addedProducts.push(actions.payload);
-      state.total = Number(state.total) + (Number(actions.payload.product_price) * Number(actions.payload.quantity)) ;
+      state.total = Number(state.total) + (Number(actions.payload.product_price) * Number(actions.payload.quantity));
     },
     addSuppliers: (state, actions) => {
       state.addedSupplier.push(actions.payload);

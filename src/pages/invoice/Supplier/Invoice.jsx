@@ -29,9 +29,7 @@ const Invoice = () => {
   const [searchUrl, setSearchUrl] = useState("");
   const { data: allSuppliers } = useGetSuppliersQuery();
 
-  const { addedProducts, addedSupplier, total } = useSelector(
-    (state) => state.supplier
-  );
+  const { addedProducts, addedSupplier, total } = useSelector( (state) => state.supplier );
 
   const { data: singleSupplier } = useGetSingleSupplierQuery(addedSupplier);
 
@@ -40,7 +38,6 @@ const Invoice = () => {
     const selected = e.target.value;
     setSelectedSupplier(selected);
     dispatch(addSuppliers(selected));
-
     const url = `http://192.168.3.36:8000/product/search-supplier/?supplier=${selected}`;
     setSearchUrl(url);
   };
@@ -75,24 +72,15 @@ const Invoice = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://192.168.3.36:8000/supplier/supplier-order/create/",
-        invoiceData
-      );
+        "http://192.168.3.36:8000/supplier/supplier-order/create/", invoiceData );
       console.log(invoiceData);
 
       const generatedId = response.data.id;
 
-      const updatedCart = addedProducts.map((item) => ({
-        ...item,
-        order: generatedId,
-      }));
+      const updatedCart = addedProducts.map((item) => ({ ...item, order: generatedId }));
 
       const postRequests = updatedCart.map((item) =>
-        axios.post(
-          "http://192.168.3.36:8000/supplier/supplier-order-product/create/",
-          item
-        )
-      );
+        axios.post( "http://192.168.3.36:8000/supplier/supplier-order-product/create/", item));
 
       await Promise.all(postRequests);
       toast.success("Invoice Created");
@@ -106,7 +94,7 @@ const Invoice = () => {
 
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
-      <HTitle>Supplier Invoice</HTitle>
+      <HTitle>Create Supplier Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">
@@ -190,7 +178,7 @@ const Invoice = () => {
                   <td>{item?.product_price}</td>
                   <td>{item?.quantity}</td>
                   <td>
-                    {Number(item?.product_price) * Number(item?.quantity)}
+                    {(Number(item?.product_price) * Number(item?.quantity))}
                   </td>
                 </tr>
               ))}
@@ -207,15 +195,15 @@ const Invoice = () => {
                 Sub Total: <span> {total} </span>
               </p>
               <p className="flex justify-between">
-                Tax: <span> {total * 0.1} </span>
+                Tax: <span> </span>
               </p>
               <p className="flex justify-between">
-                Delivery: <span>100</span>
+                Delivery: <span></span>
               </p>
             </div>
 
             <p className="font-[600] flex justify-between">
-              Total: <span> {total + total * 0.1 + 100} </span>
+              Total: <span> {total} </span>
             </p>
           </div>
         </div>
