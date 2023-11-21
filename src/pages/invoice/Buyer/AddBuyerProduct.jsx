@@ -8,13 +8,9 @@ import { BsArrowLeft } from "react-icons/bs";
 import { addToInvoice } from "../../../redux/feature/buyers/buyerSlice";
 
 const AddBuyerProduct = () => {
-
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const [selectedItem, setSelectedItem] = useState(null);
-
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -52,12 +48,7 @@ const AddBuyerProduct = () => {
     };
 
     dispatch(addToInvoice(product));
-    console.log({
-      productName,
-      productPrice,
-      quantity,
-      product: selectedItem?.id,
-    });
+    console.log({ productName, productPrice, quantity, product: selectedItem?.id,});
     clearForm.reset();
     toast.success("Added");
     navigate("/invoice-buyer");

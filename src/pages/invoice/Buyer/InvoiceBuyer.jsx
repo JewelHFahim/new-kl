@@ -7,12 +7,10 @@ import { useForm } from "react-hook-form";
 import CButton from "../../../utils/CButton";
 import { toast } from "react-hot-toast";
 import DatePicker from "react-datepicker";
+import { FaRegTrashAlt } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-  useGetBuyersQuery,
-  useGetSingleBuyerQuery,
-} from "../../../redux/feature/buyers/buyerApi";
-import { addBuyer } from "../../../redux/feature/buyers/buyerSlice";
+import { useGetBuyersQuery, useGetSingleBuyerQuery } from "../../../redux/feature/buyers/buyerApi";
+import {addBuyer, removeFromInvoice } from "../../../redux/feature/buyers/buyerSlice";
 import ToggleBuyer from "./ToggleBuyer";
 
 const InvoiceBuyer = () => {
@@ -28,6 +26,7 @@ const InvoiceBuyer = () => {
   const { addedProducts, addedBuyer, total } = useSelector(
     (state) => state.buyer
   );
+  console.log(addedProducts);
   const { data: singleBuyer } = useGetSingleBuyerQuery(addedBuyer);
 
   // Handle supplier selection
@@ -37,6 +36,7 @@ const InvoiceBuyer = () => {
     dispatch(addBuyer(selected));
   };
 
+  // invoice data
   const invoiceData = {
     phone: singleBuyer?.contact_person_phone,
     email: null,
@@ -46,8 +46,8 @@ const InvoiceBuyer = () => {
     invoice_date: formattedDate,
     customer: singleBuyer?.id,
   };
-  console.log(invoiceData);
 
+  //  generate invoice
   const onSubmit = async (event) => {
     const clearForm = event.target;
     setIsSubmitting(true);
@@ -85,11 +85,18 @@ const InvoiceBuyer = () => {
     }
   };
 
+  const handleRevome = (item) => {
+    dispatch(removeFromInvoice(item));
+    console.log(item)
+    toast.error("Remove");
+  };
+
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
       <HTitle>Buyer Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
+
         <div className="flex justify-between items-center">
           <p className="text-[10px] text-[#000] font-poppins">
             <span className="font-[600]">Invoice#</span> <span>30542</span>
@@ -160,6 +167,7 @@ const InvoiceBuyer = () => {
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
+                <th></th>
               </tr>
             </thead>
             <tbody className="bg-[#F5F7F6]">
@@ -171,6 +179,11 @@ const InvoiceBuyer = () => {
                   <td>{item?.quantity}</td>
                   <td>
                     {Number(item?.product_price) * Number(item?.quantity)}
+                  </td>
+                  <td>
+                    <button onClick={() => handleRevome(item)}>
+                      <FaRegTrashAlt className="text-[17px] text-red-500" />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -184,18 +197,18 @@ const InvoiceBuyer = () => {
           <div className="text-[#000] text-[8px] w-[50%] px-3">
             <div className="border-b pb-2 mb-1 flex flex-col gap-y-2">
               <p className="flex justify-between">
-                Sub Total: <span> {total} </span>
+                Sub Total: <span> { total } </span>
               </p>
               <p className="flex justify-between">
-                Tax: <span> {total * 0.1} </span>
+                Tax: <span> 0 </span>
               </p>
               <p className="flex justify-between">
-                Delivery: <span>100</span>
+                Delivery: <span>0</span>
               </p>
             </div>
 
             <p className="font-[600] flex justify-between">
-              Total: <span> {total + total * 0.1 + 100} </span>
+              Total: <span> { total } </span>
             </p>
           </div>
         </div>
@@ -208,6 +221,7 @@ const InvoiceBuyer = () => {
           <CButton> {isSubmitting ? "Saving..." : "Save"}</CButton>
         </button>
       </div>
+
     </section>
   );
 };

@@ -14,10 +14,13 @@ export const invoiceSlice = createSlice({
 
     addToInvoice: (state, actions) => {
       state.addedProducts.push(actions.payload);
-      state.total =
-        Number(state.total) +
-        Number(actions.payload.product_price) *
-          Number(actions.payload.quantity);
+      state.total = Number(state.total) + Number(actions.payload.product_price) * Number(actions.payload.quantity);
+    },
+
+    removeFromInvoice: (state, actions) => {
+      state.addedProducts = state.addedProducts.filter((product) => product.product !== actions.payload.product);
+      state.total = Number(state.total) - Number(actions.payload.product_price) * Number(actions.payload.quantity);
+      console.log(actions)
     },
 
     addBuyer: (state, actions) => {
@@ -27,6 +30,6 @@ export const invoiceSlice = createSlice({
   },
 });
 
-export const { addBuyer, addToInvoice } =
+export const { addBuyer, addToInvoice, removeSingle, removeFromInvoice } =
   invoiceSlice.actions;
 export default invoiceSlice.reducer;
