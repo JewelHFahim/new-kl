@@ -69,6 +69,15 @@ const supplierApi = apiSlice.injectEndpoints({
       invalidatesTags: ["keylagbe"],
     }),
 
+    updateInvoice: builder.mutation({
+      query: ({ data, id }) => ({
+        method: "POST",
+        url: `/supplier/supplier-order-product/update/${id}/`,
+        body: data,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
 
     getSupplierOrderedProducts: builder.query({
       query: (id) => `/supplier/search-supplier-order-product/?order=${id}`,
@@ -91,6 +100,28 @@ const supplierApi = apiSlice.injectEndpoints({
       providesTags: ["keylagbe"],
     }),
 
+    getSingleSupplierTotalOrder: builder.query({
+      query: (ids) =>`/supplier/search-supplier-from-supplier-order/?supplier=${ids.join('&supplier=')}`,
+      providesTags: ["keylagbe"],
+    }),
+
+
+    deleteInvoiceProduct: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/supplier/supplier-order-product/delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
+    deleteSupplierOrder: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/supplier/supplier-order/delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
 
   }),
 });
@@ -110,6 +141,10 @@ export const {
   useGetSupplierOrdereListQuery,
   useGetSupplierBalanceDetailQuery,
   useDeleteSupplierMutation,
-  useGetSupplierBalanceListQuery
+  useGetSupplierBalanceListQuery,
+  useGetSingleSupplierTotalOrderQuery,
+  useUpdateInvoiceMutation,
+  useDeleteInvoiceProductMutation,
+  useDeleteSupplierOrderMutation
 } = supplierApi;
 export default supplierApi;

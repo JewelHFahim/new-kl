@@ -12,13 +12,13 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { pagination_btn_style } from "../../utils/someClasses";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const SupplierLedger = () => {
   const { register, handleSubmit } = useForm();
 
   const [startDate, setStartDate] = useState(new Date());
   const formattedStartDate = startDate.toISOString().slice(0, 10);
-  console.log(formattedStartDate);
   const [endDate, setEndDate] = useState(new Date());
   const formattedEndDate = endDate.toISOString().slice(0, 10);
   const [supplierId, setSupplierId] = useState();
@@ -29,15 +29,12 @@ const SupplierLedger = () => {
     startDate: formattedStartDate,
     endDate: formattedEndDate,
   });
-  console.log(filteredByDate);
   const { data: supplierBalanceList } = useGetSupplierBalanceListQuery();
 
   // pagination start
-  const PAGE_SIZE = 15;
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(currentPage);
   const { data } = useGetSupplierOrdereListQuery(currentPage);
-  console.log(data);
+  const PAGE_SIZE = data?.count;
   //end
 
   const getSupplierName = (supplierId) => {
@@ -68,10 +65,10 @@ const SupplierLedger = () => {
         </td>
         <td className={tableStyle}>{getSupplierName(item.supplier)}</td>
         <td className={tableStyle}>
-          {getSupplierBalance(item.supplier).debit_balance}{" "}
+          {getSupplierBalance(item.supplier).debit_balance}
         </td>
         <td className={tableStyle}>
-          {getSupplierBalance(item.supplier).credit_balance}{" "}
+          {getSupplierBalance(item.supplier).credit_balance}
         </td>
         <td className={tableStyle}>
           {getSupplierBalance(item.supplier).total_balance}
@@ -81,6 +78,140 @@ const SupplierLedger = () => {
   };
 
   const tableStyle = "px-6 py-4 whitespace-nowrap";
+
+  // ***************SORTING TABLE*********************//
+  // Sorting By Order Number
+  const [sortInvoiceNo, setSortInvoiceNo] = useState("asc");
+  const [sortedData, setSortedData] = useState([]);
+
+  const sortByInvoiceNo = () => {
+    if (sortInvoiceNo === "asc") {
+      const sorted = [...data?.results].sort((a, b) =>
+        a.order_number.localeCompare(b.order_number)
+      );
+      setSortedData(sorted);
+      setSortInvoiceNo("desc");
+    } else {
+      const sorted = [...data?.results].sort((a, b) =>
+        b.order_number.localeCompare(a.order_number)
+      );
+      setSortedData(sorted);
+      setSortInvoiceNo("asc");
+    }
+  };
+
+  const handleSortByInvoiceNo = () => {
+    sortByInvoiceNo();
+  };
+
+  
+  // Sorting By Name
+  const [sortName, setSortName] = useState("asc");
+  const [sortedName, setSortedName] = useState([]);
+
+  const sortByName = (dataToSort) => {
+    if (sortName === "asc") {
+      const sorted = [...dataToSort].sort((a, b) =>
+        getSupplierName(a.supplier).localeCompare(getSupplierName(b.supplier))
+      );
+      setSortedName(sorted);
+      setSortName("desc");
+    } else {
+      const sorted = [...dataToSort].sort((a, b) =>
+        getSupplierName(b.supplier).localeCompare(getSupplierName(a.supplier))
+      );
+      setSortedName(sorted);
+      setSortName("asc");
+    }
+  };
+
+  const handleSortByName = () => {
+    sortByName(data?.results);
+  };
+
+ // Sorting By Credit Balance
+ const [sortCreditBalance, setSortCreditBalance] = useState("asc");
+ const [sortedCreditBalance, setSortedCreditBalance] = useState([]);
+
+ const sortByCreditBalance = (dataToSort) => {
+   if (sortCreditBalance === "asc") {
+     const sorted = [...dataToSort].sort(
+       (a, b) =>
+         getSupplierBalance(a.supplier).credit_balance -
+         getSupplierBalance(b.supplier).credit_balance
+     );
+     setSortedCreditBalance(sorted);
+     setSortCreditBalance("desc");
+   } else {
+     const sorted = [...dataToSort].sort(
+       (a, b) =>
+         getSupplierBalance(b.supplier).credit_balance -
+         getSupplierBalance(a.supplier).credit_balance
+     );
+     setSortedCreditBalance(sorted);
+     setSortCreditBalance("asc");
+   }
+ };
+
+ const handleSortByCreditBalance = () => {
+   sortByCreditBalance(data?.results);
+ };
+
+   // Sorting By Debit Balance
+   const [sortDebitBalance, setSortDebitBalance] = useState("asc");
+   const [sortedDebitBalance, setSortedDebitBalance] = useState([]);
+ 
+   const sortByDebitBalance = (dataToSort) => {
+     if (sortDebitBalance === "asc") {
+       const sorted = [...dataToSort].sort(
+         (a, b) =>
+           getSupplierBalance(a.supplier).debit_balance -
+           getSupplierBalance(b.supplier).debit_balance
+       );
+       setSortedDebitBalance(sorted);
+       setSortDebitBalance("desc");
+     } else {
+       const sorted = [...dataToSort].sort(
+         (a, b) =>
+           getSupplierBalance(b.supplier).debit_balance -
+           getSupplierBalance(a.supplier).debit_balance
+       );
+       setSortedDebitBalance(sorted);
+       setSortDebitBalance("asc");
+     }
+   };
+ 
+   const handleSortByDebitBalance = () => {
+     sortByDebitBalance(data?.results);
+   };
+
+   // Sorting By Total Balance
+  const [sortBalance, setSortBalance] = useState("asc");
+  const [sortedBalance, setSortedBalance] = useState([]);
+
+  const sortByBalance = (dataToSort) => {
+    if (sortBalance === "asc") {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getSupplierBalance(a.supplier).total_balance -
+          getSupplierBalance(b.supplier).total_balance
+      );
+      setSortedBalance(sorted);
+      setSortBalance("desc");
+    } else {
+      const sorted = [...dataToSort].sort(
+        (a, b) =>
+          getSupplierBalance(b.supplier).total_balance -
+          getSupplierBalance(a.supplier).total_balance
+      );
+      setSortedBalance(sorted);
+      setSortBalance("asc");
+    }
+  };
+
+  const handleSortByBalance = () => {
+    sortByBalance(data?.results);
+  };
 
   return (
     <div className="px-[24px] relative h-screen">
@@ -114,33 +245,44 @@ const SupplierLedger = () => {
           <thead className="border-b bg-[#BEBDEB]">
             <tr className="divide-x">
               <th className="py-3 px-6">Date</th>
-              <th className="py-3 px-3">Invoice No.</th>
-              <th className="py-3 px-6">Details</th>
-              <th className="py-3 px-6">Name</th>
-              <th className="py-3 px-6">Debit(tk)</th>
-              <th className="py-3 px-6">Credit(tk)</th>
-              <th className="py-3 px-6">Balance(tk)</th>
+
+              <th className="py-3 px-3 " onClick={handleSortByInvoiceNo}>
+                <p className="flex items-center">Invoice No. {sortedData === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}</p>
+              </th>
+
+              <th className="py-3 px-6" >Details </th>
+
+              <th className="py-3 px-6" onClick={handleSortByName}> 
+                <p className="flex items-center"> Name {sortedName === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}</p>
+              </th>
+
+              <th className="py-3 px-6" onClick={handleSortByDebitBalance}>
+                <p className="flex items-center">  Debit(tk) {sortedDebitBalance === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}</p>
+              </th>
+
+              <th className="py-3 px-6" onClick={handleSortByCreditBalance}>
+                
+                <p className="flex items-center"> Credit(tk) {sortedCreditBalance === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}</p>
+                </th>
+
+              <th className="py-3 px-6" onClick={handleSortByBalance}>
+                
+                <p className="flex items-center"> Balance(tk){sortedBalance === "asc" ? <IoIosArrowUp /> : <IoIosArrowDown />}</p>
+                </th>
             </tr>
           </thead>
 
-          {/* <tbody className="divide-y font-[500]">
-            {filterSuppler?.length !== 0
-              ? renderProductItems(filterSuppler)
-              : filteredByDate?.results?.length !== 0
-              ? renderProductItems(filteredByDate)
-              : data && renderProductItems(data?.results)}
-          </tbody> */}
-
           <tbody className="divide-y font-[500]">
-            {filterSuppler?.length !== 0
-              ? renderProductItems(filterSuppler)
-              : filteredByDate?.results?.length !== 0
-              ? renderProductItems(filteredByDate)
-              : startDate && endDate // Check if a date range is selected
-              ? renderProductItems(filteredByDate) // Display filteredByDate when a date range is selected
-              : data && renderProductItems(data?.results)}{" "}
-            {/* Display data?.results by default */}
+            {(filterSuppler?.length > 0 && renderProductItems(filterSuppler)) ||
+              (filteredByDate?.results?.length > 0 && renderProductItems(filteredByDate)) ||
+              (sortedData.length > 0 && renderProductItems(sortedData)) ||
+              (sortedName.length > 0 && renderProductItems(sortedName)) ||
+              (sortedCreditBalance.length > 0 && renderProductItems(sortedCreditBalance)) ||
+              (sortedDebitBalance.length > 0 && renderProductItems(sortedDebitBalance)) ||
+              (sortedBalance.length > 0 && renderProductItems(sortedBalance)) ||
+              (data?.results && renderProductItems(data?.results))}
           </tbody>
+        
         </table>
       </div>
 

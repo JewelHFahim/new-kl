@@ -54,7 +54,7 @@ const InvoiceBuyer = () => {
 
     try {
       const response = await axios.post(
-        "https://jabed.pythonanywhere.comproduct/order/create/",
+        "https://jabed.pythonanywhere.com/product/order/create/",
         invoiceData
       );
 
@@ -65,11 +65,12 @@ const InvoiceBuyer = () => {
         product: item.product,
         quantity: item.quantity,
         product_price: item.product_price,
+        discount_price: item.discount_price,
       }));
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "https://jabed.pythonanywhere.comproduct/order-product/create/",
+          "https://jabed.pythonanywhere.com/product/order-product/create/",
           item
         )
       );
@@ -166,6 +167,7 @@ const InvoiceBuyer = () => {
                 <th>Item</th>
                 <th>Price</th>
                 <th>Quantity</th>
+                <th>Discount</th>
                 <th>Total</th>
                 <th></th>
               </tr>
@@ -177,8 +179,10 @@ const InvoiceBuyer = () => {
                   <td>{item?.product_name}</td>
                   <td>{item?.product_price}</td>
                   <td>{item?.quantity}</td>
+                  <td>{item?.discount_price}</td>
                   <td>
-                    {Number(item?.product_price) * Number(item?.quantity)}
+                    {Number(item?.product_price) * Number(item?.quantity) -
+                      Number(item?.quantity) * Number(item?.discount_price)}
                   </td>
                   <td>
                     <button onClick={() => handleRevome(item)}>
@@ -200,15 +204,26 @@ const InvoiceBuyer = () => {
                 Sub Total: <span> { total } </span>
               </p>
               <p className="flex justify-between">
+<<<<<<< HEAD
                 Tax: <span> 0 </span>
               </p>
               <p className="flex justify-between">
                 Delivery: <span>0</span>
+=======
+                Tax: <span> {total} </span>
+              </p>
+              <p className="flex justify-between">
+                Delivery: <span></span>
+>>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
               </p>
             </div>
 
             <p className="font-[600] flex justify-between">
+<<<<<<< HEAD
               Total: <span> { total } </span>
+=======
+              Total: <span> {total} </span>
+>>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
             </p>
           </div>
         </div>

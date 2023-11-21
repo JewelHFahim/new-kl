@@ -2,15 +2,14 @@ import "./Login.css";
 import logo from "../../assets/Asset 2.png";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../../redux/feature/userSlice";
-import { toast } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { token, message } = useSelector((state) => state.user);
 
   const onSubmit = async (data) => {
     try {
@@ -18,15 +17,12 @@ const Login = () => {
         loginUser({ username: data.username, password: data.password })
       );
       console.log(res);
-
-      if (token === undefined || token === null) {
-        navigate("/login");
-      } else {
-        toast.success("Login Success!");
+      
         navigate("/");
-      }
+      
     } catch (error) {
       console.log(error);
+      toast.error("Login failed");
     }
   };
 
@@ -59,7 +55,6 @@ const Login = () => {
               className="h-[40px] w-[242px] px-4 mb-[5px] mr-[5px] focus:outline-none"
             />
           </div>
-          <p className="text-red-300 font-semibold">{message?.message}</p>
 
           <div className="form-control mt-[21px] border">
             <label className="flex items-center gap-[8px] cursor-pointer">

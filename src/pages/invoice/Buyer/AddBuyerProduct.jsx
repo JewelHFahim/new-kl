@@ -8,12 +8,17 @@ import { BsArrowLeft } from "react-icons/bs";
 import { addToInvoice } from "../../../redux/feature/buyers/buyerSlice";
 
 const AddBuyerProduct = () => {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState(null);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [discount, setDiscount] = useState("");
 
   useEffect(() => {
     if (selectedItem) {
@@ -35,6 +40,10 @@ const AddBuyerProduct = () => {
     setQuantity(e.target.value);
   };
 
+  const handleDiscountChange = (e) => {
+    setDiscount(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -44,11 +53,17 @@ const AddBuyerProduct = () => {
       product_name: productName,
       product_price: productPrice,
       quantity,
+      discount_price: parseInt(discount), 
       product: selectedItem?.id,
     };
 
     dispatch(addToInvoice(product));
+<<<<<<< HEAD
     console.log({ productName, productPrice, quantity, product: selectedItem?.id,});
+=======
+    console.log(product);
+
+>>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
     clearForm.reset();
     toast.success("Added");
     navigate("/invoice-buyer");
@@ -77,7 +92,7 @@ const AddBuyerProduct = () => {
             />
           </div>
 
-          <div>
+          <div className="mt-2">
             <label className="text-gray-700 dark:text-gray-200">
               Selling Price
             </label>
@@ -89,11 +104,21 @@ const AddBuyerProduct = () => {
             />
           </div>
 
-          <div>
+          <div className="mt-2">
             <label className="text-gray-700 dark:text-gray-200">Quantity</label>
             <input
               value={quantity}
               onChange={handleQuantityChange}
+              type="number"
+              className={input_filed_style}
+            />
+          </div>
+
+          <div className="mt-2">
+            <label className="text-gray-700 dark:text-gray-200">Discount</label>
+            <input
+              value={discount}
+              onChange={handleDiscountChange}
               type="number"
               className={input_filed_style}
             />

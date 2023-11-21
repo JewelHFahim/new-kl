@@ -1,13 +1,24 @@
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { useGetProductsQuery } from "../../redux/feature/products/productApi";
 
 const HotProductChart = () => {
+
+  const {data: products } = useGetProductsQuery();
+  
+  const mapedProductsForName = products?.results?.map((product)=>{
+    return product.product_name
+  })
+
+  const mapedProductsForAmount = products?.results?.map((product)=>{
+    return product.selling_price
+  })
 
   const [state] = useState({
 
     series: [
       {
-        data: [3551 , 2951, 2125],
+        data: mapedProductsForAmount,
       },
     ],
 
@@ -65,7 +76,7 @@ const HotProductChart = () => {
         },
 
         formatter: function (val, opt) {
-          return opt.w.globals.labels[opt.dataPointIndex] + " $" + val
+          return opt.w.globals.labels[opt.dataPointIndex] + " ৳" + val
         },
 
         dropShadow: {
@@ -74,7 +85,7 @@ const HotProductChart = () => {
       },
 
       xaxis: { 
-        categories: [ "Tomatto", "Onion", "Chicken"],
+        categories: mapedProductsForName,
         labels: { show: false },
         axisBorder: {
           show: false,

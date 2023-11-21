@@ -40,8 +40,7 @@ const Invoice = () => {
     const selected = e.target.value;
     setSelectedSupplier(selected);
     dispatch(addSuppliers(selected));
-
-    const url = `https://jabed.pythonanywhere.comproduct/search-supplier/?supplier=${selected}`;
+    const url = `https://jabed.pythonanywhere.com/product/search-supplier/?supplier=${selected}`;
     setSearchUrl(url);
   };
 
@@ -75,7 +74,7 @@ const Invoice = () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "https://jabed.pythonanywhere.comsupplier/supplier-order/create/",
+        "https://jabed.pythonanywhere.com/supplier/supplier-order/create/",
         invoiceData
       );
       console.log(invoiceData);
@@ -89,7 +88,7 @@ const Invoice = () => {
 
       const postRequests = updatedCart.map((item) =>
         axios.post(
-          "https://jabed.pythonanywhere.comsupplier/supplier-order-product/create/",
+          "https://jabed.pythonanywhere.com/supplier/supplier-order-product/create/",
           item
         )
       );
@@ -106,7 +105,7 @@ const Invoice = () => {
 
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
-      <HTitle>Supplier Invoice</HTitle>
+      <HTitle>Create Supplier Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">
@@ -207,15 +206,15 @@ const Invoice = () => {
                 Sub Total: <span> {total} </span>
               </p>
               <p className="flex justify-between">
-                Tax: <span> {total * 0.1} </span>
+                Tax: <span> </span>
               </p>
               <p className="flex justify-between">
-                Delivery: <span>100</span>
+                Delivery: <span></span>
               </p>
             </div>
 
             <p className="font-[600] flex justify-between">
-              Total: <span> {total + total * 0.1 + 100} </span>
+              Total: <span> {total} </span>
             </p>
           </div>
         </div>

@@ -49,9 +49,10 @@ const BuyerLedger = () => {
   };
 
   // pagination start
-  const PAGE_SIZE = 15;
+  
   const [currentPage, setCurrentPage] = useState(1);
   const { data } = useGetBuyerOrdereListQuery(currentPage);
+  const PAGE_SIZE = data?.count;
   //end
 
   // filter table data display
@@ -185,7 +186,7 @@ const BuyerLedger = () => {
     sortByDebitBalance(data?.results);
   };
 
-  // Sorting By Debit Balance
+  // Sorting By Total Balance
   const [sortBalance, setSortBalance] = useState("asc");
   const [sortedBalance, setSortedBalance] = useState([]);
 

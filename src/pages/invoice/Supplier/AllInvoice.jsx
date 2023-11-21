@@ -1,9 +1,21 @@
 import { Link } from "react-router-dom";
-import { useGetAllInvoiceSupplierQuery } from "../../../redux/feature/supplier/supplierApi";
+import {
+  useDeleteSupplierOrderMutation,
+  useGetAllInvoiceSupplierQuery,
+} from "../../../redux/feature/supplier/supplierApi";
 import Loading from "../../../utils/Loading";
+import toast from "react-hot-toast";
 
 const AllInvoiceSupplier = () => {
+
+  
   const { data: supplierOrders, isLoading } = useGetAllInvoiceSupplierQuery();
+  const [deleteSupplierOrder] = useDeleteSupplierOrderMutation();
+
+  const handleDeleteOrder = (id) => {
+    deleteSupplierOrder(id);
+    toast.error("Deleted");
+  };
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-6">
@@ -26,7 +38,7 @@ const AllInvoiceSupplier = () => {
           </thead>
 
           {isLoading ? (
-           <Loading />
+            <Loading />
           ) : (
             <tbody className="text-gray-600 divide-y">
               {supplierOrders?.results?.map((item, idx) => (
@@ -42,10 +54,19 @@ const AllInvoiceSupplier = () => {
                     {item.invoice_date}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
-                  <td>
-                    <Link to={`/invoicedetails/${item.id}`}>
-                      <button>View</button>
-                    </Link>
+                  <td >
+                    <div className="flex items-center gap-5 font-medium">
+                      <Link to={`/invoicedetails/${item.id}`}>
+                        <button className="text-green-600">View</button>
+                      </Link>
+
+                      <button
+                        onClick={() => handleDeleteOrder(item.id)}
+                        className="text-red-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

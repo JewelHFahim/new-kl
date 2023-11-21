@@ -57,6 +57,16 @@ const buyerApi = apiSlice.injectEndpoints({
       invalidatesTags: ['keylagbe'],
     }),
 
+    updateBuyerInvoice: builder.mutation({
+      query: ({ data, id }) => ({
+        method: "POST",
+        url: `/product/order-product/update/${id}/`,
+        body: data,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
+ 
     getBuyerOrdereList: builder.query({
       query: (currentPage) => `/product/order/list/?page_number=${currentPage}`,
       providesTags: ['keylagbe'],
@@ -80,8 +90,27 @@ const buyerApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["keylagbe"],
     }),
+
+
+    deleteBuyerOrder: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/product/order/delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
+    deleteBuyerInvoiceProduct: builder.mutation({
+      query: (id) => ({
+        method: "DELETE",
+        url: `/product/order-product/delete/${id}/`,
+      }),
+      invalidatesTags: ["keylagbe"],
+    }),
+
+
   }),
 });
 
-export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery, useFilterBuyerByDateQuery, useGetBuyerOrdereListQuery, useGetBuyerBalanceDetailQuery, useDeleteBuyerMutation, useGetAllBuyerBalanceQuery } = buyerApi;
+export const { useGetBuyersQuery, useGetSingleBuyerQuery, usePostBuyerMutation, useUpdateBuyerMutation, useGetAllInvoiceBuyerQuery, useGetSingleOrderQuery, useGetAllOrderedProductsQuery, useFilterBuyerByIdQuery, useFilterBuyerByDateQuery, useGetBuyerOrdereListQuery, useGetBuyerBalanceDetailQuery, useDeleteBuyerMutation, useGetAllBuyerBalanceQuery, useDeleteBuyerOrderMutation, useUpdateBuyerInvoiceMutation, useDeleteBuyerInvoiceProductMutation } = buyerApi;
 export default buyerApi;

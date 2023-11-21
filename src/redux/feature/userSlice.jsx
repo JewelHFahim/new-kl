@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const loginUser = createAsyncThunk("loginUser", async (body) => {
-  const res = await fetch("https://jabed.pythonanywhere.comuser/login/", {
+  const res = await fetch("https://jabed.pythonanywhere.com/user/login/", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,7 +48,6 @@ const userSlice = createSlice({
         state.error = action.payload;
       } else {
         state.token = action.payload.token;
-        console.log(state.token);
         state.isLoading = false;
         localStorage.setItem("token", JSON.stringify(state.token));
         const gotToken = localStorage.getItem("token");
