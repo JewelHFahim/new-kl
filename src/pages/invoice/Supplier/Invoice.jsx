@@ -5,7 +5,7 @@ import {
   useGetSuppliersQuery,
 } from "../../../redux/feature/supplier/supplierApi";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import HTitle from "../../../utils/HTitle";
 import { useForm } from "react-hook-form";
 import CButton from "../../../utils/CButton";
@@ -15,10 +15,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import {
   addSupplierUnderProducts,
   addSuppliers,
+  removeFromInvoiceSup,
 } from "../../../redux/feature/supplier/supplierSlice";
 import ToggleSupplier from "./ToggleSupplier";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Invoice = () => {
+  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const formattedDate = startDate.toISOString().slice(0, 16);
@@ -69,8 +72,8 @@ const Invoice = () => {
     order_total: total,
   };
 
-  const onSubmit = async (event) => {
-    const clearForm = event.target;
+  // Generate Order
+  const onSubmit = async () => {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
@@ -96,16 +99,23 @@ const Invoice = () => {
       await Promise.all(postRequests);
       toast.success("Invoice Created");
       setIsSubmitting(false);
-      clearForm.reset();
+      navigate("/supplierallinvoice")
     } catch (error) {
       console.log(error);
       setIsSubmitting(false);
     }
   };
 
+  //    remove from invoice
+  const handleRevome = (item) => {
+    dispatch(removeFromInvoiceSup(item));
+    console.log(item);
+    toast.error("Remove");
+  };
+
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
-      <HTitle>Create Supplier Invoice</HTitle>
+      <HTitle> Supplier - Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
         <div className="flex justify-between items-center">
@@ -169,64 +179,63 @@ const Invoice = () => {
         </Link>
       </div>
 
-      <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] ">
-        <div className="overflow-x-auto">
-          <table className="table font-poppins text-[#000]">
-            <thead>
-              <tr className="text-[10px]">
-                <th>SL</th>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-              </tr>
-            </thead>
-            <tbody className="bg-[#F5F7F6]">
-              {addedProducts?.map((item, i) => (
-                <tr key={i} className="text-[9px] font-[300]">
-                  <th className="text-[10px] font-[500]"> {i + 1} </th>
-                  <td>{item?.product_name}</td>
-                  <td>{item?.product_price}</td>
-                  <td>{item?.quantity}</td>
-                  <td>
-                    {Number(item?.product_price) * Number(item?.quantity)}
-                  </td>
+      {addedProducts?.length > 0 && (
+        <div className=" h-[100%] rounded-[14px] shadow-md mx-[-24px]">
+          <div className="overflow-x-auto">
+            <table className="table font-poppins text-[#000]">
+              <thead>
+                <tr className="text-[10px]">
+                  <th>SL</th>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th className="p-0">Total</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="bg-[#F5F7F6]">
+                {addedProducts?.map((item, i) => (
+                  <tr key={i} className="text-[9px] font-[300]">
+                    <th className="text-[10px] font-[500]"> {i + 1} </th>
+                    <td>{item?.product_name}</td>
+                    <td>{item?.product_price}</td>
+                    <td>{item?.quantity}</td>
+                    <td className="p-0">
+                      {Number(item?.product_price) * Number(item?.quantity)}
+                    </td>
 
-        <div className="mt-3 flex justify-between items-center px-6">
-          <div className="w-[50%]"></div>
+                    <td>
+                      <button onClick={() => handleRevome(item)}>
+                        <FaRegTrashAlt className="text-[17px] text-red-500" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
 
-          <div className="text-[#000] text-[8px] w-[50%] px-3">
-            <div className="border-b pb-2 mb-1 flex flex-col gap-y-2">
-              <p className="flex justify-between">
-                Sub Total: <span> {total} </span>
-              </p>
-              <p className="flex justify-between">
-                Tax: <span> </span>
-              </p>
-              <p className="flex justify-between">
-                Delivery: <span></span>
-              </p>
-            </div>
-
-            <p className="font-[600] flex justify-between">
-              Total: <span> {total} </span>
-            </p>
+                <tr className="border-t">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td className="text-[8px] p-0 font-semibold">Total:</td>
+                  <td className="text-[8px] p-0 font-semibold"> {total} </td>
+                  <td className="pb-4"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="mt-6 flex  justify-center gap-4">
+      {
+        addedProducts?.length > 0 &&
+
+        <div className="mt-6 flex  justify-center gap-4">
         <CButton>Print Invoice</CButton>
 
         <button onClick={onSubmit} disabled={isSubmitting}>
           <CButton> {isSubmitting ? "Saving..." : "Save"}</CButton>
         </button>
-      </div>
+      </div>}
     </section>
   );
 };

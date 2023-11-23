@@ -6,6 +6,8 @@ import { toast } from "react-hot-toast";
 import { BsArrowLeft } from "react-icons/bs";
 import { addToInvoice } from "../../../redux/feature/supplier/supplierSlice";
 import ProductListDropdown from "./ProductListDropdown";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const AddSupplierProduct = () => {
 
@@ -16,8 +18,8 @@ const AddSupplierProduct = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [quantity, setQuantity] = useState(""); 
+  const [productPrice, setProductPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0); 
 
   useEffect(() => {
     if (selectedItem) {
@@ -46,6 +48,7 @@ const AddSupplierProduct = () => {
     const clearForm = e.target;
 
     const product = {
+      id: uuidv4(),
       product_name: productName,
       product_price: productPrice,
       quantity,

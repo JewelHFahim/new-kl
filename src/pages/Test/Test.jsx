@@ -1,28 +1,29 @@
-import { useRef } from "react";
-import ReactToPrint from "react-to-print";
+// import { useRef } from "react";
+// import ReactToPrint from "react-to-print";
 
-const Test = () => {
-  const componentRef = useRef();
+// const Test = () => {
 
-  const handlePrint = () => {
-    window.print();
-  };
+//   const componentRef = useRef();
 
-  return (
-    <div>
-      <h1>Buyer Invoice</h1>
+//   const handlePrint = () => {
+//     window.print();
+//   };
 
-      <ReactToPrint
-        trigger={() => <button className="btn">Print</button>}
-        content={() => componentRef.current}
-      />
+//   return (
+//     <div>
+//       <h1>Buyer Invoice</h1>
 
-      <div ref={componentRef}>
-        <p className="text-green-600 text-xl font-semibold">Print My InVoice</p>
-      </div>
+//       <ReactToPrint
+//         trigger={() => <button className="btn">Print</button>}
+//         content={() => componentRef.current}
+//       />
+
+//       <div ref={componentRef}>
+//         <p className="text-green-600 text-xl font-semibold">Print My InVoice</p>
+//       </div>
       
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
-export default Test;
+// export default Test;

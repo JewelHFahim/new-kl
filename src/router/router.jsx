@@ -21,7 +21,6 @@ import SupplierLedger from "../pages/ledger/SupplierLedger";
 import BuyerLedger from "../pages/ledger/BuyerLedger";
 import AddBuyerProduct from "../pages/invoice/Buyer/AddBuyerProduct";
 import AddSupplierProduct from "../pages/invoice/Supplier/AddProduct";
-import Test from "../pages/Test/Test";
 
 const router = createBrowserRouter([
   {
@@ -118,12 +117,7 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <ErrorPage />,
-  },
-
-  {
-    path: "/test",
-    element: <Test />,
-  },
+  }
 ]);
 
 export default router;

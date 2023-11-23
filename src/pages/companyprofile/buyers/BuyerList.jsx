@@ -1,5 +1,4 @@
 import { AiOutlinePlus } from "react-icons/ai";
-import img1 from "../../../assets/user.jpg";
 import img2 from "../../../assets/grapg.svg";
 import CButton from "../../../utils/CButton";
 import { useState } from "react";
@@ -11,6 +10,7 @@ import {
   useGetBuyersQuery,
 } from "../../../redux/feature/buyers/buyerApi";
 import Loading from "../../../utils/Loading";
+import { store } from "../../../utils/someClasses";
 
 const BuyerList = () => {
   const { data: buyers } = useGetBuyersQuery();
@@ -55,7 +55,7 @@ const BuyerList = () => {
               <div className="h-[60%] flex flex-row justify-between px-[14px] pt-[14px]">
                 <div>
                   <img
-                    src={img1}
+                    src={store}
                     alt=""
                     className="w-[54px] h-[54px] rounded-[15px] object-cover"
                   />
@@ -95,7 +95,7 @@ const BuyerList = () => {
           ))}
         </div>
       ) : (
-        <Loading/>
+        <Loading />
       )}
     </div>
   );

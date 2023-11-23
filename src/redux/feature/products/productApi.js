@@ -39,8 +39,13 @@ const productApi = apiSlice.injectEndpoints({
       invalidatesTags: ["keylagbe"],
     }),
 
+    getPaginateProductList: builder.query({
+      query: (currentPage) => `/product/product-list/?page_number=${currentPage}`,
+      providesTags: ['keylagbe'],
+    }),
+
   }),
 });
 
-export const { useGetProductsQuery, usePostProductMutation, useSingleProductQuery, useUpdateProductMutation, useDeleteProductMutation } = productApi;
+export const { useGetProductsQuery, usePostProductMutation, useSingleProductQuery, useUpdateProductMutation, useDeleteProductMutation, useGetPaginateProductListQuery } = productApi;
 export default productApi;

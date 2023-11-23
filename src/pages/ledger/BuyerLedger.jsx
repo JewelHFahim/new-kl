@@ -49,10 +49,11 @@ const BuyerLedger = () => {
   };
 
   // pagination start
-  
   const [currentPage, setCurrentPage] = useState(1);
+
   const { data } = useGetBuyerOrdereListQuery(currentPage);
   const PAGE_SIZE = data?.count;
+  
   //end
 
   // filter table data display
@@ -323,14 +324,10 @@ const BuyerLedger = () => {
         {data?.count > 0 && (
           <div className="flex justify-center items-center gap-4 py-2">
             <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={!data?.previous}
-              className={`${
-                data?.previous ? "" : "hidden"
-              } ${pagination_btn_style} `}
+              onClick={() => setCurrentPage(currentPage - 1)} disabled={!data?.previous}
+              className={`${ data?.previous ? "" : "hidden" } ${pagination_btn_style} `}
             >
-              <MdArrowBackIos />
-              Previous
+              <MdArrowBackIos /> Previous
             </button>
 
             <span>
@@ -338,18 +335,15 @@ const BuyerLedger = () => {
             </span>
 
             <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={!data?.next}
-              className={` ${
-                data?.next ? "" : "hidden"
-              } ${pagination_btn_style}`}
+              onClick={() => setCurrentPage(currentPage + 1)} disabled={!data?.next}
+              className={` ${ data?.next ? "" : "hidden" } ${pagination_btn_style}`}
             >
-              Next
-              <MdArrowForwardIos />
+              Next <MdArrowForwardIos />
             </button>
           </div>
         )}
       </div>
+      
     </div>
   );
 };

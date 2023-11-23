@@ -16,6 +16,7 @@ import ReactToPrint from "react-to-print";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import EditQuantity from "./EditQuantity";
+import FormateDate from "../../../utils/FormateDate";
 
 const DetailsInvoice = () => {
   const { id } = useParams();
@@ -59,9 +60,6 @@ const DetailsInvoice = () => {
   // PDF
   const componentRef = useRef();
 
-  // const handlePrint = () => {
-  //   window.print();
-  // };
 
   // Delete Product
   const handleDeleteInvoiceProduct = (id) => {
@@ -84,7 +82,7 @@ const DetailsInvoice = () => {
     <section className="px-6 pb-5">
       <HTitle>Invoice</HTitle>
 
-      <eection ref={componentRef}>
+      <section ref={componentRef}>
         <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
           <div className="flex justify-between items-center">
             <p className="text-[10px] text-[#000] font-poppins">
@@ -94,7 +92,7 @@ const DetailsInvoice = () => {
 
             <p className="text-[10px] text-[#000] font-poppins flex gap-2">
               <span className="font-[600]">Date:</span>
-              {orderDetails?.invoice_date}
+              {FormateDate(orderDetails?.invoice_date)}
             </p>
           </div>
 
@@ -123,9 +121,9 @@ const DetailsInvoice = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] mt-6">
+          <div className=" h-[100%] rounded-[14px] shadow-md mx-[-24px] mt-6">
             <div className="overflow-x-auto">
-              <table className="table font-poppins text-[#000]">
+              <table className="table font-poppins text-[#000] text-center">
                 <thead>
                   <tr className="text-[10px]">
                     <th>SL</th>
@@ -140,21 +138,18 @@ const DetailsInvoice = () => {
                   {orderedProducts?.results?.map((item, i) => {
                     const product = findProductById(item.product);
                     return (
-                      <tr key={i} className="text-[9px] font-[300]">
+                      <tr key={i} className="text-[9px] font-[300] text-center">
                         <th className="text-[10px] font-[500]"> {i + 1} </th>
                         <td> {product?.product_name} </td>
                         <td>{item?.product_price}</td>
                         <td>{item?.quantity}</td>
-                        <td>
-                          {Number(item.product_price) * Number(item?.quantity)}
-                        </td>
-                        <td className="flex justify-center items-center gap-x-6">
-                          <button
-                            onClick={openModal}
-                            className="text-[15px] text-green-600"
-                          >
+                        <td> {Number(item.product_price) * Number(item?.quantity)} </td>
+                        <td className="flex justify-center items-center gap-x-2 px-0 text-[18px]">
+
+                          <button onClick={openModal} className=" text-green-600">
                             <FiEdit />
                           </button>
+
                           <EditQuantity
                             openModal={openModal}
                             isOpen={isOpen}
@@ -162,51 +157,33 @@ const DetailsInvoice = () => {
                             item={item}
                           />
 
-                          <Link>
-                            <button
-                              onClick={() =>
-                                handleDeleteInvoiceProduct(item.id)
-                              }
-                              className="text-[15px] text-red-600"
+                        
+                            <button onClick={() => handleDeleteInvoiceProduct(item.id)}
+                              className=" text-red-600"
                             >
                               <FiTrash2 />
                             </button>
-                          </Link>
+                          
+
                         </td>
                       </tr>
                     );
                   })}
+
+                  <tr className="bg-slate-100 text-[10px] font-medium">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total Amount</td>
+                    <td>{totalPrice}</td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
-
-            <div className="mt-3 flex justify-between items-center px-6">
-              <div className="w-[50%]"></div>
-
-              <div className="text-[#000] text-[8px] w-[50%] px-3">
-                <div className="border-b pb-2 mb-1 flex flex-col gap-y-2">
-                  <p className="flex justify-between">
-                    Sub Total:
-                    <span>{totalPrice}</span>
-                  </p>
-                  <p className="flex justify-between">
-                    Tax:
-                    <span>  </span>
-                  </p>
-                  <p className="flex justify-between">
-                    Delivery: <span></span>
-                  </p>
-                </div>
-
-                <p className="font-[600] flex justify-between">
-                  Total:
-                  <span> {totalPrice} </span>
-                </p>
-              </div>
-            </div>
           </div>
         )}
-      </eection>
+      </section>
 
       <div className="mt-6 flex flex-col items-center justify-center gap-4">
         <CButton>

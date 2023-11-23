@@ -6,6 +6,7 @@ import {
 } from "../../../redux/feature/buyers/buyerApi";
 import Loading from "../../../utils/Loading";
 import toast from "react-hot-toast";
+import FormateDate from "../../../utils/FormateDate";
 
 const AllInvoiceByer = () => {
   const { data: buyerOrders, isLoading } = useGetAllInvoiceBuyerQuery();
@@ -56,9 +57,9 @@ const AllInvoiceByer = () => {
             <Loading />
           ) : (
             <tbody className="text-gray-600 divide-y">
+
               {buyerOrders?.results?.map((item, idx) => {
                 const buyer = findProductById(item.customer);
-                console.log(buyer);
                 return (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -71,7 +72,7 @@ const AllInvoiceByer = () => {
                       {item.phone}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {item.invoice_date}
+                      {FormateDate(item.invoice_date)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {item.status}

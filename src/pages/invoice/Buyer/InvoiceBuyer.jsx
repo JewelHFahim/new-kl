@@ -9,8 +9,14 @@ import { toast } from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import { FaRegTrashAlt } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
-import { useGetBuyersQuery, useGetSingleBuyerQuery } from "../../../redux/feature/buyers/buyerApi";
-import {addBuyer, removeFromInvoice } from "../../../redux/feature/buyers/buyerSlice";
+import {
+  useGetBuyersQuery,
+  useGetSingleBuyerQuery,
+} from "../../../redux/feature/buyers/buyerApi";
+import {
+  addBuyer,
+  removeFromInvoice,
+} from "../../../redux/feature/buyers/buyerSlice";
 import ToggleBuyer from "./ToggleBuyer";
 
 const InvoiceBuyer = () => {
@@ -48,8 +54,7 @@ const InvoiceBuyer = () => {
   };
 
   //  generate invoice
-  const onSubmit = async (event) => {
-    const clearForm = event.target;
+  const onSubmit = async () => {
     setIsSubmitting(true);
 
     try {
@@ -58,8 +63,9 @@ const InvoiceBuyer = () => {
         invoiceData
       );
 
-      const generatedId = response.data.id;
+      console.log(response)
 
+      const generatedId = response.data.id;
       const updatedCart = addedProducts.map((item) => ({
         order: generatedId,
         product: item.product,
@@ -69,16 +75,14 @@ const InvoiceBuyer = () => {
       }));
 
       const postRequests = updatedCart.map((item) =>
-        axios.post(
-          "https://jabed.pythonanywhere.com/product/order-product/create/",
-          item
-        )
+        axios.post("https://jabed.pythonanywhere.com/product/order-product/create/", item )
       );
+
+      console.log(postRequests)
 
       await Promise.all(postRequests);
       toast.success("Invoice Created");
       setIsSubmitting(false);
-      clearForm.reset();
       navigate("/buyerallinvoice");
     } catch (error) {
       console.log(error);
@@ -88,16 +92,15 @@ const InvoiceBuyer = () => {
 
   const handleRevome = (item) => {
     dispatch(removeFromInvoice(item));
-    console.log(item)
+    console.log(item);
     toast.error("Remove");
   };
 
   return (
     <section onSubmit={handleSubmit(onSubmit)} className="px-6 pb-5">
-      <HTitle>Buyer Invoice</HTitle>
+      <HTitle>Buyer-Invoice</HTitle>
 
       <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
-
         <div className="flex justify-between items-center">
           <p className="text-[10px] text-[#000] font-poppins">
             <span className="font-[600]">Invoice#</span> <span>30542</span>
@@ -158,85 +161,66 @@ const InvoiceBuyer = () => {
         </Link>
       </div>
 
-      <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] ">
-        <div className="overflow-x-auto">
-          <table className="table font-poppins text-[#000]">
-            <thead>
-              <tr className="text-[10px]">
-                <th>SL</th>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Discount</th>
-                <th>Total</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody className="bg-[#F5F7F6]">
-              {addedProducts?.map((item, i) => (
-                <tr key={i} className="text-[9px] font-[300]">
-                  <th className="text-[10px] font-[500]"> {i + 1} </th>
-                  <td>{item?.product_name}</td>
-                  <td>{item?.product_price}</td>
-                  <td>{item?.quantity}</td>
-                  <td>{item?.discount_price}</td>
-                  <td>
-                    {Number(item?.product_price) * Number(item?.quantity) -
-                      Number(item?.quantity) * Number(item?.discount_price)}
-                  </td>
-                  <td>
-                    <button onClick={() => handleRevome(item)}>
-                      <FaRegTrashAlt className="text-[17px] text-red-500" />
-                    </button>
-                  </td>
+      {addedProducts?.length > 0 && (
+        <div className="h-[100%] rounded-[14px] shadow-md mx-[-24px]">
+          <div className="overflow-x-auto">
+            <table className="table font-poppins text-[#000]">
+              <thead>
+                <tr className="text-[10px]">
+                  <th>SL</th>
+                  <th>Item</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Discount</th>
+                  <th>Total</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
 
-        <div className="mt-3 flex justify-between items-center px-6">
-          <div className="w-[50%]"></div>
+              <tbody className="bg-[#F5F7F6]">
+                {addedProducts?.map((item, i) => (
+                  <tr key={i} className="text-[9px] font-[300]">
+                    <th className="text-[10px] font-[500]"> {i + 1} </th>
+                    <td>{item?.product_name}</td>
+                    <td>{item?.product_price}</td>
+                    <td>{item?.quantity}</td>
+                    <td>{item?.discount_price}</td>
+                    <td>
+                      {Number(item?.product_price) * Number(item?.quantity) -
+                        Number(item?.quantity) * Number(item?.discount_price)}
+                    </td>
+                    <td>
+                      <button onClick={() => handleRevome(item)}>
+                        <FaRegTrashAlt className="text-[17px] text-red-500" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
 
-          <div className="text-[#000] text-[8px] w-[50%] px-3">
-            <div className="border-b pb-2 mb-1 flex flex-col gap-y-2">
-              <p className="flex justify-between">
-                Sub Total: <span> { total } </span>
-              </p>
-              <p className="flex justify-between">
-<<<<<<< HEAD
-                Tax: <span> 0 </span>
-              </p>
-              <p className="flex justify-between">
-                Delivery: <span>0</span>
-=======
-                Tax: <span> {total} </span>
-              </p>
-              <p className="flex justify-between">
-                Delivery: <span></span>
->>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
-              </p>
-            </div>
-
-            <p className="font-[600] flex justify-between">
-<<<<<<< HEAD
-              Total: <span> { total } </span>
-=======
-              Total: <span> {total} </span>
->>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
-            </p>
+                <tr className="border-t bg-slate-100">
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td className="text-[8px] font-semibold">Total:</td>
+                  <td className="text-[8px] font-semibold"> {total} </td>
+                  <td className="pb-4"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="mt-6 flex  justify-center gap-4">
-        <CButton>Print Invoice</CButton>
+      {addedProducts?.length > 0 && (
+        <div className="mt-6 flex  justify-center gap-4">
+          <CButton>Print Invoice</CButton>
 
-        <button onClick={onSubmit} disabled={isSubmitting}>
-          <CButton> {isSubmitting ? "Saving..." : "Save"}</CButton>
-        </button>
-      </div>
-
+          <button onClick={onSubmit} disabled={isSubmitting}>
+            <CButton> {isSubmitting ? "Saving..." : "Save"}</CButton>
+          </button>
+        </div>
+      )}
     </section>
   );
 };

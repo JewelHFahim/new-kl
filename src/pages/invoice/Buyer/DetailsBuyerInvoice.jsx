@@ -15,19 +15,22 @@ import { useRef, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import EditQuantity from "./EditQuantity";
 import toast from "react-hot-toast";
+import FormateDate from "../../../utils/FormateDate";
 
 const DetailsBuyerInvoice = () => {
   const { id } = useParams();
 
   const { data: orderDetails } = useGetSingleOrderQuery(id);
+  console.log(orderDetails);
 
   const { data: allBuyers } = useGetBuyersQuery();
 
-  const [deleteBuyerInvoiceProduct] = useDeleteBuyerInvoiceProductMutation()
+  const [deleteBuyerInvoiceProduct] = useDeleteBuyerInvoiceProductMutation();
 
   const mappedBuyer = allBuyers?.results?.map((item) => {
     return item;
   });
+
   const buyer = mappedBuyer?.find(
     (buyer) => buyer?.id === orderDetails?.customer
   );
@@ -35,11 +38,13 @@ const DetailsBuyerInvoice = () => {
   const { data: orderedProducts, isLoading } = useGetAllOrderedProductsQuery(
     orderDetails?.id
   );
+  console.log(orderedProducts);
 
   const { data: allProducts } = useGetProductsQuery();
   const mappedProducts = allProducts?.results?.map((item) => {
     return item;
   });
+
   const findProductById = (productId) => {
     return mappedProducts?.find((product) => product?.id === productId);
   };
@@ -56,32 +61,29 @@ const DetailsBuyerInvoice = () => {
   // PDF
   const componentRef = useRef();
 
-  // const handlePrint = () => {
-  //   window.print();
-  // };
-
-   // Delete Product
-   const handleDeleteInvoiceProduct = (id) => {
+  // Delete Product
+  const handleDeleteInvoiceProduct = (id) => {
     deleteBuyerInvoiceProduct(id);
     toast.error("Deleted");
   };
 
-   // Edit Product Quantity
-   const [isOpen, setIsOpen] = useState(false);
+  // Edit Product Quantity
+  const [isOpen, setIsOpen] = useState(false);
 
-   const openModal = () => {
-     setIsOpen(true);
-   };
- 
-   const closeModal = () => {
-     setIsOpen(false);
-   };
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   return (
     <section className="px-6 pb-5">
-      <HTitle>Buyer Invoice</HTitle>
+      <HTitle>Buyer-Invoice-Details</HTitle>
 
       <section className="myInvoice" ref={componentRef}>
+
         <section className="mt-[35px] h-[180px] rounded-[14px] shadow-md p-3 ">
           <div className="flex justify-between items-center">
             <p className="text-[10px] text-[#000] font-poppins">
@@ -91,7 +93,7 @@ const DetailsBuyerInvoice = () => {
 
             <p className="text-[10px] text-[#000] font-poppins flex gap-2">
               <span className="font-[600]">Date:</span>
-              {orderDetails?.invoice_date}
+              {FormateDate(orderDetails?.invoice_date)}
             </p>
           </div>
 
@@ -116,21 +118,24 @@ const DetailsBuyerInvoice = () => {
             </p>
           </div>
         </section>
+        
         {isLoading ? (
           <Loading />
         ) : (
-          <div className=" h-[313px] rounded-[14px] shadow-md mx-[-24px] mt-6">
+          <div className=" h-[100%] rounded-[14px] shadow-md mx-[-24px] mt-6 pb-4">
             <div className="overflow-x-auto">
-              <table className="table font-poppins text-[#000]">
+              <table className="table font-poppins text-[#000] text-center">
                 <thead>
                   <tr className="text-[10px]">
                     <th>SL</th>
                     <th>Item</th>
-                    <th>Price</th>
+                    <th>Price(tk)</th>
                     <th>Quantity</th>
-                    <th>Total</th>
+                    <th>Total(tk)</th>
+                    <th></th>
                   </tr>
                 </thead>
+
                 <tbody className="bg-[#F5F7F6]">
                   {orderedProducts?.map((item, i) => {
                     const product = findProductById(item.product);
@@ -141,12 +146,14 @@ const DetailsBuyerInvoice = () => {
                         <td>{item?.product_price}</td>
                         <td>{item?.quantity}</td>
                         <td>
-                          {Number(item.product_price) * Number(item?.quantity)}
+                          {" "}
+                          {Number(item.product_price) *
+                            Number(item?.quantity)}{" "}
                         </td>
-                        <td className="flex justify-center items-center gap-x-6">
+                        <td className="flex justify-center items-center gap-x-2 px-0 text-[18px]">
                           <button
                             onClick={openModal}
-                            className="text-[15px] text-green-600"
+                            className=" text-green-600"
                           >
                             <FiEdit />
                           </button>
@@ -157,44 +164,27 @@ const DetailsBuyerInvoice = () => {
                             item={item}
                           />
 
-                          <Link>
-                            <button
-                              onClick={() =>
-                                handleDeleteInvoiceProduct(item.id)
-                              }
-                              className="text-[15px] text-red-600"
-                            >
-                              <FiTrash2 />
-                            </button>
-                          </Link>
+                          <button
+                            onClick={() => handleDeleteInvoiceProduct(item.id)}
+                            className=" text-red-600"
+                          >
+                            <FiTrash2 />
+                          </button>
                         </td>
                       </tr>
                     );
                   })}
+
+                  <tr className="text-[12px] bg-slate-100">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total Amount</td>
+                    <td> {totalPrice} tk</td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
-            </div>
-
-            <div className="mt-3 flex justify-between items-center px-6">
-              <div className="w-[50%]"></div>
-
-              <div className="text-[#000] text-[8px] w-[50%] px-3">
-                <div className="border-b pb-2 mb-1 flex flex-col gap-y-2">
-                  <p className="flex justify-between">
-                    Sub Total: <span>{totalPrice}</span>
-                  </p>
-                  <p className="flex justify-between">
-                    Tax: <span></span>
-                  </p>
-                  <p className="flex justify-between">
-                    Delivery: <span></span>
-                  </p>
-                </div>
-
-                <p className="font-[600] flex justify-between">
-                  Total: <span> {totalPrice} </span>
-                </p>
-              </div>
             </div>
           </div>
         )}

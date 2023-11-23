@@ -2,7 +2,6 @@ import HTitle from "../../../utils/HTitle";
 import { LuEdit } from "react-icons/lu";
 import { BsPlus } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
-import img1 from "../../../assets/user.jpg";
 import img2 from "../../../assets/grapg.svg";
 import {
   useGetSingleSupplierQuery,
@@ -15,6 +14,7 @@ import { useState } from "react";
 import EditSupplier from "./EditSupplier";
 import { useForm } from "react-hook-form";
 import ProductView from "../../../utils/ProductView";
+import { store } from "../../../utils/someClasses";
 
 const SingleSupplier = () => {
   const { register, handleSubmit } = useForm();
@@ -60,7 +60,7 @@ const SingleSupplier = () => {
 
         <div className="flex flex-col items-center gap-y-3">
           <div className=" relative w-[68px] h-[68px]">
-            <img src={img1} alt="" className="w-[68px] h-[68px] rounded-full" />
+            <img src={store} alt="" className="w-[68px] h-[68px] rounded-full" />
 
             <div className="absolute right-[-5px] bottom-[-8px] z-50 bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center shadow-md">
               <BsPlus className="text-[20px]" />
@@ -147,28 +147,24 @@ const SingleSupplier = () => {
       <div className=" mt-[75px]">
         <h2 className="text-[20px] font-[600] text-textColorBlack">Products</h2>
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
+        <form  onSubmit={handleSubmit(onSubmit)}
           className="bg-[#BAD1E8] rounded-[8px] h-[32px] mt-4 flex items-center pl-4"
         >
           <BiSearchAlt className="text-[20px]" />
 
-          <input
-            {...register("pname")}
-            type="text"
-            placeholder="Product Name"
+          <input  {...register("pname")} type="text" placeholder="Product Name"
             className="w-full h-8 bg-transparent px-[14px] focus:outline-none"
           />
+
           <button className="px-4 py-1 rounded-lg bg-[#a5bed7] text-white">
             Search
           </button>
+
         </form>
 
         {/* Products with filter by name */}
         <div className="mt-4 grid grid-cols-1 gap-y-6">
-          {filterProducts?.length !== 0
-            ? renderProductItems(filterProducts)
-            : products && renderProductItems(products)}
+          {filterProducts?.length !== 0 ? renderProductItems(filterProducts) : products && renderProductItems(products)}
         </div>
       </div>
     </div>

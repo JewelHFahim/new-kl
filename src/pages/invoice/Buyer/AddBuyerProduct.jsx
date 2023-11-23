@@ -6,19 +6,17 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-hot-toast";
 import { BsArrowLeft } from "react-icons/bs";
 import { addToInvoice } from "../../../redux/feature/buyers/buyerSlice";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const AddBuyerProduct = () => {
-<<<<<<< HEAD
-=======
-
->>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedItem, setSelectedItem] = useState(null);
   const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [discount, setDiscount] = useState("");
+  const [productPrice, setProductPrice] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [discount, setDiscount] = useState(0);
 
   useEffect(() => {
     if (selectedItem) {
@@ -50,6 +48,7 @@ const AddBuyerProduct = () => {
     const clearForm = e.target;
 
     const product = {
+      id: uuidv4(),
       product_name: productName,
       product_price: productPrice,
       quantity,
@@ -58,12 +57,7 @@ const AddBuyerProduct = () => {
     };
 
     dispatch(addToInvoice(product));
-<<<<<<< HEAD
     console.log({ productName, productPrice, quantity, product: selectedItem?.id,});
-=======
-    console.log(product);
-
->>>>>>> 1a5d554f8046b4695dc01f729ba09c2a52993a24
     clearForm.reset();
     toast.success("Added");
     navigate("/invoice-buyer");
@@ -79,17 +73,9 @@ const AddBuyerProduct = () => {
           <div>
             <label className="text-gray-700 dark:text-gray-200 flex">
               Product Name:
-              <ProductListDropdownBuyer
-                selectedItem={selectedItem}
-                setSelectedItem={setSelectedItem}
-              />
+              <ProductListDropdownBuyer selectedItem={selectedItem} setSelectedItem={setSelectedItem}/>
             </label>
-            <input
-              value={productName}
-              onChange={handleProductNameChange}
-              type="text"
-              className={input_filed_style}
-            />
+            <input value={productName} onChange={handleProductNameChange} type="text" className={input_filed_style}/>
           </div>
 
           <div className="mt-2">
@@ -118,9 +104,7 @@ const AddBuyerProduct = () => {
             <label className="text-gray-700 dark:text-gray-200">Discount</label>
             <input
               value={discount}
-              onChange={handleDiscountChange}
-              type="number"
-              className={input_filed_style}
+              onChange={handleDiscountChange} type="number" className={input_filed_style}
             />
           </div>
 

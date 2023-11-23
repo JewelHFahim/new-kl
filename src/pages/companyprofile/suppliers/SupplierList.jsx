@@ -1,6 +1,5 @@
 import HTitle from "../../../utils/HTitle";
 import { AiOutlinePlus } from "react-icons/ai";
-import img1 from "../../../assets/user.jpg";
 import img2 from "../../../assets/grapg.svg";
 import CButton from "../../../utils/CButton";
 import {
@@ -12,6 +11,7 @@ import AddBuyer from "./AddSupplier";
 import { Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import Loading from "../../../utils/Loading";
+import { store } from "../../../utils/someClasses";
 
 const SupplierList = () => {
   const { data: suppliers } = useGetSuppliersQuery();
@@ -56,7 +56,7 @@ const SupplierList = () => {
               <div className="h-[60%] flex flex-row justify-between px-[14px] pt-[14px]">
                 <div>
                   <img
-                    src={img1}
+                    src={store}
                     alt=""
                     className="w-[54px] h-[54px] rounded-[15px] object-cover"
                   />

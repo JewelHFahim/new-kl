@@ -2,17 +2,18 @@ import HTitle from "../../../utils/HTitle";
 import { LuEdit } from "react-icons/lu";
 import { BsPlus } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
-import img1 from "../../../assets/user.jpg";
 import img3 from "../../../assets/box.jpeg";
 import { useGetProductsQuery } from "../../../redux/feature/products/productApi";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useGetBuyerBalanceDetailQuery, useGetSingleBuyerQuery } from "../../../redux/feature/buyers/buyerApi";
 import EditBuyer from "./EditBuyer";
+import { store } from "../../../utils/someClasses";
 
 const SingleBuyer = () => {
 
   const {id} = useParams();
+  
   const { data } = useGetProductsQuery();
   
   const {data: singleBuyer } = useGetSingleBuyerQuery(id);
@@ -42,7 +43,7 @@ const SingleBuyer = () => {
 
         <div className="flex flex-col items-center gap-y-3">
           <div className=" relative w-[68px] h-[68px]">
-            <img src={img1} alt="" className="w-[68px] h-[68px] rounded-full" />
+            <img src={store} alt="" className="w-[68px] h-[68px] rounded-full" />
 
             <div className="absolute right-[-5px] bottom-[-8px] z-50 bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center shadow-md">
               <BsPlus className="text-[20px]" />

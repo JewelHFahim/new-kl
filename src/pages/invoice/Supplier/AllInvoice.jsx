@@ -2,20 +2,33 @@ import { Link } from "react-router-dom";
 import {
   useDeleteSupplierOrderMutation,
   useGetAllInvoiceSupplierQuery,
+  useGetSuppliersQuery,
 } from "../../../redux/feature/supplier/supplierApi";
 import Loading from "../../../utils/Loading";
 import toast from "react-hot-toast";
+import FormateDate from "../../../utils/FormateDate";
 
 const AllInvoiceSupplier = () => {
-
-  
   const { data: supplierOrders, isLoading } = useGetAllInvoiceSupplierQuery();
   const [deleteSupplierOrder] = useDeleteSupplierOrderMutation();
+  const { data: suppliers } = useGetSuppliersQuery();
+
+  const supplierName = (supId) => {
+    const foundSupplier = suppliers?.results?.find((sup) => sup?.id === supId);
+
+    if (foundSupplier) {
+      return foundSupplier.supplier_name;
+    }
+  
+    return null;
+  };
 
   const handleDeleteOrder = (id) => {
     deleteSupplierOrder(id);
     toast.error("Deleted");
   };
+
+
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 md:px-8 mt-6">
@@ -47,11 +60,11 @@ const AllInvoiceSupplier = () => {
                     {item.order_number}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.supplier}
+                    {supplierName(item.supplier)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.phone}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {item.invoice_date}
+                    {FormateDate(item.invoice_date)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
                   <td >
